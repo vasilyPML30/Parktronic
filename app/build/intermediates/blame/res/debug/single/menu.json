@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/home/vasyoid/Документы/work/git/Parktronic/C:\\Programming\\Projects\\Android\\ParktronikProject\\Parkrtronik\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu_activity_info.xml",
+        "source": "/home/vasyoid/Документы/work/git/Parktronic/C:\\Programming\\Projects\\Android\\ParktronikProject\\Parkrtronik\\app\\src\\main\\res\\menu\\menu_activity_info.xml"
+    },
+    {
+        "merged": "/home/vasyoid/Документы/work/git/Parktronic/app/build/intermediates/res/merged/debug/menu/menu_activity_info.xml",
+        "source": "/home/vasyoid/Документы/work/git/Parktronic/app/src/main/res/menu/menu_activity_info.xml"
+    },
+    {
+        "merged": "/home/vasyoid/Документы/work/git/Parktronic/C:\\Programming\\Projects\\Android\\ParktronikProject\\Parkrtronik\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu_scrolling.xml",
+        "source": "/home/vasyoid/Документы/work/git/Parktronic/C:\\Programming\\Projects\\Android\\ParktronikProject\\Parkrtronik\\app\\src\\main\\res\\menu\\menu_scrolling.xml"
+    },
+    {
+        "merged": "/home/vasyoid/Документы/work/git/Parktronic/app/build/intermediates/res/merged/debug/menu/menu_scrolling.xml",
+        "source": "/home/vasyoid/Документы/work/git/Parktronic/app/src/main/res/menu/menu_scrolling.xml"
+    }
+]

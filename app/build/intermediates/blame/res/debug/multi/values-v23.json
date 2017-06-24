@@ -1,0 +1,442 @@
+[
+    {
+        "outputFile": "/home/vasyoid/Документы/work/git/Parktronic/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v23/values-v23.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endLine": 5,
+                    "endColumn": 12,
+                    "endOffset": 282
+                },
+                "from": {
+                    "file": "/home/vasyoid/Документы/work/git/Parktronic/app/src/main/res/values-v23/styles.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 56,
+                        "endLine": 6,
+                        "endColumn": 12,
+                        "endOffset": 283
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 6,
+                    "startColumn": 4,
+                    "startOffset": 287,
+                    "endColumn": 134,
+                    "endOffset": 417
+                },
+                "from": {
+                    "file": "/home/vasyoid/.android/build-cache/84e45676282e385ec38fbc379cbc564f499cbf9b/output/res/values-v23/values-v23.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 134,
+                        "endOffset": 185
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 7,
+                    "startColumn": 4,
+                    "startOffset": 422,
+                    "endColumn": 134,
+                    "endOffset": 552
+                },
+                "from": {
+                    "file": "/home/vasyoid/.android/build-cache/84e45676282e385ec38fbc379cbc564f499cbf9b/output/res/values-v23/values-v23.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 190,
+                        "endColumn": 134,
+                        "endOffset": 320
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 8,
+                    "startColumn": 4,
+                    "startOffset": 557,
+                    "endColumn": 74,
+                    "endOffset": 627
+                },
+                "from": {
+                    "file": "/home/vasyoid/.android/build-cache/84e45676282e385ec38fbc379cbc564f499cbf9b/output/res/values-v23/values-v23.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 325,
+                        "endColumn": 74,
+                        "endOffset": 395
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 9,
+                    "startColumn": 4,
+                    "startOffset": 632,
+                    "endColumn": 86,
+                    "endOffset": 714
+                },
+                "from": {
+                    "file": "/home/vasyoid/.android/build-cache/84e45676282e385ec38fbc379cbc564f499cbf9b/output/res/values-v23/values-v23.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 400,
+                        "endColumn": 86,
+                        "endOffset": 482
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 10,
+                    "startColumn": 4,
+                    "startOffset": 719,
+                    "endLine": 22,
+                    "endColumn": 12,
+                    "endOffset": 1504
+                },
+                "from": {
+                    "file": "/home/vasyoid/.android/build-cache/84e45676282e385ec38fbc379cbc564f499cbf9b/output/res/values-v23/values-v23.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 487,
+                        "endLine": 18,
+                        "endColumn": 12,
+                        "endOffset": 1272
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 23,
+                    "startColumn": 4,
+                    "startOffset": 1509,
+                    "endLine": 35,
+                    "endColumn": 12,
+                    "endOffset": 2306
+                },
+                "from": {
+                    "file": "/home/vasyoid/.android/build-cache/84e45676282e385ec38fbc379cbc564f499cbf9b/output/res/values-v23/values-v23.xml",
+                    "position": {
+                        "startLine": 19,
+                        "startColumn": 4,
+                        "startOffset": 1277,
+                        "endLine": 31,
+                        "endColumn": 12,
+                        "endOffset": 2074
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 36,
+                    "startColumn": 4,
+                    "startOffset": 2311,
+                    "endColumn": 104,
+                    "endOffset": 2411
+                },
+                "from": {
+                    "file": "/home/vasyoid/.android/build-cache/84e45676282e385ec38fbc379cbc564f499cbf9b/output/res/values-v23/values-v23.xml",
+                    "position": {
+                        "startLine": 32,
+                        "startColumn": 4,
+                        "startOffset": 2079,
+                        "endColumn": 104,
+                        "endOffset": 2179
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 37,
+                    "startColumn": 4,
+                    "startOffset": 2416,
+                    "endColumn": 114,
+                    "endOffset": 2526
+                },
+                "from": {
+                    "file": "/home/vasyoid/.android/build-cache/84e45676282e385ec38fbc379cbc564f499cbf9b/output/res/values-v23/values-v23.xml",
+                    "position": {
+                        "startLine": 33,
+                        "startColumn": 4,
+                        "startOffset": 2184,
+                        "endColumn": 114,
+                        "endOffset": 2294
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 38,
+                    "startColumn": 4,
+                    "startOffset": 2531,
+                    "endColumn": 106,
+                    "endOffset": 2633
+                },
+                "from": {
+                    "file": "/home/vasyoid/.android/build-cache/84e45676282e385ec38fbc379cbc564f499cbf9b/output/res/values-v23/values-v23.xml",
+                    "position": {
+                        "startLine": 34,
+                        "startColumn": 4,
+                        "startOffset": 2299,
+                        "endColumn": 106,
+                        "endOffset": 2401
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 39,
+                    "startColumn": 4,
+                    "startOffset": 2638,
+                    "endColumn": 112,
+                    "endOffset": 2746
+                },
+                "from": {
+                    "file": "/home/vasyoid/.android/build-cache/84e45676282e385ec38fbc379cbc564f499cbf9b/output/res/values-v23/values-v23.xml",
+                    "position": {
+                        "startLine": 35,
+                        "startColumn": 4,
+                        "startOffset": 2406,
+                        "endColumn": 112,
+                        "endOffset": 2514
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "/home/vasyoid/Документы/work/git/Parktronic/C:\\Programming\\Projects\\Android\\ParktronikProject\\Parkrtronik\\app\\build\\intermediates\\res\\merged\\debug\\values-v23\\values-v23.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endLine": 5,
+                    "endColumn": 12,
+                    "endOffset": 282
+                },
+                "from": {
+                    "file": "/home/vasyoid/Документы/work/git/Parktronic/C:\\Programming\\Projects\\Android\\ParktronikProject\\Parkrtronik\\app\\src\\main\\res\\values-v23\\styles.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 59,
+                        "endLine": 6,
+                        "endColumn": 12,
+                        "endOffset": 289
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 6,
+                    "startColumn": 4,
+                    "startOffset": 287,
+                    "endColumn": 134,
+                    "endOffset": 417
+                },
+                "from": {
+                    "file": "/home/vasyoid/Документы/work/git/Parktronic/C:\\Programming\\Projects\\Android\\ParktronikProject\\Parkrtronik\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-v23\\values-v23.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 134,
+                        "endOffset": 185
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 7,
+                    "startColumn": 4,
+                    "startOffset": 422,
+                    "endColumn": 134,
+                    "endOffset": 552
+                },
+                "from": {
+                    "file": "/home/vasyoid/Документы/work/git/Parktronic/C:\\Programming\\Projects\\Android\\ParktronikProject\\Parkrtronik\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-v23\\values-v23.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 190,
+                        "endColumn": 134,
+                        "endOffset": 320
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 8,
+                    "startColumn": 4,
+                    "startOffset": 557,
+                    "endColumn": 74,
+                    "endOffset": 627
+                },
+                "from": {
+                    "file": "/home/vasyoid/Документы/work/git/Parktronic/C:\\Programming\\Projects\\Android\\ParktronikProject\\Parkrtronik\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-v23\\values-v23.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 325,
+                        "endColumn": 74,
+                        "endOffset": 395
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 9,
+                    "startColumn": 4,
+                    "startOffset": 632,
+                    "endColumn": 86,
+                    "endOffset": 714
+                },
+                "from": {
+                    "file": "/home/vasyoid/Документы/work/git/Parktronic/C:\\Programming\\Projects\\Android\\ParktronikProject\\Parkrtronik\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-v23\\values-v23.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 400,
+                        "endColumn": 86,
+                        "endOffset": 482
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 10,
+                    "startColumn": 4,
+                    "startOffset": 719,
+                    "endLine": 22,
+                    "endColumn": 12,
+                    "endOffset": 1504
+                },
+                "from": {
+                    "file": "/home/vasyoid/Документы/work/git/Parktronic/C:\\Programming\\Projects\\Android\\ParktronikProject\\Parkrtronik\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-v23\\values-v23.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 487,
+                        "endLine": 18,
+                        "endColumn": 12,
+                        "endOffset": 1272
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 23,
+                    "startColumn": 4,
+                    "startOffset": 1509,
+                    "endLine": 35,
+                    "endColumn": 12,
+                    "endOffset": 2306
+                },
+                "from": {
+                    "file": "/home/vasyoid/Документы/work/git/Parktronic/C:\\Programming\\Projects\\Android\\ParktronikProject\\Parkrtronik\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-v23\\values-v23.xml",
+                    "position": {
+                        "startLine": 19,
+                        "startColumn": 4,
+                        "startOffset": 1277,
+                        "endLine": 31,
+                        "endColumn": 12,
+                        "endOffset": 2074
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 36,
+                    "startColumn": 4,
+                    "startOffset": 2311,
+                    "endColumn": 104,
+                    "endOffset": 2411
+                },
+                "from": {
+                    "file": "/home/vasyoid/Документы/work/git/Parktronic/C:\\Programming\\Projects\\Android\\ParktronikProject\\Parkrtronik\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-v23\\values-v23.xml",
+                    "position": {
+                        "startLine": 32,
+                        "startColumn": 4,
+                        "startOffset": 2079,
+                        "endColumn": 104,
+                        "endOffset": 2179
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 37,
+                    "startColumn": 4,
+                    "startOffset": 2416,
+                    "endColumn": 114,
+                    "endOffset": 2526
+                },
+                "from": {
+                    "file": "/home/vasyoid/Документы/work/git/Parktronic/C:\\Programming\\Projects\\Android\\ParktronikProject\\Parkrtronik\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-v23\\values-v23.xml",
+                    "position": {
+                        "startLine": 33,
+                        "startColumn": 4,
+                        "startOffset": 2184,
+                        "endColumn": 114,
+                        "endOffset": 2294
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 38,
+                    "startColumn": 4,
+                    "startOffset": 2531,
+                    "endColumn": 106,
+                    "endOffset": 2633
+                },
+                "from": {
+                    "file": "/home/vasyoid/Документы/work/git/Parktronic/C:\\Programming\\Projects\\Android\\ParktronikProject\\Parkrtronik\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-v23\\values-v23.xml",
+                    "position": {
+                        "startLine": 34,
+                        "startColumn": 4,
+                        "startOffset": 2299,
+                        "endColumn": 106,
+                        "endOffset": 2401
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 39,
+                    "startColumn": 4,
+                    "startOffset": 2638,
+                    "endColumn": 112,
+                    "endOffset": 2746
+                },
+                "from": {
+                    "file": "/home/vasyoid/Документы/work/git/Parktronic/C:\\Programming\\Projects\\Android\\ParktronikProject\\Parkrtronik\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-v23\\values-v23.xml",
+                    "position": {
+                        "startLine": 35,
+                        "startColumn": 4,
+                        "startOffset": 2406,
+                        "endColumn": 112,
+                        "endOffset": 2514
+                    }
+                }
+            }
+        ]
+    }
+]

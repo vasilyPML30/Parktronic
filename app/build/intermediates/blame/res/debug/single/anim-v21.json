@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/home/vasyoid/Документы/work/git/Parktronic/app/build/intermediates/res/merged/debug/anim-v21/design_bottom_sheet_slide_in.xml",
+        "source": "/home/vasyoid/.android/build-cache/3fc4b6bae6a43c3a1fa2f3e928ee7c47fe9b6de0/output/res/anim-v21/design_bottom_sheet_slide_in.xml"
+    },
+    {
+        "merged": "/home/vasyoid/Документы/work/git/Parktronic/app/build/intermediates/res/merged/debug/anim-v21/design_bottom_sheet_slide_out.xml",
+        "source": "/home/vasyoid/.android/build-cache/3fc4b6bae6a43c3a1fa2f3e928ee7c47fe9b6de0/output/res/anim-v21/design_bottom_sheet_slide_out.xml"
+    },
+    {
+        "merged": "/home/vasyoid/Документы/work/git/Parktronic/C:\\Programming\\Projects\\Android\\ParktronikProject\\Parkrtronik\\app\\build\\intermediates\\res\\merged\\debug\\anim-v21\\design_bottom_sheet_slide_out.xml",
+        "source": "/home/vasyoid/Документы/work/git/Parktronic/C:\\Programming\\Projects\\Android\\ParktronikProject\\Parkrtronik\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.4.0\\res\\anim-v21\\design_bottom_sheet_slide_out.xml"
+    },
+    {
+        "merged": "/home/vasyoid/Документы/work/git/Parktronic/C:\\Programming\\Projects\\Android\\ParktronikProject\\Parkrtronik\\app\\build\\intermediates\\res\\merged\\debug\\anim-v21\\design_bottom_sheet_slide_in.xml",
+        "source": "/home/vasyoid/Документы/work/git/Parktronic/C:\\Programming\\Projects\\Android\\ParktronikProject\\Parkrtronik\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.4.0\\res\\anim-v21\\design_bottom_sheet_slide_in.xml"
+    }
+]

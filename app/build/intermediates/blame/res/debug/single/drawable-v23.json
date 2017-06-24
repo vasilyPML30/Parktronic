@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/home/vasyoid/Документы/work/git/Parktronic/C:\\Programming\\Projects\\Android\\ParktronikProject\\Parkrtronik\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v23\\abc_control_background_material.xml",
+        "source": "/home/vasyoid/Документы/work/git/Parktronic/C:\\Programming\\Projects\\Android\\ParktronikProject\\Parkrtronik\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable-v23\\abc_control_background_material.xml"
+    },
+    {
+        "merged": "/home/vasyoid/Документы/work/git/Parktronic/app/build/intermediates/res/merged/debug/drawable-v23/abc_control_background_material.xml",
+        "source": "/home/vasyoid/.android/build-cache/84e45676282e385ec38fbc379cbc564f499cbf9b/output/res/drawable-v23/abc_control_background_material.xml"
+    }
+]

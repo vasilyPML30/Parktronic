@@ -1,0 +1,25 @@
+#Sat Jun 24 20:55:06 MSK 2017
+renamed.7=classes6.dex
+renamed.6=classes3.dex
+renamed.5=classes4.dex
+renamed.4=classes2.dex
+renamed.3=classes5.dex
+renamed.2=classes7.dex
+renamed.1=classes8.dex
+renamed.0=classes.dex
+base.7=/home/vasyoid/Документы/work/git/Parktronic/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_1424f4e4f625cb7e4429cf96198b4217a7e9587c
+base.6=/home/vasyoid/Документы/work/git/Parktronic/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_8899a07622fc539ad6e7a3a6da7c4f086d8adaf7
+base.5=/home/vasyoid/Документы/work/git/Parktronic/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_723d2a7546197ba4ea2e41ba410b1beda3d21903
+base.4=/home/vasyoid/Документы/work/git/Parktronic/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-23.4.0_b59f06e331eab9524ffcc10b1cf0f50aa7775ab0
+base.3=/home/vasyoid/Документы/work/git/Parktronic/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_86477d96750c1389af74924d73f8a8f54a29cd17
+base.2=/home/vasyoid/Документы/work/git/Parktronic/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_2210a6f3e6197111d7e1afcd3e83452ffd88b492
+base.1=/home/vasyoid/Документы/work/git/Parktronic/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_5d384fe397e904c0f4294fb779cd084539e2cee8
+base.0=/home/vasyoid/Документы/work/git/Parktronic/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-23.4.0_9144302116a08d123b70fb6bef14f5691effd814
+file.7=/home/vasyoid/Документы/work/git/Parktronic/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_1424f4e4f625cb7e4429cf96198b4217a7e9587c/classes.dex
+file.6=/home/vasyoid/Документы/work/git/Parktronic/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_8899a07622fc539ad6e7a3a6da7c4f086d8adaf7/classes.dex
+file.5=/home/vasyoid/Документы/work/git/Parktronic/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_723d2a7546197ba4ea2e41ba410b1beda3d21903/classes.dex
+file.4=/home/vasyoid/Документы/work/git/Parktronic/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-23.4.0_b59f06e331eab9524ffcc10b1cf0f50aa7775ab0/classes.dex
+file.3=/home/vasyoid/Документы/work/git/Parktronic/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_86477d96750c1389af74924d73f8a8f54a29cd17/classes.dex
+file.2=/home/vasyoid/Документы/work/git/Parktronic/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_2210a6f3e6197111d7e1afcd3e83452ffd88b492/classes.dex
+file.1=/home/vasyoid/Документы/work/git/Parktronic/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_5d384fe397e904c0f4294fb779cd084539e2cee8/classes.dex
+file.0=/home/vasyoid/Документы/work/git/Parktronic/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-23.4.0_9144302116a08d123b70fb6bef14f5691effd814/classes.dex

@@ -1,0 +1,74 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml:2:1-25:12
+	package
+		ADDED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml:3:5-37
+		INJECTED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml
+		INJECTED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml
+		INJECTED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml:2:11-69
+	android:versionCode
+		INJECTED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml
+		INJECTED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml
+application
+ADDED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml:5:5-23:19
+MERGED from [com.android.support:design:23.4.0] /home/vasyoid/.android/build-cache/3fc4b6bae6a43c3a1fa2f3e928ee7c47fe9b6de0/output/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:appcompat-v7:23.4.0] /home/vasyoid/.android/build-cache/84e45676282e385ec38fbc379cbc564f499cbf9b/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:animated-vector-drawable:23.4.0] /home/vasyoid/.android/build-cache/8072884db7dc85d7b836d00965ab601a5ffa0dda/output/AndroidManifest.xml:7:5-20
+MERGED from [com.android.support:support-vector-drawable:23.4.0] /home/vasyoid/.android/build-cache/c21c5df2c52e291016f23f732500f1361272c37c/output/AndroidManifest.xml:7:5-20
+MERGED from [com.android.support:support-v4:23.4.0] /home/vasyoid/.android/build-cache/6d083fc6a4ce88d4719ddf41703ec0e755220d14/output/AndroidManifest.xml:22:5-20
+	android:label
+		ADDED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml:8:9-41
+	android:supportsRtl
+		ADDED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml:9:9-35
+	android:allowBackup
+		ADDED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml:6:9-35
+	android:icon
+		ADDED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml:7:9-38
+	android:theme
+		ADDED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml:10:9-65
+activity#com.ifkbhit.parktronic.LaunchActivity
+ADDED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml:11:9-17:20
+	android:name
+		ADDED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml:11:19-49
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml:12:13-16:29
+action#android.intent.action.MAIN
+ADDED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml:13:17-69
+	android:name
+		ADDED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml:13:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml:15:17-77
+	android:name
+		ADDED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml:15:27-74
+activity#com.ifkbhit.parktronic.MainActivity
+ADDED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml:18:9-50
+	android:name
+		ADDED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml:18:19-47
+activity#com.ifkbhit.parktronic.ActivityInfo
+ADDED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml:19:9-22:72
+	android:label
+		ADDED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml:21:13-65
+	android:theme
+		ADDED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml:22:13-69
+	android:name
+		ADDED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml:20:13-41
+uses-sdk
+INJECTED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+MERGED from [com.android.support:design:23.4.0] /home/vasyoid/.android/build-cache/3fc4b6bae6a43c3a1fa2f3e928ee7c47fe9b6de0/output/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:recyclerview-v7:23.4.0] /home/vasyoid/.android/build-cache/b0b37ed54487566b948dde9c4fb65ddf4c25e789/output/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:appcompat-v7:23.4.0] /home/vasyoid/.android/build-cache/84e45676282e385ec38fbc379cbc564f499cbf9b/output/AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:animated-vector-drawable:23.4.0] /home/vasyoid/.android/build-cache/8072884db7dc85d7b836d00965ab601a5ffa0dda/output/AndroidManifest.xml:5:5-44
+MERGED from [com.android.support:support-vector-drawable:23.4.0] /home/vasyoid/.android/build-cache/c21c5df2c52e291016f23f732500f1361272c37c/output/AndroidManifest.xml:5:5-43
+MERGED from [com.android.support:support-v4:23.4.0] /home/vasyoid/.android/build-cache/6d083fc6a4ce88d4719ddf41703ec0e755220d14/output/AndroidManifest.xml:20:5-43
+	tools:overrideLibrary
+		ADDED from [com.android.support:appcompat-v7:23.4.0] /home/vasyoid/.android/build-cache/84e45676282e385ec38fbc379cbc564f499cbf9b/output/AndroidManifest.xml:23:9-75
+	android:targetSdkVersion
+		INJECTED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml
+		INJECTED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml
+		INJECTED from /home/vasyoid/Документы/work/git/Parktronic/app/src/main/AndroidManifest.xml

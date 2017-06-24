@@ -1,0 +1,4 @@
+#Sat Jun 24 20:55:07 MSK 2017
+base.0=/home/vasyoid/Документы/work/git/Parktronic/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_4
+renamed.0=classes.dex
+file.0=/home/vasyoid/Документы/work/git/Parktronic/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_4/classes.dex

@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/home/vasyoid/Документы/work/git/Parktronic/C:\\Programming\\Projects\\Android\\ParktronikProject\\Parkrtronik\\app\\build\\intermediates\\res\\merged\\debug\\color-v11\\abc_background_cache_hint_selector_material_dark.xml",
+        "source": "/home/vasyoid/Документы/work/git/Parktronic/C:\\Programming\\Projects\\Android\\ParktronikProject\\Parkrtronik\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\color-v11\\abc_background_cache_hint_selector_material_dark.xml"
+    },
+    {
+        "merged": "/home/vasyoid/Документы/work/git/Parktronic/app/build/intermediates/res/merged/debug/color-v11/abc_background_cache_hint_selector_material_light.xml",
+        "source": "/home/vasyoid/.android/build-cache/84e45676282e385ec38fbc379cbc564f499cbf9b/output/res/color-v11/abc_background_cache_hint_selector_material_light.xml"
+    },
+    {
+        "merged": "/home/vasyoid/Документы/work/git/Parktronic/C:\\Programming\\Projects\\Android\\ParktronikProject\\Parkrtronik\\app\\build\\intermediates\\res\\merged\\debug\\color-v11\\abc_background_cache_hint_selector_material_light.xml",
+        "source": "/home/vasyoid/Документы/work/git/Parktronic/C:\\Programming\\Projects\\Android\\ParktronikProject\\Parkrtronik\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\color-v11\\abc_background_cache_hint_selector_material_light.xml"
+    },
+    {
+        "merged": "/home/vasyoid/Документы/work/git/Parktronic/app/build/intermediates/res/merged/debug/color-v11/abc_background_cache_hint_selector_material_dark.xml",
+        "source": "/home/vasyoid/.android/build-cache/84e45676282e385ec38fbc379cbc564f499cbf9b/output/res/color-v11/abc_background_cache_hint_selector_material_dark.xml"
+    }
+]
