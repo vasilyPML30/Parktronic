@@ -11,10 +11,10 @@ import java.util.ArrayList;
 public class Car {
 
 
-    private  Texture[]  texture;                                           //текстура машины
+    private  Texture[]  texture;                                         //текстура машины
     private Line[]    lines_up = new Line[5], lines_down = new Line[5];  //опорные линии
-    private Panel[]     p = new Panel[2];                                                 //панель-индикатор
-    private Point[][] upper_dots = new Point[4][5];                      // верзние опорные точки
+    private Panel[]     p = new Panel[2];                                //панель-индикатор
+    private Point[][] upper_dots = new Point[4][5];                      //верхние опорные точки
     private Point[][] lower_dots = new Point[5][5];                      //нижние опорные точки(по идее не нужны)
     private Point[] top_bumper = new Point[4];                           //примерные точки отслеживания на переднем бампере(по идее не нужны)
     private Point[] down_bumper = new Point[4];                          //примерные точки отслеживания на заднем бампере
@@ -44,8 +44,8 @@ public class Car {
         Point[] supp_point;
         Line[] supp_lines;
 
-        //при людом значении isUp выполняются одинаковые действия, но для разных областей
-        if(isUp)   //если верзний блок
+        //при любом значении isUp выполняются одинаковые действия, но для разных областей
+        if(isUp)   //если верхний блок
         {
             b.refreshStates(lines_up);
             MAX_PANEL_VAL = 0.9;
