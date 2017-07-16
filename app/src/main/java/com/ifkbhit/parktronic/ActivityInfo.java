@@ -25,7 +25,8 @@ public class ActivityInfo extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();//startActivity(new Intent(getApplicationContext(), ScrollingActivity.class));
+                finish();
+                //startActivity(new Intent(getApplicationContext(), ScrollingActivity.class));
             }
         });
     }

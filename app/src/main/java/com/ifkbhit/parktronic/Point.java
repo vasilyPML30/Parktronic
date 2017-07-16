@@ -39,7 +39,6 @@ public class Point {
 
     Point sum(Point a) {
         return new Point(a.x + x, a.y + y);
-
     }
 
     void sum1(Point a) {
@@ -56,22 +55,20 @@ public class Point {
         y = 0;
     }
 
-    Point sum(double x, double y)
-    {
+    Point sum(double x, double y) {
         return new Point(this.x + x,
         this.y + y);
     }
 
-    Point medium(Point a)
-    {
-        return new Point((x + a.x)/2.0, (y+a.y)/2.0);
+    Point medium(Point a) {
+        return new Point((x + a.x) / 2.0, (y+a.y) / 2.0);
     }
 
-    Point medium(Point a, Point b)
-    {
+    Point medium(Point a, Point b) {
         return a.medium(b);
     }
 
-    public String toString()
-    {return "x: " + (int)x + " y: " + (int)y;}
+    public String toString() {
+        return "x: " + (int)x + " y: " + (int)y;
+    }
 }
