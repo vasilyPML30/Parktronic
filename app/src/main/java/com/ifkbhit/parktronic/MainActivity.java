@@ -82,9 +82,9 @@ public class MainActivity extends Activity {
 
             /* Кнопки */
 
-            invert = new Button(R.drawable.invert, getResources(), canvas, 0.85, 0.4, 6);
-            demo = new Button(R.drawable.demo, getResources(), canvas, 0.15, 0.4, 6);
-            info = new Button(R.drawable.info, getResources(), canvas, -1, -1, 6);
+            invert = new Button(R.drawable.invert, getResources(), canvas, 0.85, 0.4, 5);
+            demo = new Button(R.drawable.demo, getResources(), canvas, 0.15, 0.4, 5);
+            info = new Button(R.drawable.info, getResources(), canvas, -1, -1, 5);
 
             /* Демо */
 
