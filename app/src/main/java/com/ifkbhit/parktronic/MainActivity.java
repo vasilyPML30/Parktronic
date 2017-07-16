@@ -31,11 +31,12 @@ public class MainActivity extends Activity {
         private boolean[]  onBrickPressed = {false, false}; //информация о блоках
         private Point      movingPoint;                     //точка для передвижения блоков
         private Car        car;
-        private Button     invert, info, demo, tap1, tap2;
+        private Button     invert, info, tap1, tap2;
+        private Button[]     demo;
         private int        demo_state = 0;
         Demo               demo_act, demo_act_down, demo_act_c, demo_act_down_c;
         boolean            isDemoActive = false;
-        String             ttt ="hello world";
+        String             ttt = "hello world";
 
         myGraphics(Context context){
             super(context);
@@ -83,7 +84,11 @@ public class MainActivity extends Activity {
             /* Кнопки */
 
             invert = new Button(R.drawable.invert, getResources(), canvas, 0.85, 0.4, 5);
-            demo = new Button(R.drawable.demo, getResources(), canvas, 0.15, 0.4, 5);
+            demo = new Button[] {
+                    new Button(R.drawable.button_demo, getResources(), canvas, 0.15, 0.4, 5),
+                    new Button(R.drawable.button_demo_2, getResources(), canvas, 0.15, 0.4, 5),
+                    new Button(R.drawable.button_manual, getResources(), canvas, 0.15, 0.4, 5)
+            };
             info = new Button(R.drawable.info, getResources(), canvas, -1, -1, 5);
 
             /* Демо */
@@ -122,16 +127,14 @@ public class MainActivity extends Activity {
 
         @Override
         protected void onDraw(Canvas canvas) {
-
             if (firstStep) {
                 init(canvas);
             }
-
             car.draw(canvas);
             if (brick1.isVisible()) {
-                if (demo_state % 3 != 0) {
+                if (demo_state != 0) {
                     Point animPoint = null;
-                    switch (demo_state % 3){
+                    switch (demo_state) {
                         case 1:
                             animPoint = demo_act.getPos();
                             break;
@@ -146,9 +149,9 @@ public class MainActivity extends Activity {
             }
             if (brick2.isVisible()) {
                 car.curTex = 2;
-                if (demo_state % 3 != 0) {
+                if (demo_state != 0) {
                     Point animPoint = null;
-                    switch (demo_state % 3) {
+                    switch (demo_state) {
                         case 1:
                             animPoint = demo_act_down.getPos();
                             break;
@@ -165,7 +168,7 @@ public class MainActivity extends Activity {
             invalidate();
             invert.draw(canvas);
             info.draw(canvas);
-            demo.draw(canvas);
+            demo[demo_state].draw(canvas);
             double speed = 11;
             if(!brick1.isVisible())
                 tap1.animationScaledDraw(canvas, speed);
@@ -196,13 +199,13 @@ public class MainActivity extends Activity {
                             car.changePanel();
                             return true;
                         }
-                        if (demo.onButtonTap(event)) {
+                        if (demo[demo_state].onButtonTap(event)) {
                             if (brick1.isVisible() || brick2.isVisible()) {
-                                demo_state++;
+                                demo_state = (demo_state + 1) % 3;
                             }
                             return true;
                         }
-                        if (demo_state % 3 != 0) {
+                        if (demo_state != 0) {
                             return true;
                         }
                         if (new Brick(1, 1, new Point(event)).checkWithLines(car.getSupportLineDown(), false) || new Brick(1,1,new Point(event)).checkWithLines(car.getSupportLineUp(), true)) {
