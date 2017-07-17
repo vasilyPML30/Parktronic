@@ -7,12 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.RectF;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -37,7 +32,6 @@ public class MainActivity extends Activity {
         private Button      invert, info, tap1, tap2;
         private Button[]    demo;
         private int         demo_state = 0;
-        private MediaPlayer soundDown, soundUp;
         Demo                demo_act, demo_act_down, demo_act_c, demo_act_down_c;
         boolean             isDemoActive = false;
 
@@ -129,12 +123,6 @@ public class MainActivity extends Activity {
             tap1 = new Button(R.drawable.strelka, getResources(), canvas, 200, (int)th, pos1);
             tap2 = new Button(R.drawable.strelka, getResources(), canvas, 200, (int)th, pos2);
 
-            /* Звуки */
-            soundDown = MediaPlayer.create(getApplicationContext(), R.raw.down);
-            soundDown.setLooping(false);
-            soundUp = MediaPlayer.create(getApplicationContext(), R.raw.up);
-            soundUp.setLooping(false);
-
         }
 
         @Override
@@ -223,7 +211,6 @@ public class MainActivity extends Activity {
                              new Brick(1, 1, new Point(event)).checkWithLines(car.getSupportLineUp(), true))) {
                             if (brick1.isVisible() || brick2.isVisible()) {
                                 if (brick1.isVisible() && ey > H / 2) {
-                                    soundDown.start();
                                     brick1.hide();
                                     brick2.setPos(new Point(ex - brick2.w / 2, ey - brick2.h / 2));
                                     brick4.setPos(new Point(ex - brick4.w / 2, ey - brick4.h / 2));
@@ -231,7 +218,6 @@ public class MainActivity extends Activity {
                                     brick2.show();
                                 }
                                 else if (brick2.isVisible() && ey < H / 2) {
-                                    soundDown.start();
                                     brick2.hide();
                                     brick1.setPos(new Point(ex - brick1.w / 2, ey - brick1.h / 2));
                                     brick3.setPos(new Point(ex - brick3.w / 2, ey - brick3.h / 2));
@@ -240,11 +226,9 @@ public class MainActivity extends Activity {
                                 }
                                 else {
                                     if (brick1.inBrick(event) || brick3.inBrick(event)) {
-                                        soundDown.start();
                                         onBrickPressed[0] = true;
                                     }
                                     if (brick2.inBrick(event) || brick4.inBrick(event)) {
-                                        soundDown.start();
                                         onBrickPressed[1] = true;
                                     }
                                 }
@@ -283,13 +267,10 @@ public class MainActivity extends Activity {
 
                     if (!brick3.inBrick(event)) {
                         if (onBrickPressed[0])
-                            soundUp.start();
                         onBrickPressed[0] = false;
                     }
 
                     if (!brick4.inBrick(event)) {
-                        if (onBrickPressed[1])
-                            soundUp.start();
                         onBrickPressed[1] = false;
                     }
 
@@ -301,9 +282,6 @@ public class MainActivity extends Activity {
                         //double Length  = destinationAB(actionDownPoint, actionUpPoint, true);
                     }
                     else {
-                        if (onBrickPressed[0] || onBrickPressed[1]) {
-                            soundUp.start();
-                        }
                         onBrickPressed[0] = false;
                         onBrickPressed[1] = false;
                     }
