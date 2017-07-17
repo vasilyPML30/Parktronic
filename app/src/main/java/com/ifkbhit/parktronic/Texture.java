@@ -3,7 +3,6 @@ package com.ifkbhit.parktronic;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.Log;
 
 /**
  * Created by Роман on 04.03.2017.
@@ -27,7 +26,6 @@ public class Texture {
         h = img.getHeight();
     }
     void scale() {
-        Log.d("TEXTURE", k + "");
         double w = img.getWidth() * k;
         double h = img.getHeight() * k;
         img = Bitmap.createScaledBitmap(img, (int)w, (int)h, false);

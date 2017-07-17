@@ -4,7 +4,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import java.util.ArrayList;
@@ -128,7 +127,7 @@ public class Brick {
     }
 
     void Move(double x, double y, boolean cantMove) {
-        if(cantMove) {
+        if (cantMove) {
             return;
         }
 
@@ -164,9 +163,6 @@ public class Brick {
                 if (lines[i].betweenByX(p))
                 {
                     if (isUp) {
-                        if (j == 3) {
-                            Log.d("CWL", "Line " + lines[i].toString() + "; Line(x) = " + lines[i].getY(points[j].x) + " point " + points[j] + " isUnder " + lines[i].isPointUnder(points[j]) );
-                        }
                         if (lines[i].isPointUnder(p)) {
                             double delta = points[j].y - lines[i].getY(p.x) + 1;
                             for (int g = 0; g < 4; g++) {
@@ -176,9 +172,9 @@ public class Brick {
                         }
                     }
                     else {
-                        if(lines[i].isPointUpper(p)) {
+                        if (lines[i].isPointUpper(p)) {
                             double delta = (lines[i].getY(p.x) + 1) - points[j].y;
-                            for(int g = 0; g < 4; g++) {
+                            for (int g = 0; g < 4; g++) {
                                 points[g].y += delta;
                             }
                             return true;
@@ -206,7 +202,6 @@ public class Brick {
     }
 
     void Move(MotionEvent event, Point startPoint, boolean cantMove) {
-        //Log.d("MOVE_BRICK", event.getX() + " " + event.getY() + " <- event || Point -> " + startPoint);
         Move(event.getX() - startPoint.x, event.getY() - startPoint.y, cantMove);
     }
 
@@ -226,8 +221,7 @@ public class Brick {
         setPoints();
     }
 
-    public boolean inBrick(Point A)
-    {
+    public boolean inBrick(Point A) {
         return  A.x >= pos.x && pos.x + w >= A.x &&
                 A.y >= pos.y && pos.y + h >= A.y;
     }
@@ -257,7 +251,7 @@ public class Brick {
     }
 
     public boolean isCantMove(boolean isUp, Line[] supportLine, Point movingPoint) {
-        if(isUp == true || isUp==false)
+        if(isUp == true || isUp == false)
             return false;
         if(isUp)
         {
@@ -297,7 +291,6 @@ public class Brick {
                 if(right_tmp.x <= line.getPointB().x)
                 {
                     if(line.isPointUnder(right_tmp)){
-                        Log.d(TAG, "isCantMove: " + right_tmp + right_d + line.toString());
                         return true;
 
                 }

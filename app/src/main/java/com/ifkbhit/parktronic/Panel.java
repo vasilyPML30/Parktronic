@@ -4,7 +4,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.util.Log;
 
 public class Panel {
     public Point pos;
@@ -48,7 +47,6 @@ public class Panel {
         k = need_w / panelBitmap.getWidth();
         h = need_h;
         w = panelBitmap.getWidth() * h / panelBitmap.getHeight();
-        Log.d("PANEL", "Converted panel with k " + k + " w: " + (int) w + " h: " + (int) h);
         panel = new Texture(Bitmap.createScaledBitmap(panelBitmap, (int) w, (int) h, false));
         panel.setPos(new Point((c.getWidth() - panel.img.getWidth()) / 2.0, c.getHeight() * (Config.CAR_Y_OFFSET_K / 2) + ((1 - Config.CAR_Y_OFFSET_K) * c.getHeight()) / 2.0 - panel.img.getWidth() / 16.0));
         panel.setScaled(1.3);
@@ -240,7 +238,6 @@ public class Panel {
                     cur_l = -1;
                     cur_r = -1;
                 }
-                // Log.d("SET_PANEL", min_l + " " + "MAX " + MAX);
             }
             else {
                 double MAX = 1.1;
@@ -303,7 +300,6 @@ public class Panel {
 
     void drawNum(Canvas canvas)
     {
-        Log.d("DRAW_NUM", empty? "empty": "wtf");
         if (empty)
             return;
         Texture left, right;

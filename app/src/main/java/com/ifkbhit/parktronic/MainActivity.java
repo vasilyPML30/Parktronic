@@ -7,6 +7,10 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -22,21 +26,20 @@ public class MainActivity extends Activity {
     }
 
     class myGraphics extends View {
-        boolean            firstStep = true;
-        private int        W, H;                            //размеры canvas
-        private Point      actionDownPoint;                 //время нажатия на экран, нужно для высчитывания скорости рулетки, соотв. координаты
-        private Brick      brick1, brick2, brick3, brick4;  //сами блоки  и вспомогательные
-        private double     minYTape = 0, maxYTape = 0;      //TODO: область ленты, пока 0
-        private boolean    onTape = false;
-        private boolean[]  onBrickPressed = {false, false}; //информация о блоках
-        private Point      movingPoint;                     //точка для передвижения блоков
-        private Car        car;
-        private Button     invert, info, tap1, tap2;
-        private Button[]     demo;
-        private int        demo_state = 0;
-        Demo               demo_act, demo_act_down, demo_act_c, demo_act_down_c;
-        boolean            isDemoActive = false;
-        String             ttt = "hello world";
+        boolean             firstStep = true;
+        private int         W, H;                            //размеры canvas
+        private Brick       brick1, brick2, brick3, brick4;  //сами блоки  и вспомогательные
+        private double      minYTape = 0, maxYTape = 0;      //TODO: область ленты, пока 0
+        private boolean     onTape = false;
+        private boolean[]   onBrickPressed = {false, false}; //информация о блоках
+        private Point       movingPoint;                     //точка для передвижения блоков
+        private Car         car;
+        private Button      invert, info, tap1, tap2;
+        private Button[]    demo;
+        private int         demo_state = 0;
+        private MediaPlayer soundDown, soundUp;
+        Demo                demo_act, demo_act_down, demo_act_c, demo_act_down_c;
+        boolean             isDemoActive = false;
 
         myGraphics(Context context){
             super(context);
@@ -67,7 +70,9 @@ public class MainActivity extends Activity {
 
             /* Кубики */
 
+
             double brick_l = cur_car_w / 10;
+
             brick1 = new Brick(brick_l, brick_l, new Point(W / 2 - brick_l / 2, H / 8));
             brick1.setBorder(new Point(0, 0), new Point(W, H / 2));
             brick2 = new Brick(brick_l, brick_l, new Point(W / 2 - brick_l / 2, 7 * H / 8));
@@ -119,11 +124,18 @@ public class MainActivity extends Activity {
             else
                 pos2 = new Point(two.getPointB().sum(new Point(100 - one.getPointB().x, 0)), -3 * tw / 4, 0);
 
-            //Point pos1 = new Point(car.getUpper().x - tw / 2, car.getLower().y - th);
+            /* Области препятствий */
+
             tap1 = new Button(R.drawable.strelka, getResources(), canvas, 200, (int)th, pos1);
             tap2 = new Button(R.drawable.strelka, getResources(), canvas, 200, (int)th, pos2);
-        }
 
+            /* Звуки */
+            soundDown = MediaPlayer.create(getApplicationContext(), R.raw.down);
+            soundDown.setLooping(false);
+            soundUp = MediaPlayer.create(getApplicationContext(), R.raw.up);
+            soundUp.setLooping(false);
+
+        }
 
         @Override
         protected void onDraw(Canvas canvas) {
@@ -170,9 +182,9 @@ public class MainActivity extends Activity {
             info.draw(canvas);
             demo[demo_state].draw(canvas);
             double speed = 11;
-            if(!brick1.isVisible())
+            if (!brick1.isVisible())
                 tap1.animationScaledDraw(canvas, speed);
-            if(!brick2.isVisible())
+            if (!brick2.isVisible())
                 tap2.animationScaledDraw(canvas, speed);
         }
 
@@ -180,12 +192,10 @@ public class MainActivity extends Activity {
         public boolean onTouchEvent(MotionEvent event) {
             double ex = event.getX();
             double ey = event.getY();
-            Log.d("MAIN", "onTouchEvent");
+
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    actionDownPoint = new Point(event);
                     movingPoint = new Point(event);
-                    ttt = "";
 
                     if (ey >= minYTape && ey <= maxYTape) { //если нажали на ленту, то запомниаем это
                         onTape = true;
@@ -208,17 +218,20 @@ public class MainActivity extends Activity {
                         if (demo_state != 0) {
                             return true;
                         }
-                        if (new Brick(1, 1, new Point(event)).checkWithLines(car.getSupportLineDown(), false) || new Brick(1,1,new Point(event)).checkWithLines(car.getSupportLineUp(), true)) {
+                        if ((event.getY() < 7 * H / 20 || event.getY() > 2 * H / 3) &&
+                            (new Brick(1, 1, new Point(event)).checkWithLines(car.getSupportLineDown(), false) ||
+                             new Brick(1, 1, new Point(event)).checkWithLines(car.getSupportLineUp(), true))) {
                             if (brick1.isVisible() || brick2.isVisible()) {
                                 if (brick1.isVisible() && ey > H / 2) {
+                                    soundDown.start();
                                     brick1.hide();
-
                                     brick2.setPos(new Point(ex - brick2.w / 2, ey - brick2.h / 2));
                                     brick4.setPos(new Point(ex - brick4.w / 2, ey - brick4.h / 2));
                                     onBrickPressed[1] = true;
                                     brick2.show();
                                 }
-                                else if(brick2.isVisible() && ey < H / 2) {
+                                else if (brick2.isVisible() && ey < H / 2) {
+                                    soundDown.start();
                                     brick2.hide();
                                     brick1.setPos(new Point(ex - brick1.w / 2, ey - brick1.h / 2));
                                     brick3.setPos(new Point(ex - brick3.w / 2, ey - brick3.h / 2));
@@ -226,26 +239,18 @@ public class MainActivity extends Activity {
                                     brick1.show();
                                 }
                                 else {
-                                    if(brick1.inBrick(event) || brick3.inBrick(event))
+                                    if (brick1.inBrick(event) || brick3.inBrick(event)) {
+                                        soundDown.start();
                                         onBrickPressed[0] = true;
-                                    if(brick2.inBrick(event) || brick4.inBrick(event))
+                                    }
+                                    if (brick2.inBrick(event) || brick4.inBrick(event)) {
+                                        soundDown.start();
                                         onBrickPressed[1] = true;
+                                    }
                                 }
                             }
                             else {
                                 boolean tmp = false;
-                                /*
-                                if(ey > H / 2) {
-                                    Line[] lines = car.getSupportLineDown();
-                                    if(brick2.isCantMove(false, lines, new Point(0,0)))
-                                        tmp = true;
-                                }
-                                else {
-                                    Line[] lines = car.getSupportLineUp();
-                                    if(brick1.isCantMove(true, lines, new Point(0,0)))
-                                        tmp = true;
-                                }
-                                */
                                 double first_floor = H / 2.0 * 0.75;
                                 double sec_floor = (5 / 8.0) * H;
                                 if (ey < first_floor && !tmp) {
@@ -254,7 +259,6 @@ public class MainActivity extends Activity {
                                 if (event.getY() > sec_floor && !tmp) {
                                     brick2.setVisible(true);
                                 }
-                                Log.d("MAIN", "tmp is " + tmp + ". Is current brick up " + (ey < H / 2));
                             }
                         }
                     }
@@ -263,30 +267,43 @@ public class MainActivity extends Activity {
                     if (isDemoActive) {
                         return true;
                     }
-                    boolean cantMove = false;
-                    if(onBrickPressed[0]) {
-                        // cantMove = brick1.isCantMove(true, car.getSupportLineUp(), movingPoint);
-                        brick1.Move(event, movingPoint, cantMove);
+
+                    if (onBrickPressed[0]) {
+                        brick1.Move(event, movingPoint, false);
                         brick3.setCenterPos(brick1.getCenter());
                         boolean response = brick1.checkWithLines(car.getSupportLineUp(), true);
                         car.setMovingResponse(response);
                     }
-                    else if(onBrickPressed[1]) {
-                        //cantMove = brick2.isCantMove(false, car.getSupportLineDown(), movingPoint);
-                        brick2.Move(event, movingPoint, cantMove);
+                    else if (onBrickPressed[1]) {
+                        brick2.Move(event, movingPoint, false);
                         brick4.setCenterPos(brick2.getCenter());
                         boolean response = brick2.checkWithLines(car.getSupportLineDown(), false);
                         car.setMovingResponse(response);
                     }
-                    //if(!cantMove)
+
+                    if (!brick3.inBrick(event)) {
+                        if (onBrickPressed[0])
+                            soundUp.start();
+                        onBrickPressed[0] = false;
+                    }
+
+                    if (!brick4.inBrick(event)) {
+                        if (onBrickPressed[1])
+                            soundUp.start();
+                        onBrickPressed[1] = false;
+                    }
+
                     movingPoint = new Point(event);
                     break;
                 case MotionEvent.ACTION_UP:
-                    if(onTape) { //если нажатие было на ленте
+                    if (onTape) { //если нажатие было на ленте
                         Point actionUpPoint = new Point(event);
                         //double Length  = destinationAB(actionDownPoint, actionUpPoint, true);
                     }
                     else {
+                        if (onBrickPressed[0] || onBrickPressed[1]) {
+                            soundUp.start();
+                        }
                         onBrickPressed[0] = false;
                         onBrickPressed[1] = false;
                     }

@@ -13,7 +13,7 @@ import java.math.RoundingMode;
 
 public class Config {
 
-    public static boolean DEBUG_MOD =false;
+    public static boolean DEBUG_MOD = false;
     public static final double CAR_W = 612, CAR_H = 1296;
     public static final double PANEL_W = 600, PANEL_H = 178;
     public static final double CAR_Y_OFFSET_K = 0.1;
@@ -38,13 +38,6 @@ public class Config {
 
     static double destinationAB(Point A, Point B, boolean isVector) {
         return ((A.x > B.x) && isVector? -1: 1) *  Math.sqrt((A.x - B. x) * (A.x - B. x) + (A.y - B.y)*(A.y - B.y));
-    }
-
-    static void canvasLog(Canvas canvas, String string) {
-        Paint paint = new Paint();
-        paint.setColor(Color.RED);
-        canvas.drawText(string, 0, 10 + 10 * i, paint);
-        i++;
     }
 
     public static double roundResult(double d, int n) {

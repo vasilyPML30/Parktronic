@@ -20,7 +20,7 @@ public class Button {
         Bitmap tmp = BitmapFactory.decodeResource(res, textureId);
         tmp = Bitmap.createScaledBitmap(tmp, (int) ((double)canvas.getWidth() / kForSize), (int)((double)canvas.getWidth() / kForSize), true);
         Point pos = new Point(canvas.getWidth(), canvas.getHeight());
-        pos = new Point(-tmp.getWidth()/2  +canvas.getWidth() * kForOx, -tmp.getHeight()/2.0 + canvas.getHeight() * kForOy);
+        pos = new Point(-tmp.getWidth() / 2 + canvas.getWidth() * kForOx, -tmp.getHeight() / 2.0 + canvas.getHeight() * kForOy);
         if (kForOx == -1) {
             pos = new Point();//tmp.getWidth() /2 + 10, tmp.getHeight()/2 + 10);
         }

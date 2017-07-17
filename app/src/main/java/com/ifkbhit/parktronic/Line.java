@@ -3,7 +3,6 @@ package com.ifkbhit.parktronic;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
 
 public class Line {
@@ -42,7 +41,6 @@ public class Line {
         L = Config.destinationAB(A, B, false);
         if (B.x * 0.99 <= A.x && A.x <= B.x * 1.01 ) {
             isVertical = true;
-            Log.d("CAR_CONSTRUCTOR", "Line: A " + A +" B " + B + " (x = " +A.x+")");
             return;
         }
         if (A.x > B.x) {
@@ -53,7 +51,6 @@ public class Line {
         isVertical = false;
         k = (B.y - A.y) / (B.x - A.x);
         b = A.y - A.x * (B.y - A.y) / (B.x - A.x);
-        Log.d("CAR_CONSTRUCTOR", "Line: A " + A + " B " + B + " (" + toString() + ")");
     }
 
     Line(double x1, double y1, double x2, double y2) {
@@ -92,7 +89,6 @@ public class Line {
             return new Point(line.A.x, k * line.A.x + b);
         }
         double k1 = k, b1 = b, k2 = line.getK(), b2 = line.getB();
-        Log.d("LINE_INTERSECTION", "k1 " + k + " k2 " + k2 + " b1 " + b1 + " b2 " + b2 );
         double x;
         try {
             x = (b2 - b1) / (k1 - k2);

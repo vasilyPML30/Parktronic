@@ -3,7 +3,6 @@ package com.ifkbhit.parktronic;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -60,20 +59,15 @@ public class Demo {
         x_step = 2.0 * R / N;
         double x = -R;
 
-        Log.d("INIT_DEMO", "center " + center );
-        Log.d("INIT_DEMO", "x after first loop " + x + " ->" + (x + x_step * N));
         if (curType == TYPE_ELLIPSE) {
             for(i = 0; i < N; i++) {
                 dots.add(new Point(x, getY(x)).sum(center));
                 x += x_step;
             }
-            Log.d("INIT_DEMO", "x after first loop " + x);
             for(i = 0; i < N; i++) {
                 dots.add(new Point(x, -getY(x)).sum(center));
                 x -= x_step;
             }
-            Log.d("INIT_DEMO", "count dots " + dots.size());
-            //Log.d("DEMO_INIT", "Radius " + r + "&" + R+", center: " + center);
         }
         else if (curType == TYPE_CIRCLE) {
             Point center1 = center.sum(-r, 0);

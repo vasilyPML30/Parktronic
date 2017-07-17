@@ -4,7 +4,6 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -34,7 +33,6 @@ public class Car {
                                                            // а так же средняя длинна отрезка сектора
 
     void response(Brick b, boolean isUp, Canvas canvas) {
-        //Log.d("ANDREY", canvas.getWidth() / 2 + " " + upper_dots[0][2].x + " " + lower_dots[0][2].x);
         Paint p = new Paint();
         p.setColor(Color.RED);
         double MAX_PANEL_VAL = 0;
@@ -61,25 +59,6 @@ public class Car {
         }
 
         ArrayList<Integer>[] states = b.getStates(); // получаем номера вершин в зонах
-        if (Config.DEBUG_MOD) {
-            String log = "";
-            for (int i = 0; i < states.length; i++) {
-                log += "{zone " + (i + 1) + " : ";
-                if (states[i]!= null) {
-                    if (!states[i].isEmpty()) {
-                        for (Integer e : states[i]) {
-                            log += e + " ";
-                        }
-                    }
-                    else {log += "empty";}
-                }
-                else
-                    log += "null";
-                log += "} ";
-            }
-            canvas.drawText(log, 0, 20, p);
-            canvas.drawText(b.toString(), 0, 40, p);
-        }
 
         //для каждой точки зоны находим ее расстояние до машины
 
@@ -172,7 +151,7 @@ public class Car {
             }
             canvas.drawText(inf, 0, 120, p);
         }
-        this.p[cur_panel%2].setPanel(infoForPanel, isUp);
+        this.p[cur_panel % 2].setPanel(infoForPanel, isUp);
         //return 0;
     }
 
@@ -189,8 +168,7 @@ public class Car {
         return support_line_down;
     }
 
-    Car(Texture[] t, Canvas canvas, Resources res)
-    {
+    Car(Texture[] t, Canvas canvas, Resources res) {
         curTex = 0;
         p[0] = new Panel(canvas, res, false);
         p[1] = new Panel(canvas, res, true);
@@ -218,9 +196,7 @@ public class Car {
         }
 
         for (int i = 0; i < 5; i++) {
-            Log.d("CAR_CONSTRUCTOR", "LinesUp[" + i + "]");
             lines_up[i] = new Line(upper_dots[0][i].sum(texture[0].pos), upper_dots[3][i].sum(texture[0].pos));
-            Log.d("CAR_CONSTRUCTOR", "LinesDown[" + i + "]");
             lines_down[i] = new Line(lower_dots[0][i].sum(texture[0].pos), lower_dots[4][i].sum(texture[0].pos));
         }
 
@@ -229,15 +205,6 @@ public class Car {
             down_supp_point[i] = lines_down[i].intersectionPoint(lines_down[i + 1]);
             mid_lu += lines_up[i].getL();
             mid_ld += lines_down[i].getL();
-        }
-
-        if (Config.DEBUG_MOD) {
-            for (int i = 0; i < down_supp_point.length; i++) {
-                Log.d("CAR_CONSTRUCTOR", "up_supp_point[" + i + "] " + up_supp_point[i]);
-            }
-            for (int i = 0; i < down_supp_point.length; i++) {
-                Log.d("CAR_CONSTRUCTOR", "down_supp_point[" + i + "] " + down_supp_point[i]);
-            }
         }
 
         mid_lu += lines_up[4].getL();
@@ -264,11 +231,8 @@ public class Car {
                 support_line_down[i] = new Line(new Point(x, tmp1.getY(x)), lower_dots[4][i + 1].sum(t[0].pos));
 
                 Line tmp2 = new Line(upper_dots[3][i].sum(t[0].pos), upper_dots[3][i + 1].sum(t[0].pos));
-                Log.d("CARAAA", "i is " + i + " " + tmp2.toString() + " first point " + new Point(x, tmp2.getY(x)));
-                Log.d("CARAAA", tmp2.toString());
                 support_line_up[i] =new Line(upper_dots[3][i+1].sum(t[0].pos),new Point(x, tmp2.getY(x)) );
 
-                Log.d("CARAAA", support_line_up[i].toString());
             }
             else if (i == 3) {
                 double x = canvas.getWidth();
@@ -283,7 +247,6 @@ public class Car {
                 support_line_up[i] = new Line(upper_dots[3][i].sum(t[0].pos), upper_dots[3][i + 1].sum(t[0].pos));
             }
         }
-        Log.d("CARAAA", support_line_up[0].toString());
     }
 
     Point getUpper()
@@ -306,7 +269,7 @@ public class Car {
 
     void setMovingResponse(boolean b)
     {
-        p[cur_panel%2].setEmpty(b);
+        p[cur_panel % 2].setEmpty(b);
     }
 
     void drawCircle(Point center, Canvas c, int color) {
