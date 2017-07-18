@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class LaunchActivity extends Activity {
@@ -45,12 +46,12 @@ public class LaunchActivity extends Activity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
         setContentView(R.layout.activity_launch);
-        Animation animationTitle = AnimationUtils.loadAnimation(this, R.anim.intro_text_anim);
+        Animation animationTitle = AnimationUtils.loadAnimation(this, R.anim.intro_image_anim);
         Animation animationSlogan = AnimationUtils.loadAnimation(this, R.anim.intro_slogan_anim);
         animationSlogan.setAnimationListener(listener);
-        TextView intro = (TextView)findViewById(R.id.intro_text),
-                slogan = (TextView)findViewById(R.id.intro_slogan);
-        if(Config.DEBUG_MOD) {
+        ImageView intro = (ImageView)findViewById(R.id.intro_image);
+        ImageView slogan = (ImageView)findViewById(R.id.intro_slogan);
+        if (Config.DEBUG_MOD) {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
         }
         intro.startAnimation(animationTitle);
