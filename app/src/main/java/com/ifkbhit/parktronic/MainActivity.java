@@ -203,9 +203,6 @@ public class MainActivity extends Activity {
                             }
                             return true;
                         }
-                        if (demo_state != 0) {
-                            return true;
-                        }
                         if ((event.getY() < 7 * H / 20 || event.getY() > 2 * H / 3) &&
                             (new Brick(1, 1, new Point(event)).checkWithLines(car.getSupportLineDown(), false) ||
                              new Brick(1, 1, new Point(event)).checkWithLines(car.getSupportLineUp(), true))) {
