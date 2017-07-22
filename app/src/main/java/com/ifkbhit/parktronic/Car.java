@@ -26,7 +26,7 @@ public class Car {
     private int         cur_panel = 0;
 
     public void changePanel(){
-        cur_panel++;
+        p[cur_panel].setInvertFlag(true);
     }
 
     double R0_up = 0, R0_down = 0, mid_lu = 0, mid_ld = 0; //среднее расстояния до "центра окружности" сверху и снизу,
@@ -151,7 +151,7 @@ public class Car {
             }
             canvas.drawText(inf, 0, 120, p);
         }
-        this.p[cur_panel % 2].setPanel(infoForPanel, isUp);
+        this.p[cur_panel].setPanel(infoForPanel, isUp);
         //return 0;
     }
 
@@ -249,11 +249,6 @@ public class Car {
         }
     }
 
-    Point getUpper()
-    {
-        return upper_dots[3][2];
-    }
-
     public Point[][] getUpper_dots() {
         return upper_dots;
     }
@@ -262,14 +257,9 @@ public class Car {
         return lower_dots;
     }
 
-    Point getLower()
-    {
-        return lower_dots[4][2];
-    }
-
     void setMovingResponse(boolean b)
     {
-        p[cur_panel % 2].setEmpty(b);
+        p[cur_panel].setEmpty(b);
     }
 
     void drawCircle(Point center, Canvas c, int color) {
@@ -279,9 +269,15 @@ public class Car {
     }
 
     void draw(Canvas canvas) {
-        Paint paint = new Paint();paint.setColor(Color.RED);
+        p[cur_panel].invert();
+        if (p[cur_panel].getInvalidFlag()) {
+            p[cur_panel].setInvalidFlag(false);
+            cur_panel = (cur_panel + 1) % 2;
+        }
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
         texture[curTex].draw(canvas);
-        p[cur_panel % 2].draw(canvas);
+        p[cur_panel].draw(canvas);
         if (Config.DEBUG_MOD) {
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 5; j++) {

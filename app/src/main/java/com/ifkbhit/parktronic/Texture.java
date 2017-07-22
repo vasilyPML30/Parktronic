@@ -25,18 +25,9 @@ public class Texture {
         w = img.getWidth();
         h = img.getHeight();
     }
-    void scale() {
-        double w = img.getWidth() * k;
-        double h = img.getHeight() * k;
-        img = Bitmap.createScaledBitmap(img, (int)w, (int)h, false);
-    }
 
     public Point getCenter() {
         return new Point((2 * pos.x + img.getWidth()) / 2.0 , (2 * pos.y + img.getHeight()) / 2);
-    }
-
-    public Point getPanelCenter() {
-        return new Point(img.getWidth() / 2.0, img.getHeight() / 2);
     }
 
     public void setPos(Point p) {
@@ -51,11 +42,11 @@ public class Texture {
     }
 
     public void setScaled(double k) {
-        double w = img.getWidth();
-        double h = img.getHeight();
         double x = w * (k - 1) / 2;
         double y = h * (k - 1) / 2;
         img = Bitmap.createScaledBitmap(img, (int)(w * k), (int)(h * k), true);
+        double w = img.getWidth();
+        double h = img.getHeight();
         pos.sum1(new Point(-x, -y));
     }
 

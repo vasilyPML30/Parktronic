@@ -9,7 +9,7 @@ public class Panel {
     public Point pos;
     public double w, h;
     private Texture line;
-    private Bitmap[]  digits = new Bitmap[10];
+    private Bitmap[] digits = new Bitmap[10];
     private Bitmap panelBitmap;
     private Resources res;
     private Texture[][] texPanels = new Texture[4][4];
@@ -19,6 +19,22 @@ public class Panel {
     private int cur_l, cur_r;
     private boolean empty = true, isInvert = false;
     private boolean reverse = false;
+    private MyTime timer = null;
+    private float panelAngle = 0;
+    private boolean invertFlag = false, invalidFlag = false;
+
+    void setInvertFlag(boolean value) {
+        invertFlag = value;
+    }
+
+    boolean getInvalidFlag() {
+        return invalidFlag;
+    }
+
+    void setInvalidFlag(boolean value) {
+        invalidFlag = value;
+    }
+
 
     Bitmap getBitmap(int id) {
         return BitmapFactory.decodeResource(res, id);
@@ -326,11 +342,42 @@ public class Panel {
         }
     }
 
-    void invert() {}
+    private double func(double arg) {
+        return 2 - Math.abs(arg - 2);
+    }
+
+    void invert() {
+        if (!invertFlag) {
+            return;
+        }
+        if (timer == null) {
+            timer = new MyTime();
+        }
+
+        double period = 4.0;
+        double tm = 2.0;
+        double cft = 0.001 / tm * period;
+        double integral = 4.0;
+
+        timer.Refresh();
+        double mid = (func(timer.FromStart * cft) + func((timer.FromStart - timer.Delta) * cft)) / 2.0;
+        panelAngle += 180 / integral * mid * timer.Delta * cft;
+
+        if (timer.FromStartS >= tm) {
+            timer = null;
+            invertFlag = false;
+            invalidFlag = true;
+            panelAngle = 0;
+        }
+    }
 
     void draw(Canvas canvas) {
+        canvas.save();
+        canvas.rotate(panelAngle, (float)(panel.pos.x + panel.img.getWidth() / 2),
+                                  (float)(panel.pos.y + panel.img.getHeight() / 2));
         panel.draw(canvas);
         drawNum(canvas);
+        canvas.restore();
     }
 
 }
