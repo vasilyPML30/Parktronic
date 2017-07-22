@@ -4,16 +4,16 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
 import java.util.ArrayList;
 
 public class Car {
 
-
-    private  Texture[]  texture;                                           //текстура машины
+    private Resources   res;
+    private int         W, H;
+    private Texture[]   texture;                                           //текстура машины
     private Line[]      lines_up = new Line[5], lines_down = new Line[5];  //опорные линии
-    private Panel[]     p = {null, null};                                  //панель-индикатор
+    private Panel       panel = null;                             //панель-индикатор
     private Point[][]   upper_dots = new Point[4][5];                      //верхние опорные точки
     private Point[][]   lower_dots = new Point[5][5];                      //нижние опорные точки(по идее не нужны)
     private Point[]     top_bumper = new Point[4];                         //примерные точки отслеживания на переднем бампере(по идее не нужны)
@@ -25,23 +25,40 @@ public class Car {
     private Line[]      support_line_down = new Line[4];
     public int          curTex = 0;
     private int         cur_panel = 0;
-
-    public void changePanel(){
-        p[cur_panel].setInvertFlag(true);
-    }
-
     double R0_up = 0, R0_down = 0, mid_lu = 0, mid_ld = 0; // среднее расстояния до "центра окружности" сверху и снизу,
                                                            // а так же средняя длинна отрезка сектора
-    boolean panelAvailable() {
-        return !p[cur_panel].getMoveFlag() && !p[cur_panel].getInvertFlag();
+
+
+
+    public void revertPanel(){
+        panel.setInvertFlag(true);
+    }
+
+    boolean isPanelReversable() {
+        return panel.reversable;
+    }
+
+    boolean isPanelAvailable() {
+        return !panel.getMoveFlag() && !panel.getInvertFlag();
     }
 
     void movePanel(double delta) {
-        p[cur_panel].moveX(delta);
+        panel.moveX(delta);
     }
 
     void mvPanel() {
-        p[cur_panel].setMoveFlag(true);
+        double xPos = panel.panel.xPos;
+        if (Math.abs(xPos) > W * 3 / 10) {
+            cur_panel = (cur_panel + 1) % 2;
+            if (cur_panel == 0) {
+                panel = new panel1(W, H, res, false);
+            }
+            if (cur_panel == 1) {
+                panel = new panel2(W, H, res);
+            }
+            panel.panel.xPos = -xPos;
+        }
+        panel.setMoveFlag(true);
     }
 
     void response(Brick b, boolean isUp, Canvas canvas) {
@@ -163,7 +180,7 @@ public class Car {
             }
             canvas.drawText(inf, 0, 120, p);
         }
-        this.p[cur_panel].setPanel(infoForPanel, isUp);
+        this.panel.setPanel(infoForPanel, isUp);
     }
 
 
@@ -180,9 +197,11 @@ public class Car {
     }
 
     Car(Texture[] t, Canvas canvas, Resources res) {
+        this.res = res;
+        H = canvas.getHeight();
+        W = canvas.getWidth();
         curTex = 0;
-        p[0] = new panel1(canvas, res, false);
-        p[1] = new panel1(canvas, res, true);
+        panel = new panel1(W, H, this.res, false);
 
         Point tmpP;
         for (int i = 0; i < 4; i++) {
@@ -268,10 +287,6 @@ public class Car {
         return lower_dots;
     }
 
-    void setMovingResponse(boolean b) {
-        p[cur_panel].setEmpty(b);
-    }
-
     void drawCircle(Point center, Canvas c, int color) {
         Paint p = new Paint();
         p.setColor(color);
@@ -279,16 +294,18 @@ public class Car {
     }
 
     void draw(Canvas canvas) {
-        p[cur_panel].invert();
-        p[cur_panel].move();
-        if (p[cur_panel].getInvalidFlag()) {
-            p[cur_panel].setInvalidFlag(false);
-            cur_panel = (cur_panel + 1) % 2;
+        panel.invert();
+        panel.move();
+        if (panel.getInvalidFlag()) {
+            panel.setInvalidFlag(false);
+            panel.switchReverse();
+            //cur_panel = (cur_panel + 1) % 2;
         }
         Paint paint = new Paint();
         paint.setColor(Color.RED);
         texture[curTex].draw(canvas);
-        p[cur_panel].draw(canvas);
+
+        panel.draw(canvas);
         if (Config.DEBUG_MOD) {
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 5; j++) {

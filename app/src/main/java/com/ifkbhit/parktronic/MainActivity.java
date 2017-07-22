@@ -35,7 +35,6 @@ public class MainActivity extends Activity {
         private Button[]    demo;
         private int         demo_state = 0;
         Demo                demo_act, demo_act_down, demo_act_c, demo_act_down_c;
-        boolean             isDemoActive = false;
 
         myGraphics(Context context){
             super(context);
@@ -47,8 +46,8 @@ public class MainActivity extends Activity {
             firstStep = false;
             H = canvas.getHeight();
             W = canvas.getWidth();
-            minYTape = H * 5f / 11f;
-            maxYTape = H * 3f / 5f;
+            minYTape = H * 9f / 22f;
+            maxYTape = H * 7f / 10f;
 
             /* Машина */
 
@@ -86,11 +85,11 @@ public class MainActivity extends Activity {
 
             /* Кнопки */
 
-            invert = new Button(R.drawable.invert, getResources(), canvas, 0.85, 0.4, 5);
+            invert = new Button(R.drawable.invert, getResources(), canvas, 0.85, 0.37, 5);
             demo = new Button[] {
-                    new Button(R.drawable.button_demo, getResources(), canvas, 0.15, 0.4, 5),
-                    new Button(R.drawable.button_demo_2, getResources(), canvas, 0.15, 0.4, 5),
-                    new Button(R.drawable.button_manual, getResources(), canvas, 0.15, 0.4, 5)
+                    new Button(R.drawable.button_demo, getResources(), canvas, 0.15, 0.37, 5),
+                    new Button(R.drawable.button_demo_2, getResources(), canvas, 0.15, 0.37, 5),
+                    new Button(R.drawable.button_manual, getResources(), canvas, 0.15, 0.37, 5)
             };
             info = new Button(R.drawable.info, getResources(), canvas, -1, -1, 5);
 
@@ -134,9 +133,7 @@ public class MainActivity extends Activity {
             if (firstStep) {
                 init(canvas);
             }
-            Paint pnt = new Paint();
-            pnt.setColor(Color.CYAN);
-            canvas.drawRect(0f, H * 5f / 11f, (float)W, H * 3f / 5f, pnt);
+
             car.draw(canvas);
             if (brick1.isVisible()) {
                 if (demo_state != 0) {
@@ -173,7 +170,9 @@ public class MainActivity extends Activity {
             brick1.Draw(canvas);
             brick2.Draw(canvas);
             invalidate();
-            invert.draw(canvas);
+            if (car.isPanelReversable()) {
+                invert.draw(canvas);
+            }
             info.draw(canvas);
             demo[demo_state].draw(canvas);
             double speed = 11;
@@ -192,7 +191,7 @@ public class MainActivity extends Activity {
                 case MotionEvent.ACTION_DOWN:
                     movingPoint = new Point(event);
 
-                    if (ey >= minYTape && ey <= maxYTape && car.panelAvailable()) { //если нажали на ленту, то запомниаем это
+                    if (ey >= minYTape && ey <= maxYTape && car.isPanelAvailable()) { //если нажали на ленту, то запомниаем это
                         onTape = true;
                     }
                     else {
@@ -200,8 +199,8 @@ public class MainActivity extends Activity {
                             startActivity(new Intent(getApplicationContext(), com.ifkbhit.parktronic.ActivityInfo.class));
                             return true;
                         }
-                        if (invert.onButtonTap(event) && car.panelAvailable()) {
-                            car.changePanel();
+                        if (invert.onButtonTap(event) && car.isPanelAvailable() && car.isPanelReversable()) {
+                            car.revertPanel();
                             return true;
                         }
                         if (demo[demo_state].onButtonTap(event)) {
@@ -210,7 +209,8 @@ public class MainActivity extends Activity {
                             }
                             return true;
                         }
-                        if ((event.getY() < 7 * H / 20 || event.getY() > 2 * H / 3) &&
+
+                        if ((ey < H * 11 / 40.0 || ey > H * 29 / 40.0) &&
                             (new Brick(1, 1, new Point(event)).checkWithLines(car.getSupportLineDown(), false) ||
                              new Brick(1, 1, new Point(event)).checkWithLines(car.getSupportLineUp(), true))) {
                             if (brick1.isVisible() || brick2.isVisible()) {
@@ -220,6 +220,7 @@ public class MainActivity extends Activity {
                                     brick4.setPos(new Point(ex - brick4.w / 2, ey - brick4.h / 2));
                                     onBrickPressed[1] = true;
                                     brick2.show();
+                                    return true;
                                 }
                                 else if (brick2.isVisible() && ey < H / 2) {
                                     brick2.hide();
@@ -227,14 +228,7 @@ public class MainActivity extends Activity {
                                     brick3.setPos(new Point(ex - brick3.w / 2, ey - brick3.h / 2));
                                     onBrickPressed[0] = true;
                                     brick1.show();
-                                }
-                                else {
-                                    if (brick1.inBrick(event) || brick3.inBrick(event)) {
-                                        onBrickPressed[0] = true;
-                                    }
-                                    if (brick2.inBrick(event) || brick4.inBrick(event)) {
-                                        onBrickPressed[1] = true;
-                                    }
+                                    return true;
                                 }
                             }
                             else {
@@ -248,34 +242,43 @@ public class MainActivity extends Activity {
                                     brick2.setVisible(true);
                                 }
                             }
+                            if (brick1.inBrick(event) || brick3.inBrick(event)) {
+                                onBrickPressed[0] = true;
+                            }
+                            if (brick2.inBrick(event) || brick4.inBrick(event)) {
+                                onBrickPressed[1] = true;
+                            }
                         }
                     }
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    if (isDemoActive) {
-                        return true;
+
+                    if (ey >= H * 11 / 40.0 && ey <= H * 29 / 40.0) {
+                        onBrickPressed[0] = false;
+                        onBrickPressed[1] = false;
                     }
 
                     if (onBrickPressed[0]) {
                         brick1.Move(event, movingPoint, false);
                         brick3.setCenterPos(brick1.getCenter());
-                        boolean response = brick1.checkWithLines(car.getSupportLineUp(), true);
-                        car.setMovingResponse(response);
+                        brick1.checkWithLines(car.getSupportLineUp(), true);
+                        Line[] tmp = {new Line(0, H * 7 / 22, W, H * 7 / 22)};
+                        brick1.checkWithLines(tmp, true);
                     }
 
                     if (onBrickPressed[1]) {
                         brick2.Move(event, movingPoint, false);
                         brick4.setCenterPos(brick2.getCenter());
-                        boolean response = brick2.checkWithLines(car.getSupportLineDown(), false);
-                        car.setMovingResponse(response);
+                        brick2.checkWithLines(car.getSupportLineDown(), false);
+                        Line[] tmp = {new Line(0, maxYTape, W, maxYTape)};
+                        brick2.checkWithLines(tmp, false);
                     }
 
-                    if (!brick3.inBrick(event)) {
-                        if (onBrickPressed[0])
+                    if (!brick1.inBrick(event)) {
                         onBrickPressed[0] = false;
                     }
 
-                    if (!brick4.inBrick(event)) {
+                    if (!brick2.inBrick(event)) {
                         onBrickPressed[1] = false;
                     }
 

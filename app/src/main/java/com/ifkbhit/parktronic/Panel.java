@@ -12,7 +12,7 @@ public class Panel {
     float panelAngle = 0;
     Texture panel;
     Resources res;
-    boolean empty = true;
+    boolean reversable;
 
     void moveX(double dx) {
         panel.xPos += dx;
@@ -20,6 +20,10 @@ public class Panel {
 
     void setInvertFlag(boolean value) {
         invertFlag = value;
+    }
+
+    void switchReverse() {
+        reverse ^= true;
     }
 
     void setMoveFlag(boolean value) {
@@ -92,16 +96,8 @@ public class Panel {
         }
     }
 
-    Panel(Canvas c, Resources res, boolean isReverse) {
-        this.res = res;
-    }
-
     Bitmap getBitmap(int id) {
         return BitmapFactory.decodeResource(res, id);
-    }
-
-    void setEmpty(boolean b) {
-        empty = b;
     }
 
     void setPanel(double[] info,  boolean isUp) { }
