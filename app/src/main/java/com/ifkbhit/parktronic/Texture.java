@@ -7,11 +7,13 @@ import android.graphics.Paint;
 /**
  * Created by Роман on 04.03.2017.
  */
+
 public class Texture {
     public Point pos;
     public Bitmap img;
     public double k;
     public double w, h;
+    public double xPos = 0;
 
     public Texture(Bitmap b) {
         img = b;
@@ -27,7 +29,7 @@ public class Texture {
     }
 
     public Point getCenter() {
-        return new Point((2 * pos.x + img.getWidth()) / 2.0 , (2 * pos.y + img.getHeight()) / 2);
+        return new Point((2 * (pos.x + xPos) + img.getWidth()) / 2.0 , (2 * pos.y + img.getHeight()) / 2);
     }
 
     public void setPos(Point p) {
@@ -35,10 +37,10 @@ public class Texture {
     }
 
     void draw(Canvas canvas) {
-        canvas.drawBitmap(img, (float)pos.x, (float)pos.y, new Paint());
+        canvas.drawBitmap(img, (float)(pos.x + xPos), (float)pos.y, new Paint());
     }
     void draw(Canvas canvas, Paint p) {
-        canvas.drawBitmap(img, (float)pos.x, (float)pos.y, p);
+        canvas.drawBitmap(img, (float)(pos.x + xPos), (float)pos.y, p);
     }
 
     public void setScaled(double k) {

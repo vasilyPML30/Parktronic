@@ -7,6 +7,8 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,7 +26,7 @@ public class MainActivity extends Activity {
         boolean             firstStep = true;
         private int         W, H;                            //размеры canvas
         private Brick       brick1, brick2, brick3, brick4;  //сами блоки  и вспомогательные
-        private double      minYTape = 0, maxYTape = 0;      //TODO: область ленты, пока 0
+        private double      minYTape, maxYTape;              //лента смены монитора
         private boolean     onTape = false;
         private boolean[]   onBrickPressed = {false, false}; //информация о блоках
         private Point       movingPoint;                     //точка для передвижения блоков
@@ -45,6 +47,8 @@ public class MainActivity extends Activity {
             firstStep = false;
             H = canvas.getHeight();
             W = canvas.getWidth();
+            minYTape = H * 5f / 11f;
+            maxYTape = H * 3f / 5f;
 
             /* Машина */
 
@@ -130,6 +134,9 @@ public class MainActivity extends Activity {
             if (firstStep) {
                 init(canvas);
             }
+            Paint pnt = new Paint();
+            pnt.setColor(Color.CYAN);
+            canvas.drawRect(0f, H * 5f / 11f, (float)W, H * 3f / 5f, pnt);
             car.draw(canvas);
             if (brick1.isVisible()) {
                 if (demo_state != 0) {
@@ -185,7 +192,7 @@ public class MainActivity extends Activity {
                 case MotionEvent.ACTION_DOWN:
                     movingPoint = new Point(event);
 
-                    if (ey >= minYTape && ey <= maxYTape) { //если нажали на ленту, то запомниаем это
+                    if (ey >= minYTape && ey <= maxYTape && car.panelAvailable()) { //если нажали на ленту, то запомниаем это
                         onTape = true;
                     }
                     else {
@@ -193,7 +200,7 @@ public class MainActivity extends Activity {
                             startActivity(new Intent(getApplicationContext(), com.ifkbhit.parktronic.ActivityInfo.class));
                             return true;
                         }
-                        if (invert.onButtonTap(event)) {
+                        if (invert.onButtonTap(event) && car.panelAvailable()) {
                             car.changePanel();
                             return true;
                         }
@@ -255,7 +262,8 @@ public class MainActivity extends Activity {
                         boolean response = brick1.checkWithLines(car.getSupportLineUp(), true);
                         car.setMovingResponse(response);
                     }
-                    else if (onBrickPressed[1]) {
+
+                    if (onBrickPressed[1]) {
                         brick2.Move(event, movingPoint, false);
                         brick4.setCenterPos(brick2.getCenter());
                         boolean response = brick2.checkWithLines(car.getSupportLineDown(), false);
@@ -271,12 +279,16 @@ public class MainActivity extends Activity {
                         onBrickPressed[1] = false;
                     }
 
+                    if (onTape) {
+                        car.movePanel(ex - movingPoint.x);
+                    }
+
                     movingPoint = new Point(event);
                     break;
                 case MotionEvent.ACTION_UP:
-                    if (onTape) { //если нажатие было на ленте
-                        Point actionUpPoint = new Point(event);
-                        //double Length  = destinationAB(actionDownPoint, actionUpPoint, true);
+                    if (onTape) {
+                        car.mvPanel();
+                        onTape = false;
                     }
                     else {
                         onBrickPressed[0] = false;
