@@ -39,6 +39,7 @@ public class Texture {
     void draw(Canvas canvas) {
         canvas.drawBitmap(img, (float)(pos.x + xPos), (float)pos.y, new Paint());
     }
+
     void draw(Canvas canvas, Paint p) {
         canvas.drawBitmap(img, (float)(pos.x + xPos), (float)pos.y, p);
     }
@@ -47,8 +48,8 @@ public class Texture {
         double x = w * (k - 1) / 2;
         double y = h * (k - 1) / 2;
         img = Bitmap.createScaledBitmap(img, (int)(w * k), (int)(h * k), true);
-        double w = img.getWidth();
-        double h = img.getHeight();
+        w = img.getWidth();
+        h = img.getHeight();
         pos.sum1(new Point(-x, -y));
     }
 

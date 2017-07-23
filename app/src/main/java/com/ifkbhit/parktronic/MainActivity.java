@@ -184,10 +184,14 @@ public class MainActivity extends Activity {
 
         @Override
         public boolean onTouchEvent(MotionEvent event) {
+            if (firstStep) {
+                return true;
+            }
             double ex = event.getX();
             double ey = event.getY();
 
             switch (event.getAction()) {
+
                 case MotionEvent.ACTION_DOWN:
                     movingPoint = new Point(event);
 
@@ -251,8 +255,8 @@ public class MainActivity extends Activity {
                         }
                     }
                     break;
-                case MotionEvent.ACTION_MOVE:
 
+                case MotionEvent.ACTION_MOVE:
                     if (ey >= H * 11 / 40.0 && ey <= H * 29 / 40.0) {
                         onBrickPressed[0] = false;
                         onBrickPressed[1] = false;
@@ -288,6 +292,7 @@ public class MainActivity extends Activity {
 
                     movingPoint = new Point(event);
                     break;
+
                 case MotionEvent.ACTION_UP:
                     if (onTape) {
                         car.mvPanel();
