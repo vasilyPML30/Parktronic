@@ -106,6 +106,7 @@ public class panel1 extends Panel {
         dotPaint.setARGB(255, 240, 80, 32);
         canvas.drawCircle((float)dotCenter.x, (float)dotCenter.y + (float)(texDig[0].h * 0.45), (float)(texDig[0].h * 0.06), dotPaint);
     }
+
     private void drawBars(Canvas canvas) {
         for (int i = 0; i < state.length; i++) {
             for (int j = 0; j < 4; ++j) {
@@ -117,7 +118,6 @@ public class panel1 extends Panel {
             }
         }
     }
-
 
     void draw(Canvas canvas) {
         canvas.save();
@@ -138,4 +138,39 @@ public class panel1 extends Panel {
         }
         canvas.restore();
     }
+
+    int getLevel(double val, boolean isUp) {
+        if (isUp) {
+            double MAX = 0.9;
+            if (between(val, 0, MAX / 4.0)) {
+                return 4;
+            }
+            if(between(val, MAX / 4,MAX / 2)) {
+                return 3;
+            }
+            if(between(val, MAX / 2, MAX * 0.75)) {
+                return 2;
+            }
+            if(between(val, MAX * 0.75, MAX)) {
+                return 1;
+            }
+        }
+        else {
+            double MAX = 1.1;
+            if (between(val, 0, MAX / 4.0)) {
+                return 4;
+            }
+            if (between(val, MAX / 4, MAX / 2)) {
+                return 3;
+            }
+            if (between(val, MAX / 2, MAX * 0.75)) {
+                return 2;
+            }
+            if (between(val, MAX * 0.75, MAX)) {
+                return 1;
+            }
+        }
+        return 0;
+    }
+
 }

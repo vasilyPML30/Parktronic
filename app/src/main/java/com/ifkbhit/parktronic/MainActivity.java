@@ -214,9 +214,8 @@ public class MainActivity extends Activity {
                             return true;
                         }
 
-                        if ((ey < H * 11 / 40.0 || ey > H * 29 / 40.0) &&
-                            (new Brick(1, 1, new Point(event)).checkWithLines(car.getSupportLineDown(), false) ||
-                             new Brick(1, 1, new Point(event)).checkWithLines(car.getSupportLineUp(), true))) {
+                        if (new Brick(1, 1, new Point(event)).checkWithLines(car.getSupportLineDown(), false) ||
+                             new Brick(1, 1, new Point(event)).checkWithLines(car.getSupportLineUp(), true)) {
                             if (brick1.isVisible() || brick2.isVisible()) {
                                 if (brick1.isVisible() && ey > H / 2) {
                                     brick1.hide();
@@ -235,7 +234,7 @@ public class MainActivity extends Activity {
                                     return true;
                                 }
                             }
-                            else {
+                            else if (ey < H * 11 / 40.0 || ey > H * 29 / 40.0) {
                                 boolean tmp = false;
                                 double first_floor = H / 2.0 * 0.75;
                                 double sec_floor = (5 / 8.0) * H;
@@ -257,11 +256,6 @@ public class MainActivity extends Activity {
                     break;
 
                 case MotionEvent.ACTION_MOVE:
-                    if (ey >= H * 11 / 40.0 && ey <= H * 29 / 40.0) {
-                        onBrickPressed[0] = false;
-                        onBrickPressed[1] = false;
-                    }
-
                     if (onBrickPressed[0]) {
                         brick1.Move(event, movingPoint, false);
                         brick3.setCenterPos(brick1.getCenter());
@@ -276,14 +270,6 @@ public class MainActivity extends Activity {
                         brick2.checkWithLines(car.getSupportLineDown(), false);
                         Line[] tmp = {new Line(0, maxYTape, W, maxYTape)};
                         brick2.checkWithLines(tmp, false);
-                    }
-
-                    if (!brick1.inBrick(event)) {
-                        onBrickPressed[0] = false;
-                    }
-
-                    if (!brick2.inBrick(event)) {
-                        onBrickPressed[1] = false;
                     }
 
                     if (onTape) {

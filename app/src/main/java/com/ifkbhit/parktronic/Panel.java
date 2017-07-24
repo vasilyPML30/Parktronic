@@ -4,8 +4,9 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.util.Log;
 
-public class Panel {
+abstract public class Panel {
     double w, h;
     MyTime mvTimer = null, invTimer = null;
     boolean moveFlag = false, invertFlag = false, invalidFlag = false, reverse = false;
@@ -104,44 +105,11 @@ public class Panel {
         return BitmapFactory.decodeResource(res, id);
     }
 
-
-    private boolean between(double x, double a, double b) {
+    boolean between(double x, double a, double b) {
         return x >= a && x < b;
     }
 
-    private int getLevel(double val, boolean isUp) {
-        if (isUp) {
-            double MAX = 0.9;
-            if (between(val, 0, MAX / 4.0)) {
-                return 4;
-            }
-            if(between(val, MAX / 4,MAX / 2)) {
-                return 3;
-            }
-            if(between(val, MAX / 2, MAX * 0.75)) {
-                return 2;
-            }
-            if(between(val, MAX * 0.75, MAX)) {
-                return 1;
-            }
-        }
-        else {
-            Double MAX = 1.1;
-            if (between(val, 0, MAX / 4.0)) {
-                return 4;
-            }
-            if (between(val, MAX / 4, MAX / 2)) {
-                return 3;
-            }
-            if (between(val, MAX / 2, MAX * 0.75)) {
-                return 2;
-            }
-            if (between(val, MAX * 0.75, MAX)) {
-                return 1;
-            }
-        }
-        return 0;
-    }
+    abstract int getLevel(double val, boolean isUp);
 
     private void clear() {
         for (int i = 0; i < 4; i++)
@@ -154,7 +122,7 @@ public class Panel {
             if (info[i] == -1) {
                 clear();
             }
-            if(info[i] == -2) {
+            if (info[i] == -2) {
                 state[i] = 0;
             }
             else {
@@ -164,7 +132,6 @@ public class Panel {
                 }
             }
         }
-
         if (min_l == 100) {
             cur_l = -1;
             cur_r = -1;
