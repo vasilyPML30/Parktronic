@@ -56,7 +56,12 @@ public class Car {
             if (cur_panel == 1) {
                 panel = new panel2(W, H, res);
             }
-            panel.panel.xPos = -xPos;
+            if (xPos < 0) {
+                panel.panel.xPos = (W + panel.panel.w) / 2 + xPos;
+            }
+            else {
+                panel.panel.xPos = -(W + panel.panel.w) / 2 + xPos;
+            }
         }
         panel.setMoveFlag(true);
     }
@@ -299,7 +304,6 @@ public class Car {
         if (panel.getInvalidFlag()) {
             panel.setInvalidFlag(false);
             panel.switchReverse();
-            //cur_panel = (cur_panel + 1) % 2;
         }
         Paint paint = new Paint();
         paint.setColor(Color.RED);

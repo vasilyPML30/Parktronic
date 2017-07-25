@@ -128,6 +128,18 @@ public class panel2 extends Panel {
             }
         }
 
+        panelBitmap = BitmapFactory.decodeResource(res, R.drawable.panel_0);
+
+        k = (1.0 - Config.CAR_Y_OFFSET_K) * 120.0 / Config.CAR_H;
+        double lh = cnvH * k;
+        double lw = panelBitmap.getWidth() * lh / panelBitmap.getHeight();
+        double rh = lh, rw = lw;
+
+        l_panel = new Texture(Bitmap.createScaledBitmap(panelBitmap, (int) (lw * 1.3), (int) (lh * 1.3), false));
+        l_panel.setPos(new Point(-lw * 1.3, cnvH * (Config.CAR_Y_OFFSET_K / 2) + ((1 - Config.CAR_Y_OFFSET_K) * cnvH) / 2.0 - panel.img.getWidth() / 16.0 - lh * 0.3 / 2));
+
+        r_panel = new Texture(l_panel.img);
+        r_panel.setPos(new Point(cnvW, cnvH * (Config.CAR_Y_OFFSET_K / 2) + ((1 - Config.CAR_Y_OFFSET_K) * cnvH) / 2.0 - panel.img.getWidth() / 16.0 - rh * 0.3 / 2));
 
     }
 
@@ -183,6 +195,14 @@ public class panel2 extends Panel {
         drawNum(canvas);
         drawIndication(canvas);
         drawBars(canvas);
+        if (panel.xPos > 0.1) {
+            l_panel.xPos = panel.xPos;
+            l_panel.draw(canvas);
+        }
+        else if (panel.xPos < -0.1) {
+            r_panel.xPos = panel.xPos;
+            r_panel.draw(canvas);
+        }
     }
 
     int getLevel(double val, boolean isUp) {

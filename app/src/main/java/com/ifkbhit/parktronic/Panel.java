@@ -11,7 +11,7 @@ abstract public class Panel {
     MyTime mvTimer = null, invTimer = null;
     boolean moveFlag = false, invertFlag = false, invalidFlag = false, reverse = false;
     float panelAngle = 0;
-    Texture panel;
+    Texture panel, l_panel, r_panel;
     Resources res;
     boolean reversable;
     int[] state = {0,0,0,0};

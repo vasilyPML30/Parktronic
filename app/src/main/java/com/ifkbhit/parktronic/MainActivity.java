@@ -105,28 +105,7 @@ public class MainActivity extends Activity {
             demo_act_down_c.init(car);
 
             /* Области препятствий */
-/*
-            double tw = 200;
-            double th = 50;
-            Line one = car.getSupportLineUp()[2];
-            Line two = car.getSupportLineDown()[2];
-            Point pos1, pos2;
 
-            if (one.getPointA().y > one.getPointB().y) {
-                pos1 = new Point(one.getPointA().sum(new Point(100 - one.getPointA().x, 0)), -3 * tw / 4, -th);
-            }
-            else
-                pos1 = new Point(one.getPointB().sum(new Point(100 - one.getPointB().x, 0)), -3 * tw / 4, -th);
-
-            if (two.getPointA().y < two.getPointB().y) {
-                pos2 = new Point(two.getPointA().sum(new Point(100 - one.getPointA().x, 0)), -3 * tw / 4, 0);
-            }
-            else
-                pos2 = new Point(two.getPointB().sum(new Point(100 - one.getPointB().x, 0)), -3 * tw / 4, 0);
-
-            tap1 = new Button(R.drawable.finger, getResources(), canvas, 200, (int)th, pos1);
-            tap2 = new Button(R.drawable.finger, getResources(), canvas, 200, (int)th, pos2);
-*/
             int tw = (int)(carTex[0].w * 0.25);
             int th = (int)(tw * 1.276);
 
@@ -185,7 +164,7 @@ public class MainActivity extends Activity {
             }
             info.draw(canvas);
             demo[demo_state].draw(canvas);
-            double speed = 4;
+            double speed = 8;
             if (!brick1.isVisible())
                 tap1.animatedDraw(canvas, speed);
             if (!brick2.isVisible())

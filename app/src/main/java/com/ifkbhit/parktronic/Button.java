@@ -47,7 +47,7 @@ public class Button {
     public boolean animatedDraw(Canvas c, double speed) {
         double sin = Math.sin(speed * (double) System.currentTimeMillis() / 2000.0);
         Paint paint = new Paint();
-        paint.setAlpha(255 - (int)(153 * Math.abs(sin)));
+        paint.setAlpha(175 - (int)(80 * sin));
         texture.draw(c, paint);
         return true;
     }
