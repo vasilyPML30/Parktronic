@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.view.MotionEvent;
 
 /**
@@ -16,19 +17,19 @@ public class Button {
     private Point startPos;
     Brick touchChecker;
 
-    public Button(int textureId, Resources res, Canvas canvas, double kForOx, double kForOy, double kForSize) {
+    public Button(int textureId, Resources res, Rect windowRect, double kForOx, double kForOy, double kForSize) {
+
         Bitmap tmp = BitmapFactory.decodeResource(res, textureId);
-        tmp = Bitmap.createScaledBitmap(tmp, (int) ((double)canvas.getWidth() / kForSize), (int)((double)canvas.getWidth() / kForSize), true);
-        Point pos = new Point(canvas.getWidth(), canvas.getHeight());
-        pos = new Point(-tmp.getWidth() / 2 + canvas.getWidth() * kForOx, -tmp.getHeight() / 2.0 + canvas.getHeight() * kForOy);
+        tmp = Bitmap.createScaledBitmap(tmp, (int) ((double)windowRect.width() / kForSize), (int)((double)windowRect.width() / kForSize), true);
+        Point pos = new Point(-tmp.getWidth() / 2 + windowRect.width() * kForOx, -tmp.getHeight() / 2.0 + windowRect.height() * kForOy);
         if (kForOx == -1) {
-            pos = new Point();//tmp.getWidth() /2 + 10, tmp.getHeight()/2 + 10);
+            pos = new Point();
         }
         texture = new Texture(tmp, pos, 0);
         touchChecker = new Brick(texture.img.getWidth(), texture.img.getHeight(), pos);
     }
 
-    public Button(int textureId, Resources res, Canvas canvas, int w, int h, Point pos) {
+    public Button(int textureId, Resources res, int w, int h, Point pos) {
         Bitmap tmp = BitmapFactory.decodeResource(res, textureId);
         tmp = Bitmap.createScaledBitmap(tmp, w, h, true);
         texture = new Texture(tmp, pos, 0);

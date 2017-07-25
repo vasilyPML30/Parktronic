@@ -1,12 +1,8 @@
 package com.ifkbhit.parktronic;
 
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.Paint;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

@@ -7,8 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -44,8 +43,10 @@ public class MainActivity extends Activity {
 
         void init(Canvas canvas) {
             firstStep = false;
-            H = canvas.getHeight();
-            W = canvas.getWidth();
+            Rect windowRect = new Rect();
+            getWindow().getDecorView().getWindowVisibleDisplayFrame(windowRect);
+            H = windowRect.height();
+            W = windowRect.width();
             minYTape = H * 9f / 22f;
             maxYTape = H * 7f / 10f;
 
@@ -63,7 +64,7 @@ public class MainActivity extends Activity {
                 carBitmap[i] = Bitmap.createScaledBitmap(carBitmap[i], (int) cur_car_w, (int) ((double) carBitmap[i].getHeight() * k), true);
                 carTex[i] = new Texture(carBitmap[i], new Point(W / 2 - carBitmap[0].getWidth() / 2, H * (Config.CAR_Y_OFFSET_K) * 0.5), k);
             }
-            car = new Car(carTex, canvas, getResources());
+            car = new Car(carTex, windowRect, getResources());
 
             /* Кубики */
 
@@ -85,13 +86,13 @@ public class MainActivity extends Activity {
 
             /* Кнопки */
 
-            invert = new Button(R.drawable.invert, getResources(), canvas, 0.85, 0.37, 5);
+            invert = new Button(R.drawable.invert, getResources(), windowRect, 0.85, 0.37, 5);
             demo = new Button[] {
-                    new Button(R.drawable.button_demo, getResources(), canvas, 0.15, 0.37, 5),
-                    new Button(R.drawable.button_demo_2, getResources(), canvas, 0.15, 0.37, 5),
-                    new Button(R.drawable.button_manual, getResources(), canvas, 0.15, 0.37, 5)
+                    new Button(R.drawable.button_demo, getResources(), windowRect, 0.15, 0.37, 5),
+                    new Button(R.drawable.button_demo_2, getResources(), windowRect, 0.15, 0.37, 5),
+                    new Button(R.drawable.button_manual, getResources(), windowRect, 0.15, 0.37, 5)
             };
-            info = new Button(R.drawable.info, getResources(), canvas, -1, -1, 5);
+            info = new Button(R.drawable.info, getResources(), windowRect, -1, -1, 5);
 
             /* Демо */
 
@@ -112,8 +113,8 @@ public class MainActivity extends Activity {
             Point pos1 = new Point((W - tw) / 2, (carTex[0].pos.y + carTex[0].h * 0.175 - th) / 2);
             Point pos2 = new Point((W - tw) / 2, (H + carTex[0].pos.y + carTex[0].h * 0.77 - th) / 2);
 
-            tap1 = new Button(R.drawable.finger, getResources(), canvas, tw, th, pos1);
-            tap2 = new Button(R.drawable.finger, getResources(), canvas, tw, th, pos2);
+            tap1 = new Button(R.drawable.finger, getResources(), tw, th, pos1);
+            tap2 = new Button(R.drawable.finger, getResources(), tw, th, pos2);
 
         }
 

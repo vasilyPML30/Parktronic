@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 
 import java.util.ArrayList;
 
@@ -201,10 +202,10 @@ public class Car {
         return support_line_down;
     }
 
-    Car(Texture[] t, Canvas canvas, Resources res) {
+    Car(Texture[] t, Rect windowRect, Resources res) {
         this.res = res;
-        H = canvas.getHeight();
-        W = canvas.getWidth();
+        H = windowRect.height();
+        W = windowRect.width();
         curTex = 0;
         panel = new panel1(W, H, this.res, false);
 
@@ -270,7 +271,7 @@ public class Car {
 
             }
             else if (i == 3) {
-                double x = canvas.getWidth();
+                double x = windowRect.width();
                 Line tmp1 = new Line(lower_dots[4][i].sum(t[0].pos), lower_dots[4][i+1].sum(t[0].pos));
                 support_line_down[i] = new Line(new Point(x, tmp1.getY(x)), lower_dots[4][i].sum(t[0].pos));
 
