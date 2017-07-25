@@ -18,7 +18,7 @@
         <activity android:name=".MainActivity" />
         <activity
             android:name=".ActivityInfo"
-            android:label="@string/title_activity_activity_info"
+            android:label="@string/info_title_216"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 

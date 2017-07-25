@@ -25,12 +25,22 @@
     </android.support.design.widget.AppBarLayout>
 
     <include
-        android:id="@+id/include"
-        layout="@layout/tmp_info"
+        android:id="@+id/inc_216"
+        layout="@layout/info_216"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_above="@+id/more_button"
+        android:layout_alignParentTop="true"
+        android:visibility="visible"/>
+
+    <include
+        android:id="@+id/inc_218"
+        layout="@layout/info_218"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_above="@+id/more_button"
         android:layout_alignParentTop="true" />
+
 
     <Button
         android:id="@+id/fab"

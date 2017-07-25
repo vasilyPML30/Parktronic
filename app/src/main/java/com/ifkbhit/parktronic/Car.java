@@ -12,7 +12,7 @@ public class Car {
 
     private Resources   res;
     private int         W, H;
-    private Texture[]   texture;                                           //текстура машины
+    private Texture     texture, upper_net, lower_net;                                           //текстура машины
     private Line[]      lines_up = new Line[5], lines_down = new Line[5];  //опорные линии
     private Panel       panel = null;                             //панель-индикатор
     private Point[][]   upper_dots = new Point[4][5];                      //верхние опорные точки
@@ -25,9 +25,9 @@ public class Car {
     private Line[]      support_line_up = new Line[4];
     private Line[]      support_line_down = new Line[4];
     public int          curTex = 0;
-    private int         cur_panel = 0;
-    double R0_up = 0, R0_down = 0, mid_lu = 0, mid_ld = 0; // среднее расстояния до "центра окружности" сверху и снизу,
-                                                           // а так же средняя длинна отрезка сектора
+    int                 cur_panel = 0;
+    double              R0_up = 0, R0_down = 0, mid_lu = 0, mid_ld = 0; // среднее расстояния до "центра окружности" сверху и снизу,
+                                                                        // а так же средняя длинна отрезка сектора
 
 
 
@@ -191,7 +191,7 @@ public class Car {
 
 
     public Point getPos(){
-        return texture[0].pos;
+        return texture.pos;
     }
 
     public Line[] getSupportLineUp() {
@@ -202,7 +202,7 @@ public class Car {
         return support_line_down;
     }
 
-    Car(Texture[] t, Rect windowRect, Resources res) {
+    Car(Texture t, Texture u_n, Texture l_n, Rect windowRect, Resources res) {
         this.res = res;
         H = windowRect.height();
         W = windowRect.width();
@@ -212,19 +212,22 @@ public class Car {
         Point tmpP;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 5; j++) {
-                tmpP = Config.UPPER_POINTS[i][j].multi(t[0].img.getHeight() / Config.CAR_H);
+                tmpP = Config.UPPER_POINTS[i][j].multi(t.img.getHeight() / Config.CAR_H);
                 upper_dots[i][j] = tmpP;
             }
         }
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
-                tmpP = Config.LOWER_POINTS[i][j].multi(t[0].img.getHeight() / Config.CAR_H);
+                tmpP = Config.LOWER_POINTS[i][j].multi(t.img.getHeight() / Config.CAR_H);
                 lower_dots[i][j] = tmpP;
             }
         }
         lines_up = new Line[5];
         lines_down = new Line[5];
+
         texture = t;
+        upper_net = u_n;
+        lower_net = l_n;
 
         for (int i = 0; i < 4; i++) {
             top_bumper[i] = upper_dots[3][i].medium(upper_dots[3][i+1]);
@@ -232,8 +235,8 @@ public class Car {
         }
 
         for (int i = 0; i < 5; i++) {
-            lines_up[i] = new Line(upper_dots[0][i].sum(texture[0].pos), upper_dots[3][i].sum(texture[0].pos));
-            lines_down[i] = new Line(lower_dots[0][i].sum(texture[0].pos), lower_dots[4][i].sum(texture[0].pos));
+            lines_up[i] = new Line(upper_dots[0][i].sum(texture.pos), upper_dots[3][i].sum(texture.pos));
+            lines_down[i] = new Line(lower_dots[0][i].sum(texture.pos), lower_dots[4][i].sum(texture.pos));
         }
 
         for (int i = 0; i < 4; i++) {
@@ -248,9 +251,9 @@ public class Car {
         mid_lu /= 5.0;
         mid_ld /= 5.0;
         for (int i = 0; i < 4; i++) {
-            Line maxDown =  new Line(lower_dots[0][i].sum(t[0].pos), down_supp_point[i]);
+            Line maxDown =  new Line(lower_dots[0][i].sum(t.pos), down_supp_point[i]);
             R0_down += maxDown.getL();
-            Line maxUp = new Line(upper_dots[0][i].sum(t[0].pos), up_supp_point[i]);
+            Line maxUp = new Line(upper_dots[0][i].sum(t.pos), up_supp_point[i]);
             R0_up += maxUp.getL();
         }
 
@@ -262,25 +265,25 @@ public class Car {
 
         for (int i = 0; i < 4; i++) {
             if (i == 0) {
-                double x =0;
-                Line tmp1 = new Line(lower_dots[4][i].sum(t[0].pos), lower_dots[4][i + 1].sum(t[0].pos));
-                support_line_down[i] = new Line(new Point(x, tmp1.getY(x)), lower_dots[4][i + 1].sum(t[0].pos));
+                double x = 0;
+                Line tmp1 = new Line(lower_dots[4][i].sum(t.pos), lower_dots[4][i + 1].sum(t.pos));
+                support_line_down[i] = new Line(new Point(x, tmp1.getY(x)), lower_dots[4][i + 1].sum(t.pos));
 
-                Line tmp2 = new Line(upper_dots[3][i].sum(t[0].pos), upper_dots[3][i + 1].sum(t[0].pos));
-                support_line_up[i] =new Line(upper_dots[3][i+1].sum(t[0].pos),new Point(x, tmp2.getY(x)) );
+                Line tmp2 = new Line(upper_dots[3][i].sum(t.pos), upper_dots[3][i + 1].sum(t.pos));
+                support_line_up[i] =new Line(upper_dots[3][i+1].sum(t.pos),new Point(x, tmp2.getY(x)) );
 
             }
             else if (i == 3) {
                 double x = windowRect.width();
-                Line tmp1 = new Line(lower_dots[4][i].sum(t[0].pos), lower_dots[4][i+1].sum(t[0].pos));
-                support_line_down[i] = new Line(new Point(x, tmp1.getY(x)), lower_dots[4][i].sum(t[0].pos));
+                Line tmp1 = new Line(lower_dots[4][i].sum(t.pos), lower_dots[4][i+1].sum(t.pos));
+                support_line_down[i] = new Line(new Point(x, tmp1.getY(x)), lower_dots[4][i].sum(t.pos));
 
-                Line tmp2 = new Line(upper_dots[3][i].sum(t[0].pos), upper_dots[3][i + 1].sum(t[0].pos));
-                support_line_up[i] =new Line(upper_dots[3][i].sum(t[0].pos),new Point(x, tmp2.getY(x)) );
+                Line tmp2 = new Line(upper_dots[3][i].sum(t.pos), upper_dots[3][i + 1].sum(t.pos));
+                support_line_up[i] =new Line(upper_dots[3][i].sum(t.pos),new Point(x, tmp2.getY(x)) );
             }
             else {
-                support_line_down[i] = new Line(lower_dots[4][i].sum(t[0].pos), lower_dots[4][i + 1].sum(t[0].pos));
-                support_line_up[i] = new Line(upper_dots[3][i].sum(t[0].pos), upper_dots[3][i + 1].sum(t[0].pos));
+                support_line_down[i] = new Line(lower_dots[4][i].sum(t.pos), lower_dots[4][i + 1].sum(t.pos));
+                support_line_up[i] = new Line(upper_dots[3][i].sum(t.pos), upper_dots[3][i + 1].sum(t.pos));
             }
         }
     }
@@ -300,33 +303,42 @@ public class Car {
     }
 
     void draw(Canvas canvas) {
+
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
+
+        texture.draw(canvas);
+        if (curTex == 1) {
+            upper_net.draw(canvas);
+        }
+        else if (curTex == 2) {
+            lower_net.draw(canvas);
+        }
+
         panel.invert();
         panel.move();
         if (panel.getInvalidFlag()) {
             panel.setInvalidFlag(false);
             panel.switchReverse();
         }
-        Paint paint = new Paint();
-        paint.setColor(Color.RED);
-        texture[curTex].draw(canvas);
-
         panel.draw(canvas);
+
         if (Config.DEBUG_MOD) {
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 5; j++) {
                     Point tmp = upper_dots[i][j];
-                    canvas.drawCircle((float) (texture[0].pos.x + tmp.x), (float) (texture[0].pos.y + tmp.y), 4, paint);
+                    canvas.drawCircle((float) (texture.pos.x + tmp.x), (float) (texture.pos.y + tmp.y), 4, paint);
                 }
             }
             for (int i = 0; i < 5; i++) {
                 for (int j = 0; j < 5; j++) {
                     Point tmp = lower_dots[i][j];
-                    canvas.drawCircle((float) (texture[0].pos.x + tmp.x), (float) (texture[0].pos.y + tmp.y), 4, paint);
+                    canvas.drawCircle((float) (texture.pos.x + tmp.x), (float) (texture.pos.y + tmp.y), 4, paint);
                 }
             }
             for (int i = 0; i < 4; i++) {
-                drawCircle(top_bumper[i].sum(texture[0].pos), canvas, Color.YELLOW);
-                drawCircle(down_bumper[i].sum(texture[0].pos), canvas, Color.YELLOW);
+                drawCircle(top_bumper[i].sum(texture.pos), canvas, Color.YELLOW);
+                drawCircle(down_bumper[i].sum(texture.pos), canvas, Color.YELLOW);
             }
             for (int i = 0; i < 4; i++) {
                 support_line_down[i].draw(canvas);

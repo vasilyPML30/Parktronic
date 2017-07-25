@@ -60,11 +60,12 @@ public class MainActivity extends Activity {
             Config.CURRENT_CAR_K = k;
             double cur_car_w = (double)carBitmap[0].getWidth() * k;
             Texture[] carTex = new Texture[3];
-            for(int i = 0; i < 3; i++) {
+            for (int i = 0; i < 3; i++) {
                 carBitmap[i] = Bitmap.createScaledBitmap(carBitmap[i], (int) cur_car_w, (int) ((double) carBitmap[i].getHeight() * k), true);
                 carTex[i] = new Texture(carBitmap[i], new Point(W / 2 - carBitmap[0].getWidth() / 2, H * (Config.CAR_Y_OFFSET_K) * 0.5), k);
             }
-            car = new Car(carTex, windowRect, getResources());
+            carTex[2].setPos(new Point(carTex[0].pos.x, carTex[0].pos.y + carTex[0].h - carTex[2].h));
+            car = new Car(carTex[0], carTex[1], carTex[2], windowRect, getResources());
 
             /* Кубики */
 
@@ -190,7 +191,9 @@ public class MainActivity extends Activity {
                     }
                     else {
                         if (info.onButtonTap(event)) {
-                            startActivity(new Intent(getApplicationContext(), com.ifkbhit.parktronic.ActivityInfo.class));
+                            Intent infoIntent = new Intent(getApplicationContext(), com.ifkbhit.parktronic.ActivityInfo.class);
+                            infoIntent.putExtra("sysType", car.cur_panel);
+                            startActivity(infoIntent);
                             return true;
                         }
                         if (invert.onButtonTap(event) && car.isPanelAvailable() && car.isPanelReversable()) {
