@@ -95,11 +95,6 @@ public class MainActivity extends Activity {
 
             /* Демо */
 
-            double tw = 200;
-            double th = 50;
-            Line one = car.getSupportLineUp()[2];
-            Line two = car.getSupportLineDown()[2];
-            Point pos1, pos2;
             demo_act = new Demo(Demo.TYPE_ELLIPSE, Demo.UPPER_DEMO);
             demo_act_c = new Demo(Demo.TYPE_CIRCLE, Demo.UPPER_DEMO);
             demo_act_down = new Demo(Demo.TYPE_ELLIPSE, Demo.LOWER_DEMO);
@@ -108,6 +103,14 @@ public class MainActivity extends Activity {
             demo_act_down.init(car);
             demo_act_c.init(car);
             demo_act_down_c.init(car);
+
+            /* Области препятствий */
+/*
+            double tw = 200;
+            double th = 50;
+            Line one = car.getSupportLineUp()[2];
+            Line two = car.getSupportLineDown()[2];
+            Point pos1, pos2;
 
             if (one.getPointA().y > one.getPointB().y) {
                 pos1 = new Point(one.getPointA().sum(new Point(100 - one.getPointA().x, 0)), -3 * tw / 4, -th);
@@ -121,10 +124,17 @@ public class MainActivity extends Activity {
             else
                 pos2 = new Point(two.getPointB().sum(new Point(100 - one.getPointB().x, 0)), -3 * tw / 4, 0);
 
-            /* Области препятствий */
+            tap1 = new Button(R.drawable.finger, getResources(), canvas, 200, (int)th, pos1);
+            tap2 = new Button(R.drawable.finger, getResources(), canvas, 200, (int)th, pos2);
+*/
+            int tw = (int)(carTex[0].w * 0.25);
+            int th = (int)(tw * 1.276);
 
-            tap1 = new Button(R.drawable.strelka, getResources(), canvas, 200, (int)th, pos1);
-            tap2 = new Button(R.drawable.strelka, getResources(), canvas, 200, (int)th, pos2);
+            Point pos1 = new Point((W - tw) / 2, (carTex[0].pos.y + carTex[0].h * 0.175 - th) / 2);
+            Point pos2 = new Point((W - tw) / 2, (H + carTex[0].pos.y + carTex[0].h * 0.77 - th) / 2);
+
+            tap1 = new Button(R.drawable.finger, getResources(), canvas, tw, th, pos1);
+            tap2 = new Button(R.drawable.finger, getResources(), canvas, tw, th, pos2);
 
         }
 
@@ -175,11 +185,11 @@ public class MainActivity extends Activity {
             }
             info.draw(canvas);
             demo[demo_state].draw(canvas);
-            double speed = 11;
+            double speed = 4;
             if (!brick1.isVisible())
-                tap1.animationScaledDraw(canvas, speed);
+                tap1.animatedDraw(canvas, speed);
             if (!brick2.isVisible())
-                tap2.animationScaledDraw(canvas, speed);
+                tap2.animatedDraw(canvas, speed);
         }
 
         @Override

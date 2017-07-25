@@ -44,11 +44,10 @@ public class Button {
         return touchChecker.inBrick(event);
     }
 
-    public boolean animationScaledDraw(Canvas c, double speed) {
+    public boolean animatedDraw(Canvas c, double speed) {
         double sin = Math.sin(speed * (double) System.currentTimeMillis() / 2000.0);
-        texture.setPos(startPos.sum(new Point((double) texture.img.getWidth() * 0.2 * sin, 0)));
         Paint paint = new Paint();
-        paint.setAlpha(128);
+        paint.setAlpha(255 - (int)(153 * Math.abs(sin)));
         texture.draw(c, paint);
         return true;
     }
