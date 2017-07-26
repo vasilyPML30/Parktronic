@@ -19,7 +19,6 @@ public class Brick {
     Point minBorder, maxBorder;
     Point left_u, left_d, right_u, right_d;
     Point[] points;
-    String TAG = "Brick";
 
     public int[][] state = new int[4][5];
     public double[] dest = new double[4];
@@ -79,7 +78,7 @@ public class Brick {
         this.visible = visible;
     }
 
-    public void Draw(Canvas canvas) {
+    public void draw(Canvas canvas) {
         if (!visible)
             return;
         Paint p = new Paint();
@@ -90,11 +89,11 @@ public class Brick {
 
     ArrayList<Integer>[] getStates() {
         ArrayList<Integer>[] res = new ArrayList[4];
-        for(int i = 0; i < 4; i++) {
-            res[i] = new ArrayList<Integer>();
+        for (int i = 0; i < 4; i++) {
+            res[i] = new ArrayList();
         }
 
-        for(int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) {
             int j = 0;
             while (j < 5 && state[i][j] != -1) {
                 j++;
@@ -104,26 +103,6 @@ public class Brick {
             }
         }
         return res;
-    }
-
-
-    Point getMinState() {
-        int min = 10;
-        int min_i = 0;
-        for(int i = 0; i < 4; i++) {
-            int j = 0;
-            while (j < 5 && state[i][j] != -1) {
-                j++;
-            }
-            if (j < min) {
-                min = j;
-                min_i = i;
-            }
-            if (j == 1 && min == 0) {
-                min = 1;
-            }
-        }
-        return new Point(min, min_i);
     }
 
     void Move(double x, double y, boolean cantMove) {
@@ -244,72 +223,5 @@ public class Brick {
             c += dest[i] + " ";
         return "Brick " + (int)pos.x + " " + (int)pos.y + " " + isVisible() + "\n" + c ;
     }
-
-    public String posToStr()
-    {
-        return left_u + " " + right_u + " " + right_d + " " + left_d;
-    }
-
-    public boolean isCantMove(boolean isUp, Line[] supportLine, Point movingPoint) {
-        if(isUp == true || isUp == false)
-            return false;
-        if(isUp)
-        {
-            for(int i = 0; i < supportLine.length; i++)
-            {
-                Point left_tmp = left_d.sum(movingPoint);
-                Point right_tmp = right_d.sum(movingPoint);
-                Line line = supportLine[i];
-                if(i == 0)
-                {
-                    if(right_tmp.x <= line.getPointB().x)
-                    {
-                        if(line.isPointUnder(right_tmp))
-                            return true;
-                    }
-                }
-                else if(i == supportLine.length - 1)
-                {
-                    if(left_tmp.x >= line.getPointB().x)
-                    {
-                        if(line.isPointUnder(left_tmp))
-                            return true;
-                    }
-                }
-                else if((line.isPointUnder(left_tmp)&&line.betweenByX(left_tmp)) || (line.betweenByX(right_tmp) &&line.isPointUnder(right_tmp)))
-                    return true;
-            }
-        }
-        else{
-        for(int i = 0; i < supportLine.length; i++)
-        {
-            Point left_tmp = left_u.sum(movingPoint);
-            Point right_tmp = right_u.sum(movingPoint);
-            Line line = supportLine[i];
-            if(i == 0)
-            {
-                if(right_tmp.x <= line.getPointB().x)
-                {
-                    if(line.isPointUnder(right_tmp)){
-                        return true;
-
-                }
-                }
-            }
-            else if(i == supportLine.length - 1)
-            {
-                if(left_tmp.x >= line.getPointB().x)
-                {
-                    if(line.isPointUpper(left_tmp))
-                        return true;
-                }
-            }
-            else if((line.isPointUpper(left_tmp) &&line.betweenByX(left_tmp)) || (line.betweenByX(right_tmp) &&line.isPointUpper(right_tmp)))
-                return true;
-        }
-    }
-        return false;
-    }
-
 
 }

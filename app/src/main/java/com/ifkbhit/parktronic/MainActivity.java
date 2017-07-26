@@ -158,8 +158,8 @@ public class MainActivity extends Activity {
                 }
                 car.response(brick2, false, canvas);
             }
-            brick1.Draw(canvas);
-            brick2.Draw(canvas);
+            brick1.draw(canvas);
+            brick2.draw(canvas);
             invalidate();
             if (car.isPanelReversable()) {
                 invert.draw(canvas);

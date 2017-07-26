@@ -307,13 +307,14 @@ public class Car {
         Paint paint = new Paint();
         paint.setColor(Color.RED);
 
-        texture.draw(canvas);
         if (curTex == 1) {
             upper_net.draw(canvas);
         }
         else if (curTex == 2) {
             lower_net.draw(canvas);
         }
+
+        texture.draw(canvas);
 
         panel.invert();
         panel.move();
@@ -324,6 +325,7 @@ public class Car {
         panel.draw(canvas);
 
         if (Config.DEBUG_MOD) {
+            /*
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 5; j++) {
                     Point tmp = upper_dots[i][j];
@@ -336,6 +338,7 @@ public class Car {
                     canvas.drawCircle((float) (texture.pos.x + tmp.x), (float) (texture.pos.y + tmp.y), 4, paint);
                 }
             }
+            */
             for (int i = 0; i < 4; i++) {
                 drawCircle(top_bumper[i].sum(texture.pos), canvas, Color.YELLOW);
                 drawCircle(down_bumper[i].sum(texture.pos), canvas, Color.YELLOW);
