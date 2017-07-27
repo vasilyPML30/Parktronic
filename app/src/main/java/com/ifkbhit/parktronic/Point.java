@@ -71,4 +71,21 @@ public class Point {
     public String toString() {
         return "x: " + (int)x + " y: " + (int)y;
     }
+
+    double dist(Point point) {
+        return Math.sqrt((x - point.x) * (x - point.x) + (y - point.y) * (y - point.y));
+    }
+
+    public double dist(Brick brick) {
+        if (brick.points[0].x <= x && x <= brick.points[1].x) {
+            return Math.min(Math.abs(brick.points[1].y - y),
+                            Math.abs(brick.points[2].y - y));
+        }
+        if (brick.points[1].y <= y && y <= brick.points[2].y) {
+            return Math.min(Math.abs(brick.points[0].x - x),
+                    Math.abs(brick.points[1].x - x));
+        }
+        return Math.min(Math.min(dist(brick.points[0]), dist(brick.points[1])),
+                        Math.min(dist(brick.points[2]), dist(brick.points[3])));
+    }
 }

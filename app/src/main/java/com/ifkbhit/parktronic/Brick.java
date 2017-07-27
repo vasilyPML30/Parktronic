@@ -20,7 +20,8 @@ public class Brick {
     Point left_u, left_d, right_u, right_d;
     Point[] points;
 
-    public int[][] state = new int[4][5];
+    //public int[][] state = new int[4][5];
+    public boolean[] states = new boolean[4];
     public double[] dest = new double[4];
 
     public boolean isVisible() {
@@ -53,17 +54,15 @@ public class Brick {
         points[3] = left_d;
 
         for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 5; j++) {
-                state[i][j] = 0;
-            }
             dest[i] = 0;
         }
     }
 
     void refreshStates(Line[] lines){
-        for (int i = 0; i < 4; i++) {
-            for(int j = 0; j < 5; j++) {
-                state[i][j] = lines[j].cmpWithPoint(points[i]);
+        for(int j = 0; j < 4; j++) {
+            states[j] = false;
+            for (int i = 0; i < 4; i++) {
+                states[j] |= (lines[j].cmpWithPoint(points[i]) >= 0 && lines[j + 1].cmpWithPoint(points[i]) <= 0);
             }
         }
 
@@ -87,6 +86,7 @@ public class Brick {
         canvas.drawRect(r, p);
     }
 
+    /*
     ArrayList<Integer>[] getStates() {
         ArrayList<Integer>[] res = new ArrayList[4];
         for (int i = 0; i < 4; i++) {
@@ -104,7 +104,7 @@ public class Brick {
         }
         return res;
     }
-
+*/
     void Move(double x, double y, boolean cantMove) {
         if (cantMove) {
             return;
@@ -210,6 +210,7 @@ public class Brick {
         return inBrick(new Point(event));
     }
 
+    /*
     @Override
     public String toString() {
         String c = "State: >";
@@ -223,5 +224,5 @@ public class Brick {
             c += dest[i] + " ";
         return "Brick " + (int)pos.x + " " + (int)pos.y + " " + isVisible() + "\n" + c ;
     }
-
+    */
 }

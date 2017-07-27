@@ -15,6 +15,7 @@ abstract public class Panel {
     boolean reversable;
     int[] state = {0,0,0,0};
     int cur_l = -1, cur_r = -1;
+    boolean isUp;
 
 
 
@@ -104,11 +105,7 @@ abstract public class Panel {
         return BitmapFactory.decodeResource(res, id);
     }
 
-    boolean between(double x, double a, double b) {
-        return x >= a && x < b;
-    }
-
-    abstract int getLevel(double val, boolean isUp);
+    abstract int getLevel(double val);
 
     private void clear() {
         for (int i = 0; i < 4; i++)
@@ -116,129 +113,23 @@ abstract public class Panel {
     }
 
     void setPanel(double[] info,  boolean isUp) {
-        double min_l = 100;
-        for (int i = 0; i < 4; i++) {
-            if (info[i] == -1) {
-                clear();
+        this.isUp = isUp;
+        double cur_dist = 1e9;
+        for (int i = 0; i < 4; ++i) {
+            info[i] = ((int)(info[i] * 10)) * 0.1;
+            if (info[i] > 0 && cur_dist > info[i]) {
+                cur_dist = info[i];
             }
-            if (info[i] == -2) {
-                state[i] = 0;
-            }
-            else {
-                state[i] = getLevel(info[i], isUp);
-                if(min_l > info[i]) {
-                    min_l = info[i];
-                }
-            }
+            state[i] = getLevel(info[i]);
         }
-        if (min_l == 100) {
-            cur_l = -1;
-            cur_r = -1;
+        if (cur_dist < 0.3) {
+            cur_dist = 0.0;
         }
-        else {
-            if (isUp) {
-                double MAX = 0.9;
-                if (min_l < 0) {
-                    min_l = 100;
-                }
-                if (min_l < MAX / 4.0) {
-                    cur_l = 0;
-                    double tmp_max = MAX / 4.0;
-                    if(tmp_max * 0.5 < min_l) {
-                        cur_r = 3;
-                    }
-                    else {
-                        cur_r = 0;
-                    }
-                }
-                else if (min_l < MAX / 2.0) {
-                    cur_l = 0;
-                    double tmp_max = MAX / 2.0;
-                    if (min_l > 0.75 * tmp_max) {
-                        cur_r = 5;
-                    }
-                    else {
-                        cur_r = 4;
-                    }
-                }
-                else if (MAX * 0.75 > min_l) {
-                    cur_l = 0;
-                    if (MAX / 2.0 + MAX / 8.0 < min_l) {
-                        cur_r = 7;
-                    }
-                    else {
-                        cur_r = 6;
-                    }
-                }
-                else if (min_l <= MAX){
-                    cur_l = 0;
-                    if (MAX * 7.0 / 8.0 < min_l) {
-                        cur_r = 9;
-                    }
-                    else {
-                        cur_r = 8;
-                    }
-                }
-                else {
-                    cur_l = -1;
-                    cur_r = -1;
-                }
-            }
-            else {
-                double MAX = 1.1;
-                if (min_l < 0) {
-                    min_l = 100;
-                }
-                if (min_l < MAX / 4.0)
-                {
-                    cur_l = 0;
-                    double tmp_max = MAX / 4.0;
-                    if(tmp_max * 0.75 < min_l) {
-                        cur_r = 5;
-                    }
-                    else if(tmp_max * 0.5 < min_l) {
-                        cur_r = 4;
-                    }
-                    else if(tmp_max * 0.25 < min_l) {
-                        cur_r = 3;
-                    }
-                    else {
-                        cur_r = 0;
-                    }
-                }
-                else if(min_l < MAX / 2.0) {
-                    cur_l = 0;
-                    double tmp_max = MAX / 2.0;
-                    if (min_l > 0.75 * tmp_max) {
-                        cur_r = 7;
-                    }
-                    else {
-                        cur_r = 6;
-                    }
-                }
-                else if(MAX * 0.75 > min_l) {
-                    cur_l = 0;
-                    if(MAX / 2.0 + MAX / 8.0 < min_l) {
-                        cur_r = 9;
-                    }
-                    else {
-                        cur_r = 8;
-                    }
-                }
-                else if (min_l <= MAX) {
-                    cur_l = 1;
-                    if (MAX * 7.0 / 8.0 < min_l) {
-                        cur_r = 1;
-                    }
-                    else {
-                        cur_r = 0;
-                    }
-                }
-                else {
-                    cur_l = -1;
-                    cur_r = -1;
-                }
-            }
+        cur_l = (int)cur_dist;
+        cur_r = ((int)(cur_dist * 10)) % 10;
+        if (cur_dist > (isUp ? 1.09 : 2.09)) {
+            clear();
+            cur_l = cur_r = -1;
         }
     }
 

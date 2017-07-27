@@ -68,127 +68,16 @@ public class Car {
     }
 
     void response(Brick b, boolean isUp, Canvas canvas) {
-        Paint p = new Paint();
-        p.setColor(Color.RED);
-        double MAX_PANEL_VAL = 0;
-        double L, R;
-        Point[] supp_point;
-        Line[] supp_lines;
-
-        //при любом значении isUp выполняются одинаковые действия, но для разных областей
-        if (isUp) {  //если верхний блок
-            b.refreshStates(lines_up);
-            MAX_PANEL_VAL = 0.9;
-            L = mid_lu;
-            R = R0_up;
-            supp_point = up_supp_point;
-            supp_lines = support_line_up;
-        }
-        else {
-            supp_point = down_supp_point;
-            b.refreshStates(lines_down);
-            MAX_PANEL_VAL = 1.1;
-            L = mid_ld;
-            R = R0_down;
-            supp_lines = support_line_down;
-        }
-
-        ArrayList<Integer>[] states = b.getStates(); // получаем номера вершин в зонах
-
-        //для каждой точки зоны находим ее расстояние до машины
-
-        double[] infoForPanel = {-2, -2, -2, -2};
-        for (int i = 0; i < 4; i++) {
-            if (!states[i].isEmpty()) {
-                double min_l = 100;
-                int j = 0;
-                boolean flagUp = false;
-                boolean flagDown = true;
-                for (Integer point_index: states[i]) {
-                    Point cur_point = b.points[point_index];
-                    Line cur_supp_line = supp_lines[i];
-                    Point intersectionPoint = cur_supp_line.intersectionPoint(new Line(cur_point, supp_point[i]));
-
-                    double l = new Line(intersectionPoint, cur_point).getL();
-                    if (isUp) {
-                        if (cur_supp_line.isPointUpper(cur_point)) {
-                            double x = MAX_PANEL_VAL * l / L;
-                            if (x < min_l) {
-                                min_l = x;
-                            }
-                        }
-                        else {
-                            flagUp = true;
-                        }
-                        j++;
-                    }
-                    else {
-                        if (cur_supp_line.isPointUnder(cur_point)) {
-                            double x = MAX_PANEL_VAL * l / L;
-                            if (x < min_l) {
-                                min_l = x;
-                            }
-                        }
-                        else {
-                            flagDown = true;
-                            if(Config.DEBUG_MOD) {
-                                canvas.drawText("Y_LINE: " + cur_supp_line.getY(cur_point.x) + " cur_point " + cur_point + " BOOLEAN " + ((cur_supp_line.getY(cur_point.x) <= cur_point.y) == supp_lines[i].isPointUnder(cur_point)), 0, 170 + 10 * j, new Paint());
-                            }
-                        }
-                        j++;
-                    }
-                }
-                String minimal = "NaN";
-                if (isUp) {
-                    if (!flagUp) {
-                        if(min_l <= MAX_PANEL_VAL * 1.05) {
-                            minimal = String.format("%.2f", min_l);
-                        }
-                        else {
-                            min_l = -1;
-                        }
-                    }
-                    else min_l = -1;
-                }
-                else {
-                    boolean b1 = false;
-                    for (Integer k: states[i]) {
-                        if (supp_lines[i].isPointUpper(b.points[k])) {
-                            b1 = true;
-                        }
-                    }
-                    if (!b1) {
-                        if (min_l <= 1.05 * MAX_PANEL_VAL) {
-                            minimal = min_l + "";
-                        }
-                        else {
-                            min_l = -1;
-                        }
-                    }
-                    else min_l = -1;
-                }
-                infoForPanel[i] = min_l;
-                if (Config.DEBUG_MOD) {
-                    String inf = "";
-                    for (int f = 0; f < 4; f++) {
-                        inf += infoForPanel[f];
-                    }
-                    canvas.drawText("For zone " + (1 + i) + " min is " + infoForPanel, 0, 60 + 10 * i, p);
-                }
-                //infoForPanel.add(new Point(i, min_l ));
-            }
-            else infoForPanel[i] = -2;
-        }
-        if (Config.DEBUG_MOD) {
-            String inf = "";
-            for (int f = 0; f < 4; f++) {
-                inf += "<" + infoForPanel[f] + "> ";
-            }
-            canvas.drawText(inf, 0, 120, p);
+        b.refreshStates(isUp ? lines_up : lines_down);
+        double[] infoForPanel = new double[4];
+        Point[] sensors = isUp ? top_bumper : down_bumper;
+        double scale = isUp ? 1.0 / (sensors[1].sum(texture.pos).y - upper_net.pos.y) :
+                2.0 / (lower_net.pos.y + lower_net.h - sensors[1].sum(texture.pos).y);
+        for (int i = 0; i < 4; ++i) {
+            infoForPanel[i] = b.states[i] ? sensors[i].sum(texture.pos).dist(b) * scale + 0.1 : -2;
         }
         this.panel.setPanel(infoForPanel, isUp);
     }
-
 
     public Point getPos(){
         return texture.pos;
@@ -296,12 +185,6 @@ public class Car {
         return lower_dots;
     }
 
-    void drawCircle(Point center, Canvas c, int color) {
-        Paint p = new Paint();
-        p.setColor(color);
-        c.drawCircle((float)center.x, (float)center.y, 4, p);
-    }
-
     void draw(Canvas canvas) {
 
         Paint paint = new Paint();
@@ -323,30 +206,5 @@ public class Car {
             panel.switchReverse();
         }
         panel.draw(canvas);
-
-        if (Config.DEBUG_MOD) {
-            /*
-            for (int i = 0; i < 4; i++) {
-                for (int j = 0; j < 5; j++) {
-                    Point tmp = upper_dots[i][j];
-                    canvas.drawCircle((float) (texture.pos.x + tmp.x), (float) (texture.pos.y + tmp.y), 4, paint);
-                }
-            }
-            for (int i = 0; i < 5; i++) {
-                for (int j = 0; j < 5; j++) {
-                    Point tmp = lower_dots[i][j];
-                    canvas.drawCircle((float) (texture.pos.x + tmp.x), (float) (texture.pos.y + tmp.y), 4, paint);
-                }
-            }
-            */
-            for (int i = 0; i < 4; i++) {
-                drawCircle(top_bumper[i].sum(texture.pos), canvas, Color.YELLOW);
-                drawCircle(down_bumper[i].sum(texture.pos), canvas, Color.YELLOW);
-            }
-            for (int i = 0; i < 4; i++) {
-                support_line_down[i].draw(canvas);
-                support_line_up[i].draw(canvas);
-            }
-        }
     }
 }

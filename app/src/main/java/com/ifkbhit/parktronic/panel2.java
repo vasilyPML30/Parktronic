@@ -13,7 +13,6 @@ public class panel2 extends Panel {
     Texture[][] backTextures = new Texture[4][4];
     Texture[][] frontTextures = new Texture[4][3];
     int indication;
-    boolean isUp;
 
     panel2(int cnvW, int cnvH, Resources res) {
         this.res = res;
@@ -205,34 +204,21 @@ public class panel2 extends Panel {
         }
     }
 
-    int getLevel(double val, boolean isUp) {
-        this.isUp = isUp;
-        if (isUp) {
-            double MAX = 0.9;
-            if (between(val, 0, MAX * 0.333)) {
-                return 3;
-            }
-            if(between(val, MAX * 0.333, MAX * 0.666)) {
-                return 2;
-            }
-            if(between(val, MAX * 0.666, MAX)) {
-                return 1;
-            }
+    int getLevel(double val) {
+        if (val < 0) {
+            return 0;
         }
-        else {
-            double MAX = 1.1;
-            if (between(val, 0, MAX / 4.0)) {
-                return 4;
-            }
-            if (between(val, MAX / 4, MAX / 2)) {
-                return 3;
-            }
-            if (between(val, MAX / 2, MAX * 0.75)) {
-                return 2;
-            }
-            if (between(val, MAX * 0.75, MAX)) {
-                return 1;
-            }
+        if (val <= (isUp ? -10 : 0.41)) {
+            return 4;
+        }
+        if (val <= (isUp ? 0.51 : 0.71)) {
+            return 3;
+        }
+        if (val <= (isUp ? 0.71 : 0.91)) {
+            return 2;
+        }
+        if (val <= (isUp ? 0.91 : 1.31)) {
+            return 1;
         }
         return 0;
     }
