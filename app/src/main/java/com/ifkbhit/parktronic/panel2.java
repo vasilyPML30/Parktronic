@@ -18,12 +18,12 @@ public class panel2 extends Panel {
         this.res = res;
         reversable = false;
         Bitmap panelBitmap = BitmapFactory.decodeResource(res, R.drawable.panel_1);
-        double k = (1.0 - Config.CAR_Y_OFFSET_K) * 360.0 / Config.CAR_H;
+        double k = (1.0 - Config.CAR_Y_OFFSET_K) * 393.0 / Config.CAR_H;
         double need_h = cnvH * k;
         h = need_h;
         w = panelBitmap.getWidth() * h / panelBitmap.getHeight();
         panel = new Texture(Bitmap.createScaledBitmap(panelBitmap, (int) w, (int) h, false));
-        panel.setPos(new Point((cnvW - panel.img.getWidth()) / 2.0, cnvH * 0.45));
+        panel.setPos(new Point((cnvW - panel.img.getWidth()) / 2.0, cnvH * 0.425));
 
         Bitmap[] numBitmaps = new Bitmap[11];
 
@@ -135,10 +135,10 @@ public class panel2 extends Panel {
         double rh = lh, rw = lw;
 
         l_panel = new Texture(Bitmap.createScaledBitmap(panelBitmap, (int) (lw * 1.3), (int) (lh * 1.3), false));
-        l_panel.setPos(new Point(-lw * 1.3, cnvH * (Config.CAR_Y_OFFSET_K / 2) + ((1 - Config.CAR_Y_OFFSET_K) * cnvH) / 2.0 - panel.img.getWidth() / 16.0 - lh * 0.3 / 2));
+        l_panel.setPos(new Point(-lw * 0.75 * 1.3, cnvH * (Config.CAR_Y_OFFSET_K / 2) + ((1 - Config.CAR_Y_OFFSET_K) * cnvH) / 2.0 - l_panel.img.getWidth() * 1.3 / 16.0));
 
         r_panel = new Texture(l_panel.img);
-        r_panel.setPos(new Point(cnvW, cnvH * (Config.CAR_Y_OFFSET_K / 2) + ((1 - Config.CAR_Y_OFFSET_K) * cnvH) / 2.0 - panel.img.getWidth() / 16.0 - rh * 0.3 / 2));
+        r_panel.setPos(new Point(cnvW - lw * 0.25 * 1.3, cnvH * (Config.CAR_Y_OFFSET_K / 2) + ((1 - Config.CAR_Y_OFFSET_K) * cnvH) / 2.0 - r_panel.img.getWidth() * 1.3 / 16.0));
 
     }
 
@@ -194,14 +194,10 @@ public class panel2 extends Panel {
         drawNum(canvas);
         drawIndication(canvas);
         drawBars(canvas);
-        if (panel.xPos > 0.1) {
-            l_panel.xPos = panel.xPos;
-            l_panel.draw(canvas);
-        }
-        else if (panel.xPos < -0.1) {
-            r_panel.xPos = panel.xPos;
-            r_panel.draw(canvas);
-        }
+        l_panel.xPos = panel.xPos;
+        l_panel.draw(canvas);
+        r_panel.xPos = panel.xPos;
+        r_panel.draw(canvas);
     }
 
     int getLevel(double val) {

@@ -152,7 +152,7 @@ public class MainActivity extends Activity {
                     }
                     brick1.setCenterPos(animPoint);
                 }
-                car.response(brick1, true, canvas);
+                car.response(brick1, true);
                 car.curTex = 1;
             }
             if (brick2.isVisible()) {
@@ -169,7 +169,7 @@ public class MainActivity extends Activity {
                     }
                     brick2.setCenterPos(animPoint);
                 }
-                car.response(brick2, false, canvas);
+                car.response(brick2, false);
             }
             brick1.draw(canvas);
             brick2.draw(canvas);

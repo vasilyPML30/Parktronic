@@ -49,6 +49,7 @@ public class Car {
 
     void mvPanel() {
         double xPos = panel.panel.xPos;
+        double tmpPos = (xPos < 0 ? panel.r_panel : panel.l_panel).pos.x + xPos;
         if (Math.abs(xPos) > W * 3 / 10) {
             cur_panel = (cur_panel + 1) % 2;
             if (cur_panel == 0) {
@@ -57,17 +58,12 @@ public class Car {
             if (cur_panel == 1) {
                 panel = new panel2(W, H, res);
             }
-            if (xPos < 0) {
-                panel.panel.xPos = (W + panel.panel.w) / 2 + xPos;
-            }
-            else {
-                panel.panel.xPos = -(W + panel.panel.w) / 2 + xPos;
-            }
+            panel.panel.xPos = tmpPos - panel.panel.pos.x;
         }
         panel.setMoveFlag(true);
     }
 
-    void response(Brick b, boolean isUp, Canvas canvas) {
+    void response(Brick b, boolean isUp) {
         b.refreshStates(isUp ? lines_up : lines_down);
         double[] infoForPanel = new double[4];
         Point[] sensors = isUp ? top_bumper : down_bumper;
@@ -159,7 +155,7 @@ public class Car {
                 support_line_down[i] = new Line(new Point(x, tmp1.getY(x)), lower_dots[4][i + 1].sum(t.pos));
 
                 Line tmp2 = new Line(upper_dots[3][i].sum(t.pos), upper_dots[3][i + 1].sum(t.pos));
-                support_line_up[i] =new Line(upper_dots[3][i+1].sum(t.pos),new Point(x, tmp2.getY(x)) );
+                support_line_up[i] = new Line(upper_dots[3][i+1].sum(t.pos),new Point(x, tmp2.getY(x)) );
 
             }
             else if (i == 3) {
