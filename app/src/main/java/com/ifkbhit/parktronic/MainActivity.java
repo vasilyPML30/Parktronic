@@ -9,6 +9,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -41,10 +43,21 @@ public class MainActivity extends Activity {
             H = 0;
         }
 
-        void init(Canvas canvas) {
+        int getSBPH() {
+            DisplayMetrics usable = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(usable);
+            DisplayMetrics real = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getRealMetrics(real);
+            return Math.abs(usable.heightPixels - real.heightPixels);
+        }
+
+        void init() {
             firstStep = false;
             Rect windowRect = new Rect();
             getWindow().getDecorView().getWindowVisibleDisplayFrame(windowRect);
+            windowRect = new Rect(windowRect.left, windowRect.top,
+                                  windowRect.right, windowRect.bottom - getSBPH());
+            Log.d("window", windowRect.flattenToString());
             H = windowRect.height();
             W = windowRect.width();
             minYTape = H * 9f / 22f;
@@ -122,7 +135,7 @@ public class MainActivity extends Activity {
         @Override
         protected void onDraw(Canvas canvas) {
             if (firstStep) {
-                init(canvas);
+                init();
             }
 
             car.draw(canvas);

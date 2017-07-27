@@ -9,7 +9,7 @@ import java.math.RoundingMode;
 
 public class Config {
 
-    public static boolean DEBUG_MOD = true;
+    public static boolean DEBUG_MOD = false;
     public static final double CAR_W = 612, CAR_H = 1296;
     public static final double PANEL_W = 600, PANEL_H = 178;
     public static final double CAR_Y_OFFSET_K = 0.1;
