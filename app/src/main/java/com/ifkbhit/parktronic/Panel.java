@@ -85,7 +85,7 @@ abstract public class Panel {
         }
 
         double period = 4.0;
-        double tm = 2.0;
+        double tm = 1.3;
         double cft = 0.001 / tm * period;
         double integral = 4.0;
 
