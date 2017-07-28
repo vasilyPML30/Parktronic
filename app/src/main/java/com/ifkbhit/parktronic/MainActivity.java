@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -24,7 +25,7 @@ public class MainActivity extends Activity {
     }
 
     class myGraphics extends View {
-        boolean             firstStep = true;
+        private boolean     firstStep = true;
         private int         W, H;                            //размеры canvas
         private Brick       brick1, brick2, brick3, brick4;  //сами блоки  и вспомогательные
         private double      minYTape, maxYTape;              //лента смены монитора
@@ -35,7 +36,9 @@ public class MainActivity extends Activity {
         private Button      invert, info, tap1, tap2;
         private Button[]    demo;
         private int         demo_state = 0;
-        Demo                demo_act, demo_act_down, demo_act_c, demo_act_down_c;
+        private Demo        demo_act, demo_act_down, demo_act_c, demo_act_down_c;
+        private Tutorial[]  tutorials;
+        private int cur_tutorial = 0;
 
         myGraphics(Context context){
             super(context);
@@ -130,6 +133,11 @@ public class MainActivity extends Activity {
             tap1 = new Button(R.drawable.finger, getResources(), tw, th, pos1);
             tap2 = new Button(R.drawable.finger, getResources(), tw, th, pos2);
 
+            /* Туториалы */
+
+            tutorials = new Tutorial[1];
+            Text txt1 = new Text("A big black bug bit a big black bear but a big black bear bit a big black bug", 50, Color.rgb(0, 255, 255), new Rect(0, (int)(H * 0.4), W, (int)(H * 0.6)), Color.rgb(100, 100, 100));
+            tutorials[0] = new Tutorial(txt1);
         }
 
         @Override
@@ -137,8 +145,6 @@ public class MainActivity extends Activity {
             if (firstStep) {
                 init();
             }
-
-            car.draw(canvas);
             if (brick1.isVisible()) {
                 if (demo_state != 0) {
                     Point animPoint = null;
@@ -171,9 +177,10 @@ public class MainActivity extends Activity {
                 }
                 car.response(brick2, false);
             }
+            invalidate();
+            car.draw(canvas);
             brick1.draw(canvas);
             brick2.draw(canvas);
-            invalidate();
             if (car.isPanelReversable()) {
                 invert.draw(canvas);
             }
@@ -184,6 +191,7 @@ public class MainActivity extends Activity {
                 tap1.animatedDraw(canvas, speed);
             if (!brick2.isVisible())
                 tap2.animatedDraw(canvas, speed);
+            tutorials[cur_tutorial].draw(canvas);
         }
 
         @Override
