@@ -15,16 +15,18 @@ public class Text {
     ArrayList<Integer> lines;
     float[] lens;
     Point txt_pos;
-    Rect bckgnd;
+    Rect bckgnd, hdr;
     Paint pnt;
-    int txt_color, bckgnd_color;
+    int txt_color, bckgnd_color, hdr_color;
 
-    Text(String text, float text_size, int text_color, Rect background, int background_color) {
+    Text(String text, float text_size, int text_color, Rect background, int background_color, int header_color) {
         txt = text;
         pnt = new Paint();
         pnt.setTextSize(text_size);
         bckgnd = background;
+        hdr = new Rect(bckgnd.left, bckgnd.top - (int)text_size, bckgnd.right, bckgnd.bottom);
         bckgnd_color = background_color;
+        hdr_color = header_color;
         txt_color = text_color;
         txt_pos = new Point(bckgnd.left, bckgnd.top + text_size);
         lines = new ArrayList<Integer>();
@@ -48,11 +50,13 @@ public class Text {
     }
 
     void draw(Canvas canvas) {
+        pnt.setColor(hdr_color);
+        canvas.drawRect(hdr, pnt);
         pnt.setColor(bckgnd_color);
         canvas.drawRect(bckgnd, pnt);
         pnt.setColor(txt_color);
         int pos = 0;
-        float y_pos = (float)txt_pos.y;
+        float y_pos = (float)(txt_pos.y + (bckgnd.height() - pnt.getTextSize() * (lines.size() * 1.2)) / 2);
         int cur_line = 0;
         for (int brk : lines) {
             canvas.drawText(txt, pos, brk, (float)txt_pos.x + lens[cur_line++] / 2, y_pos, pnt);

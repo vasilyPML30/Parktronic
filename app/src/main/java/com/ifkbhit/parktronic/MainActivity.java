@@ -11,16 +11,18 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 public class MainActivity extends Activity {
 
+    myGraphics view;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(new myGraphics(this));
+        view = new myGraphics(this);
+        setContentView(view);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
@@ -33,14 +35,14 @@ public class MainActivity extends Activity {
         private boolean[]   onBrickPressed = {false, false}; //информация о блоках
         private Point       movingPoint;                     //точка для передвижения блоков
         private Car         car;
-        private Button      invert, info, tap1, tap2;
+        private Button      invert, info, tap1, tap2, help, close;
         private Button[]    demo;
         private int         demo_state = 0;
         private Demo        demo_act, demo_act_down, demo_act_c, demo_act_down_c;
         private Tutorial[]  tutorials;
-        private int cur_tutorial = 0;
+        int                 cur_tutorial = -1;
 
-        myGraphics(Context context){
+        myGraphics(Context context) {
             super(context);
             W = 0;
             H = 0;
@@ -60,7 +62,6 @@ public class MainActivity extends Activity {
             getWindow().getDecorView().getWindowVisibleDisplayFrame(windowRect);
             windowRect = new Rect(windowRect.left, windowRect.top,
                                   windowRect.right, windowRect.bottom - getSBPH());
-            Log.d("window", windowRect.flattenToString());
             H = windowRect.height();
             W = windowRect.width();
             minYTape = H * 9f / 22f;
@@ -109,7 +110,10 @@ public class MainActivity extends Activity {
                     new Button(R.drawable.button_demo_2, getResources(), windowRect, 0.15, 0.37, 5),
                     new Button(R.drawable.button_manual, getResources(), windowRect, 0.15, 0.37, 5)
             };
+
             info = new Button(R.drawable.info, getResources(), windowRect, -1, -1, 5);
+            help = new Button(R.drawable.help, getResources(), windowRect, -2, -1, 5);
+            close = new Button(R.drawable.close, getResources(), windowRect, 0.9, 0.055, 8);
 
             /* Демо */
 
@@ -136,8 +140,15 @@ public class MainActivity extends Activity {
             /* Туториалы */
 
             tutorials = new Tutorial[1];
-            Text txt1 = new Text("A big black bug bit a big black bear but a big black bear bit a big black bug", 50, Color.rgb(0, 255, 255), new Rect(0, (int)(H * 0.4), W, (int)(H * 0.6)), Color.rgb(100, 100, 100));
-            tutorials[0] = new Tutorial(txt1);
+            Text txt1 = new Text("Нажмите на кнопку \"i\" для информации о парковочной системе.",
+                    (int)(H * 0.04), Color.BLACK,
+                    new Rect(W / 9, (int)(H * 0.4), W * 8 / 9, (int)(H * 0.6)),
+                    Color.rgb(240, 240, 240), Color.rgb(255, 255, 0));
+            Bitmap arrow_b = BitmapFactory.decodeResource(getResources(), R.drawable.arrow);
+            arrow_b = Bitmap.createScaledBitmap(arrow_b, W / 2, (int)info.texture.h, false);
+            Texture arrow_t = new Texture(arrow_b, new Point(info.texture.pos.x + info.texture.w, 0), 1.0);
+            arrow_t.rotate(180);
+            tutorials[0] = new Tutorial(txt1, arrow_t);
         }
 
         @Override
@@ -186,12 +197,20 @@ public class MainActivity extends Activity {
             }
             info.draw(canvas);
             demo[demo_state].draw(canvas);
-            double speed = 8;
-            if (!brick1.isVisible())
-                tap1.animatedDraw(canvas, speed);
-            if (!brick2.isVisible())
-                tap2.animatedDraw(canvas, speed);
-            tutorials[cur_tutorial].draw(canvas);
+            if (cur_tutorial < 0) {
+                help.draw(canvas);
+                double speed = 8;
+                if (!brick1.isVisible())
+                    tap1.animatedDraw(canvas, speed);
+                if (!brick2.isVisible())
+                    tap2.animatedDraw(canvas, speed);
+            }
+            else {
+                tutorials[cur_tutorial].draw(canvas);
+                close.draw(canvas);
+                if (cur_tutorial == 0)
+                    info.draw(canvas);
+            }
         }
 
         @Override
@@ -208,13 +227,25 @@ public class MainActivity extends Activity {
                     movingPoint = new Point(event);
 
                     if (ey >= minYTape && ey <= maxYTape && car.isPanelAvailable()) { //если нажали на ленту, то запомниаем это
-                        onTape = true;
+                        if (cur_tutorial < 0)
+                            onTape = true;
                     }
                     else {
                         if (info.onButtonTap(event)) {
                             Intent infoIntent = new Intent(getApplicationContext(), com.ifkbhit.parktronic.ActivityInfo.class);
                             infoIntent.putExtra("sysType", car.cur_panel);
-                            startActivity(infoIntent);
+                            startActivityForResult(infoIntent, 0);
+                            return true;
+                        }
+                        if (cur_tutorial < 0 && help.onButtonTap(event)) {
+                            cur_tutorial = 0;
+                            return true;
+                        }
+                        if (cur_tutorial >= 0 && close.onButtonTap(event)) {
+                            cur_tutorial = -1;
+                            return true;
+                        }
+                        if (cur_tutorial == 0) {
                             return true;
                         }
                         if (invert.onButtonTap(event) && car.isPanelAvailable() && car.isPanelReversable()) {
@@ -249,13 +280,12 @@ public class MainActivity extends Activity {
                                 }
                             }
                             else if (ey < H * 11 / 40.0 || ey > H * 29 / 40.0) {
-                                boolean tmp = false;
                                 double first_floor = H / 2.0 * 0.75;
                                 double sec_floor = (5 / 8.0) * H;
-                                if (ey < first_floor && !tmp) {
+                                if (ey < first_floor) {
                                     brick1.setVisible(true);
                                 }
-                                if (event.getY() > sec_floor && !tmp) {
+                                if (event.getY() > sec_floor) {
                                     brick2.setVisible(true);
                                 }
                             }
@@ -305,6 +335,14 @@ public class MainActivity extends Activity {
                     break;
             }
             return true;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (view.cur_tutorial == 0) {
+            view.cur_tutorial = -1;
         }
     }
 }

@@ -7,14 +7,18 @@ import android.graphics.Canvas;
  */
 
 public class Tutorial {
-    Text text;
 
-    Tutorial(Text text) {
+    Text text;
+    Texture arrow;
+
+    Tutorial(Text text, Texture arrow) {
         this.text = text;
+        this.arrow = arrow;
     }
 
     void draw(Canvas canvas) {
         canvas.drawARGB(200, 255, 255, 255);
         text.draw(canvas);
+        arrow.draw(canvas);
     }
 }

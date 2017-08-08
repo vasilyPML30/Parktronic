@@ -14,6 +14,7 @@ public class Texture {
     public double k;
     public double w, h;
     public double xPos = 0;
+    public double angle = 0;
 
     public Texture(Bitmap b) {
         img = b;
@@ -37,11 +38,17 @@ public class Texture {
     }
 
     void draw(Canvas canvas) {
-        canvas.drawBitmap(img, (float)(pos.x + xPos), (float)pos.y, new Paint());
+        canvas.save();
+            canvas.rotate((float)-angle, (float)getCenter().x, (float)getCenter().y);
+            canvas.drawBitmap(img, (float)(pos.x + xPos), (float)pos.y, new Paint());
+        canvas.restore();
     }
 
     void draw(Canvas canvas, Paint p) {
-        canvas.drawBitmap(img, (float)(pos.x + xPos), (float)pos.y, p);
+        canvas.save();
+            canvas.rotate((float)-angle, (float)getCenter().x, (float)getCenter().y);
+            canvas.drawBitmap(img, (float)(pos.x + xPos), (float)pos.y, p);
+        canvas.restore();
     }
 
     public void setScaled(double k) {
@@ -53,7 +60,7 @@ public class Texture {
         pos.sum1(new Point(-x, -y));
     }
 
-    public void reverse() {
-        img = Config.reverseBitmap(img);
+    public void rotate(double angle) {
+        this.angle = angle;
     }
 }

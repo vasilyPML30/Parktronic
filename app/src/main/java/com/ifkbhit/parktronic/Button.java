@@ -13,8 +13,7 @@ import android.view.MotionEvent;
  */
 
 public class Button {
-    private Texture texture;
-    private Point startPos;
+    Texture texture;
     Brick touchChecker;
 
     public Button(int textureId, Resources res, Rect windowRect, double kForOx, double kForOy, double kForSize) {
@@ -23,7 +22,16 @@ public class Button {
         tmp = Bitmap.createScaledBitmap(tmp, (int) ((double)windowRect.width() / kForSize), (int)((double)windowRect.width() / kForSize), true);
         Point pos = new Point(-tmp.getWidth() / 2 + windowRect.width() * kForOx, -tmp.getHeight() / 2.0 + windowRect.height() * kForOy);
         if (kForOx == -1) {
-            pos = new Point();
+            pos.x = 0;
+        }
+        if (kForOy == -1) {
+            pos.y = 0;
+        }
+        if (kForOx == -2) {
+            pos.x = windowRect.width() - tmp.getWidth();
+        }
+        if (kForOy == -2) {
+            pos.y = windowRect.height() - tmp.getHeight();
         }
         texture = new Texture(tmp, pos, 0);
         touchChecker = new Brick(texture.img.getWidth(), texture.img.getHeight(), pos);
@@ -33,7 +41,6 @@ public class Button {
         Bitmap tmp = BitmapFactory.decodeResource(res, textureId);
         tmp = Bitmap.createScaledBitmap(tmp, w, h, true);
         texture = new Texture(tmp, pos, 0);
-        startPos = pos;
         touchChecker = new Brick(texture.img.getWidth(), texture.img.getHeight(), pos);
     }
 
