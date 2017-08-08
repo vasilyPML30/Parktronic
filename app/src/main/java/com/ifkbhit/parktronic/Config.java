@@ -15,6 +15,7 @@ public class Config {
     public static final double CAR_Y_OFFSET_K = 0.1;
     public static double CURRENT_CAR_K = 1;
     private static int i = 0;
+    public static int BRICK_L;
 
     public static final Point[][] UPPER_POINTS = {
         {new Point(35, 102), new Point(159, 28), new Point(299, 6), new Point(438, 27), new Point(563, 102)},

@@ -59,7 +59,7 @@ public class Text {
         float y_pos = (float)(txt_pos.y + (bckgnd.height() - pnt.getTextSize() * (lines.size() * 1.2)) / 2);
         int cur_line = 0;
         for (int brk : lines) {
-            canvas.drawText(txt, pos, brk, (float)txt_pos.x + lens[cur_line++] / 2, y_pos, pnt);
+            canvas.drawText(txt, pos, brk, (float)txt_pos.x + pnt.getTextSize() / 2, y_pos, pnt);
             pos = brk;
             y_pos += pnt.getTextSize() * 1.2;
         }

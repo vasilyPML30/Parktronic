@@ -132,6 +132,7 @@ public class panel1 extends Panel {
         }
     }
 
+    @Override
     void draw(Canvas canvas) {
         canvas.save();
         canvas.rotate(panelAngle, (float)panel.getCenter().x, (float)panel.getCenter().y);
@@ -150,10 +151,6 @@ public class panel1 extends Panel {
             drawBars(canvas);
         }
         canvas.restore();
-        l_panel.xPos = panel.xPos;
-        l_panel.draw(canvas);
-        r_panel.xPos = panel.xPos;
-        r_panel.draw(canvas);
     }
 
     int getLevel(double val) {

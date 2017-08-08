@@ -12,7 +12,7 @@ public class Car {
 
     private Resources   res;
     private int         W, H;
-    private Texture     texture, upper_net, lower_net;                                           //текстура машины
+    public  Texture     texture, upper_net, lower_net;                                           //текстура машины
     private Line[]      lines_up = new Line[5], lines_down = new Line[5];  //опорные линии
     private Panel       panel = null;                             //панель-индикатор
     private Point[][]   upper_dots = new Point[4][5];                      //верхние опорные точки
@@ -181,6 +181,13 @@ public class Car {
         return lower_dots;
     }
 
+    void drawPanel(Canvas canvas) {
+        panel.draw(canvas);
+    }
+    void drawNextPanel(Canvas canvas) {
+        panel.drawNext(canvas);
+    }
+
     void draw(Canvas canvas) {
 
         Paint paint = new Paint();
@@ -201,6 +208,7 @@ public class Car {
             panel.setInvalidFlag(false);
             panel.switchReverse();
         }
-        panel.draw(canvas);
+        drawPanel(canvas);
+        drawNextPanel(canvas);
     }
 }

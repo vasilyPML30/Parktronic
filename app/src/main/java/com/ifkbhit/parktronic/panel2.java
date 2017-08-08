@@ -189,15 +189,13 @@ public class panel2 extends Panel {
         }
     }
 
+
+    @Override
     void draw(Canvas canvas) {
         panel.draw(canvas);
         drawNum(canvas);
         drawIndication(canvas);
         drawBars(canvas);
-        l_panel.xPos = panel.xPos;
-        l_panel.draw(canvas);
-        r_panel.xPos = panel.xPos;
-        r_panel.draw(canvas);
     }
 
     int getLevel(double val) {

@@ -7,7 +7,6 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -39,8 +38,9 @@ public class MainActivity extends Activity {
         private Button[]    demo;
         private int         demo_state = 0;
         private Demo        demo_act, demo_act_down, demo_act_c, demo_act_down_c;
-        private Tutorial[]  tutorials;
-        int                 cur_tutorial = -1;
+        private Tutorial    tutorial;
+        int                 cur_tutorial = -1, move_dist = 0;
+        private MyTime      timer;
 
         myGraphics(Context context) {
             super(context);
@@ -58,6 +58,7 @@ public class MainActivity extends Activity {
 
         void init() {
             firstStep = false;
+            timer = null;
             Rect windowRect = new Rect();
             getWindow().getDecorView().getWindowVisibleDisplayFrame(windowRect);
             windowRect = new Rect(windowRect.left, windowRect.top,
@@ -88,6 +89,7 @@ public class MainActivity extends Activity {
 
 
             double brick_l = cur_car_w / 10;
+            Config.BRICK_L = (int)brick_l;
 
             brick1 = new Brick(brick_l, brick_l, new Point(W / 2 - brick_l / 2, H / 8));
             brick1.setBorder(new Point(0, 0), new Point(W, H / 2));
@@ -139,16 +141,7 @@ public class MainActivity extends Activity {
 
             /* Туториалы */
 
-            tutorials = new Tutorial[1];
-            Text txt1 = new Text("Нажмите на кнопку \"i\" для информации о парковочной системе.",
-                    (int)(H * 0.04), Color.BLACK,
-                    new Rect(W / 9, (int)(H * 0.4), W * 8 / 9, (int)(H * 0.6)),
-                    Color.rgb(240, 240, 240), Color.rgb(255, 255, 0));
-            Bitmap arrow_b = BitmapFactory.decodeResource(getResources(), R.drawable.arrow);
-            arrow_b = Bitmap.createScaledBitmap(arrow_b, W / 2, (int)info.texture.h, false);
-            Texture arrow_t = new Texture(arrow_b, new Point(info.texture.pos.x + info.texture.w, 0), 1.0);
-            arrow_t.rotate(180);
-            tutorials[0] = new Tutorial(txt1, arrow_t);
+            tutorial = new Tutorial(windowRect);
         }
 
         @Override
@@ -156,6 +149,14 @@ public class MainActivity extends Activity {
             if (firstStep) {
                 init();
             }
+            if (timer != null) {
+                timer.Refresh();
+                if (cur_tutorial == 2 && timer.FromStartS > 3.0) {
+                    ++cur_tutorial;
+                    timer = null;
+                }
+            }
+
             if (brick1.isVisible()) {
                 if (demo_state != 0) {
                     Point animPoint = null;
@@ -199,17 +200,25 @@ public class MainActivity extends Activity {
             demo[demo_state].draw(canvas);
             if (cur_tutorial < 0) {
                 help.draw(canvas);
-                double speed = 8;
                 if (!brick1.isVisible())
-                    tap1.animatedDraw(canvas, speed);
+                    tap1.animatedDraw(canvas, 8);
                 if (!brick2.isVisible())
-                    tap2.animatedDraw(canvas, speed);
+                    tap2.animatedDraw(canvas, 8);
             }
             else {
-                tutorials[cur_tutorial].draw(canvas);
+                canvas.drawARGB(200, 255, 255, 255);
+                switch (cur_tutorial) {
+                    case 0:
+                        tap2.animatedDraw(canvas, 8);
+                        break;
+                    case 1:
+                    case 2:
+                        car.lower_net.draw(canvas);
+                        car.drawPanel(canvas);
+                        brick2.draw(canvas);
+                }
+                tutorial.draw(canvas, cur_tutorial);
                 close.draw(canvas);
-                if (cur_tutorial == 0)
-                    info.draw(canvas);
             }
         }
 
@@ -218,6 +227,7 @@ public class MainActivity extends Activity {
             if (firstStep) {
                 return true;
             }
+
             double ex = event.getX();
             double ey = event.getY();
 
@@ -227,42 +237,47 @@ public class MainActivity extends Activity {
                     movingPoint = new Point(event);
 
                     if (ey >= minYTape && ey <= maxYTape && car.isPanelAvailable()) { //если нажали на ленту, то запомниаем это
-                        if (cur_tutorial < 0)
+                        if (cur_tutorial < 0 || cur_tutorial == 2){
                             onTape = true;
+                        }
                     }
                     else {
-                        if (info.onButtonTap(event)) {
+                        if ((cur_tutorial < 0 || cur_tutorial == 5) &&
+                            info.onButtonTap(event)) {
                             Intent infoIntent = new Intent(getApplicationContext(), com.ifkbhit.parktronic.ActivityInfo.class);
                             infoIntent.putExtra("sysType", car.cur_panel);
                             startActivityForResult(infoIntent, 0);
                             return true;
                         }
-                        if (cur_tutorial < 0 && help.onButtonTap(event)) {
+                        if (cur_tutorial < 0 &&
+                            help.onButtonTap(event)) {
+                            brick1.setVisible(false);
+                            brick2.setVisible(false);
                             cur_tutorial = 0;
                             return true;
                         }
-                        if (cur_tutorial >= 0 && close.onButtonTap(event)) {
+                        if (cur_tutorial >= 0
+                            && close.onButtonTap(event)) {
                             cur_tutorial = -1;
                             return true;
                         }
-                        if (cur_tutorial == 0) {
-                            return true;
-                        }
-                        if (invert.onButtonTap(event) && car.isPanelAvailable() && car.isPanelReversable()) {
+                        if (cur_tutorial < 0 &&
+                            invert.onButtonTap(event) && car.isPanelAvailable() && car.isPanelReversable()) {
                             car.revertPanel();
                             return true;
                         }
-                        if (demo[demo_state].onButtonTap(event)) {
+                        if ((cur_tutorial < 0 || cur_tutorial == 4) &&
+                            demo[demo_state].onButtonTap(event)) {
                             if (brick1.isVisible() || brick2.isVisible()) {
                                 demo_state = (demo_state + 1) % 3;
                             }
                             return true;
                         }
-
                         if (new Brick(1, 1, new Point(event)).checkWithLines(car.getSupportLineDown(), false) ||
                              new Brick(1, 1, new Point(event)).checkWithLines(car.getSupportLineUp(), true)) {
                             if (brick1.isVisible() || brick2.isVisible()) {
-                                if (brick1.isVisible() && ey > H / 2) {
+                                if ((cur_tutorial < 0 || cur_tutorial == 0) &&
+                                        brick1.isVisible() && ey > H / 2) {
                                     brick1.hide();
                                     brick2.setPos(new Point(ex - brick2.w / 2, ey - brick2.h / 2));
                                     brick4.setPos(new Point(ex - brick4.w / 2, ey - brick4.h / 2));
@@ -270,7 +285,8 @@ public class MainActivity extends Activity {
                                     brick2.show();
                                     return true;
                                 }
-                                else if (brick2.isVisible() && ey < H / 2) {
+                                else if (cur_tutorial < 0 &&
+                                        brick2.isVisible() && ey < H / 2) {
                                     brick2.hide();
                                     brick1.setPos(new Point(ex - brick1.w / 2, ey - brick1.h / 2));
                                     brick3.setPos(new Point(ex - brick3.w / 2, ey - brick3.h / 2));
@@ -279,7 +295,8 @@ public class MainActivity extends Activity {
                                     return true;
                                 }
                             }
-                            else if (ey < H * 11 / 40.0 || ey > H * 29 / 40.0) {
+                            else if ((cur_tutorial < 0 || cur_tutorial == 0) &&
+                                     ((cur_tutorial < 0 && ey < H * 11 / 40.0) || ey > H * 29 / 40.0)) {
                                 double first_floor = H / 2.0 * 0.75;
                                 double sec_floor = (5 / 8.0) * H;
                                 if (ey < first_floor) {
@@ -288,11 +305,22 @@ public class MainActivity extends Activity {
                                 if (event.getY() > sec_floor) {
                                     brick2.setVisible(true);
                                 }
+                                if (cur_tutorial == 0) {
+                                    ++cur_tutorial;
+                                    brick2.setPos(new Point((int)(W * 0.4) - brick2.w / 2, (int)(H * 0.88) - brick2.h / 2));
+                                    return true;
+                                }
                             }
-                            if (brick1.inBrick(event) || brick3.inBrick(event)) {
+                            if (cur_tutorial < 0 &&
+                                (brick1.inBrick(event) || brick3.inBrick(event))) {
                                 onBrickPressed[0] = true;
                             }
-                            if (brick2.inBrick(event) || brick4.inBrick(event)) {
+                            if ((cur_tutorial < 0 || cur_tutorial == 1 || cur_tutorial == 2) &&
+                                (brick2.inBrick(event) || brick4.inBrick(event))) {
+                                if (cur_tutorial == 1) {
+                                    ++cur_tutorial;
+                                    move_dist = 0;
+                                }
                                 onBrickPressed[1] = true;
                             }
                         }
@@ -309,6 +337,10 @@ public class MainActivity extends Activity {
                     }
 
                     if (onBrickPressed[1]) {
+                        move_dist += movingPoint.dist(new Point(event));
+                        if (move_dist > W / 3 && cur_tutorial == 2 && timer == null) {
+                            timer = new MyTime();
+                        }
                         brick2.Move(event, movingPoint, false);
                         brick4.setCenterPos(brick2.getCenter());
                         brick2.checkWithLines(car.getSupportLineDown(), false);
@@ -341,8 +373,8 @@ public class MainActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (view.cur_tutorial == 0) {
-            view.cur_tutorial = -1;
+        if (view.cur_tutorial == 5) {
+            view.cur_tutorial = 8;
         }
     }
 }
