@@ -127,7 +127,7 @@ abstract public class Panel {
         }
         cur_l = (int)cur_dist;
         cur_r = ((int)(cur_dist * 10)) % 10;
-        if (cur_dist > (isUp ? 1.09 : 2.09)) {
+        if (cur_dist > (isUp ? 0.99 : 2.09)) {
             clear();
             cur_l = cur_r = -1;
         }

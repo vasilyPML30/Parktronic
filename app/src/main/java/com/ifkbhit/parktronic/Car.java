@@ -70,7 +70,7 @@ public class Car {
         b.refreshStates(isUp ? lines_up : lines_down);
         double[] infoForPanel = new double[4];
         Point[] sensors = isUp ? top_bumper : down_bumper;
-        double scale = isUp ? 1.0 / (sensors[1].sum(texture.pos).y - upper_net.pos.y) :
+        double scale = isUp ? 0.9 / (sensors[1].sum(texture.pos).y - upper_net.pos.y) :
                 2.0 / (lower_net.pos.y + lower_net.h - sensors[1].sum(texture.pos).y);
         for (int i = 0; i < 4; ++i) {
             infoForPanel[i] = b.states[i] ? sensors[i].sum(texture.pos).dist(b) * scale + 0.1 : -2;
