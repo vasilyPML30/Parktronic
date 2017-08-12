@@ -3,6 +3,7 @@ package com.ifkbhit.parktronic;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,6 +22,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         view = new myGraphics(this);
+        view.setId(R.id.my_main);
         setContentView(view);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
@@ -142,6 +144,12 @@ public class MainActivity extends Activity {
             /* Туториалы */
 
             tutorial = new Tutorial(windowRect);
+            Config.tutorial = tutorial;
+            SharedPreferences pref = getPreferences(MODE_PRIVATE);
+            cur_tutorial = (pref.getBoolean("FirstLaunch", true) ? 0 : -1);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putBoolean("FirstLaunch", false);
+            editor.commit();
         }
 
         @Override
@@ -153,6 +161,24 @@ public class MainActivity extends Activity {
                 timer.Refresh();
                 if (cur_tutorial == 2 && timer.FromStartS > 3.0) {
                     ++cur_tutorial;
+                    onBrickPressed[0] = onBrickPressed[1] = false;
+                    timer = null;
+                }
+                else if (cur_tutorial == 5 && timer.FromStartS > 1.0) {
+                    ++cur_tutorial;
+                    timer = null;
+                }
+                else if ((cur_tutorial == 7 || cur_tutorial == 9) && timer.FromStartS > 4.0) {
+                    ++cur_tutorial;
+                    timer = null;
+                }
+                else if (cur_tutorial == 11 && timer.FromStartS > 2.0) {
+                    ++cur_tutorial;
+                    onBrickPressed[0] = onBrickPressed[1] = false;
+                    timer = null;
+                }
+                else if (cur_tutorial == 16 && timer.FromStartS > 4.0) {
+                    cur_tutorial = -1;
                     timer = null;
                 }
             }
@@ -216,9 +242,35 @@ public class MainActivity extends Activity {
                         car.lower_net.draw(canvas);
                         car.drawPanel(canvas);
                         brick2.draw(canvas);
+                        break;
+                    case 3:
+                    case 4:
+                    case 5:
+                        car.drawPanel(canvas);
+                        car.drawNextPanel(canvas);
+                        break;
+                    case 7:
+                    case 9:
+                    case 11:
+                        car.texture.draw(canvas);
+                        car.lower_net.draw(canvas);
+                        car.drawPanel(canvas);
+                        brick2.draw(canvas);
+                    case 6:
+                    case 8:
+                    case 10:
+                        demo[demo_state].draw(canvas);
+                        break;
+                    case 12:
+                        info.draw(canvas);
+                        break;
+                    case 16:
+                        help.draw(canvas);
                 }
                 tutorial.draw(canvas, cur_tutorial);
-                close.draw(canvas);
+                if (cur_tutorial < 16) {
+                    close.draw(canvas);
+                }
             }
         }
 
@@ -237,26 +289,33 @@ public class MainActivity extends Activity {
                     movingPoint = new Point(event);
 
                     if (ey >= minYTape && ey <= maxYTape && car.isPanelAvailable()) { //если нажали на ленту, то запомниаем это
-                        if (cur_tutorial < 0 || cur_tutorial == 2){
+                        if (cur_tutorial < 0 || cur_tutorial == 3 || cur_tutorial == 4) {
                             onTape = true;
+                            if (cur_tutorial == 3) {
+                                ++cur_tutorial;
+                            }
                         }
                     }
                     else {
-                        if ((cur_tutorial < 0 || cur_tutorial == 5) &&
+                        if ((cur_tutorial < 0 || cur_tutorial == 12) &&
                             info.onButtonTap(event)) {
-                            Intent infoIntent = new Intent(getApplicationContext(), com.ifkbhit.parktronic.ActivityInfo.class);
+                            Intent infoIntent = new Intent(getApplicationContext(), InfoActivity.class);
                             infoIntent.putExtra("sysType", car.cur_panel);
+                            infoIntent.putExtra("curTutorial", cur_tutorial);
                             startActivityForResult(infoIntent, 0);
+
                             return true;
                         }
                         if (cur_tutorial < 0 &&
                             help.onButtonTap(event)) {
                             brick1.setVisible(false);
                             brick2.setVisible(false);
+                            demo_state = 0;
+                            car.curTex = 0;
                             cur_tutorial = 0;
                             return true;
                         }
-                        if (cur_tutorial >= 0
+                        if (cur_tutorial >= 0 && cur_tutorial < 16
                             && close.onButtonTap(event)) {
                             cur_tutorial = -1;
                             return true;
@@ -266,10 +325,15 @@ public class MainActivity extends Activity {
                             car.revertPanel();
                             return true;
                         }
-                        if ((cur_tutorial < 0 || cur_tutorial == 4) &&
+                        if ((cur_tutorial < 0 || cur_tutorial == 6 ||
+                                cur_tutorial == 8 || cur_tutorial == 10) &&
                             demo[demo_state].onButtonTap(event)) {
                             if (brick1.isVisible() || brick2.isVisible()) {
                                 demo_state = (demo_state + 1) % 3;
+                            }
+                            if (cur_tutorial == 6 || cur_tutorial == 8 || cur_tutorial == 10) {
+                                ++cur_tutorial;
+                                timer = new MyTime();
                             }
                             return true;
                         }
@@ -307,7 +371,8 @@ public class MainActivity extends Activity {
                                 }
                                 if (cur_tutorial == 0) {
                                     ++cur_tutorial;
-                                    brick2.setPos(new Point((int)(W * 0.4) - brick2.w / 2, (int)(H * 0.88) - brick2.h / 2));
+                                    brick2.setPos(new Point((int)(W * 0.35) - brick2.w / 2, (int)(H * 0.88) - brick2.h / 2));
+                                    brick4.setPos(new Point((int)(W * 0.35) - brick4.w / 2, (int)(H * 0.88) - brick4.h / 2));
                                     return true;
                                 }
                             }
@@ -315,7 +380,8 @@ public class MainActivity extends Activity {
                                 (brick1.inBrick(event) || brick3.inBrick(event))) {
                                 onBrickPressed[0] = true;
                             }
-                            if ((cur_tutorial < 0 || cur_tutorial == 1 || cur_tutorial == 2) &&
+                            if ((cur_tutorial < 0 || cur_tutorial == 1 ||
+                                    cur_tutorial == 2 || cur_tutorial == 11) &&
                                 (brick2.inBrick(event) || brick4.inBrick(event))) {
                                 if (cur_tutorial == 1) {
                                     ++cur_tutorial;
@@ -357,7 +423,10 @@ public class MainActivity extends Activity {
 
                 case MotionEvent.ACTION_UP:
                     if (onTape) {
-                        car.mvPanel();
+                        if (car.mvPanel() && cur_tutorial == 4) {
+                            cur_tutorial = 5;
+                            timer = new MyTime();
+                        }
                         onTape = false;
                     }
                     else {
@@ -373,8 +442,12 @@ public class MainActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (view.cur_tutorial == 5) {
-            view.cur_tutorial = 8;
+        if (resultCode == 15) {
+            view.cur_tutorial = 16;
+            view.timer = new MyTime();
+        }
+        else {
+            view.cur_tutorial = -1;
         }
     }
 }

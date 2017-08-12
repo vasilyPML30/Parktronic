@@ -47,10 +47,12 @@ public class Car {
         panel.moveX(delta);
     }
 
-    void mvPanel() {
+    boolean mvPanel() {
+        boolean result = false;
         double xPos = panel.panel.xPos;
         double tmpPos = (xPos < 0 ? panel.r_panel : panel.l_panel).pos.x + xPos;
         if (Math.abs(xPos) > W * 3 / 10) {
+            result = true;
             cur_panel = (cur_panel + 1) % 2;
             if (cur_panel == 0) {
                 panel = new panel1(W, H, res, false);
@@ -61,6 +63,7 @@ public class Car {
             panel.panel.xPos = tmpPos - panel.panel.pos.x;
         }
         panel.setMoveFlag(true);
+        return result;
     }
 
     void response(Brick b, boolean isUp) {

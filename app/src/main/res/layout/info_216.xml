@@ -6,7 +6,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:paddingTop="50dp"
-    tools:context="com.ifkbhit.parktronic.ActivityInfo">
+    tools:context="com.ifkbhit.parktronic.InfoActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

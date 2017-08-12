@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.ifkbhit.parktronic.ActivityInfo">
+    tools:context="com.ifkbhit.parktronic.InfoActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -41,7 +41,6 @@
         android:layout_above="@+id/more_button"
         android:layout_alignParentTop="true" />
 
-
     <Button
         android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -61,5 +60,9 @@
         android:layout_marginStart="20dp"
         android:text="Подробнее" />
 
-
+    <view
+        android:id="@+id/info_graphics"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.ifkbhit.parktronic.InfoGraphics" />
 </RelativeLayout>

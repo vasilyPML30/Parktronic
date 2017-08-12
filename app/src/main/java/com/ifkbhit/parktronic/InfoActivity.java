@@ -1,5 +1,6 @@
 package com.ifkbhit.parktronic;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -8,8 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.*;
+import android.widget.Button;
 
-public class ActivityInfo extends AppCompatActivity {
+public class InfoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,13 +24,20 @@ public class ActivityInfo extends AppCompatActivity {
         final int sysType = getIntent().getIntExtra("sysType", 0);
         findViewById(R.id.inc_216).setVisibility(sysType == 0 ? View.VISIBLE : View.GONE);
         findViewById(R.id.inc_218).setVisibility(sysType == 1 ? View.VISIBLE : View.GONE);
-
+        int cur_tutorial = getIntent().getIntExtra("curTutorial", -1);
+        if (cur_tutorial == 12) {
+            ++cur_tutorial;
+            findViewById(R.id.fab).setEnabled(false);
+            findViewById(R.id.more_button).setEnabled(false);
+        }
+        ((InfoGraphics)findViewById(R.id.info_graphics)).cur_tutorial = cur_tutorial;
         setTitle(getString(sysType == 0 ? R.string.info_title_216 : R.string.info_title_218));
 
         android.widget.Button fab = (android.widget.Button) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setResult(((InfoGraphics)findViewById(R.id.info_graphics)).cur_tutorial);
                 finish();
             }
         });
@@ -48,6 +57,11 @@ public class ActivityInfo extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (((android.widget.Button)view).getText() != "Скрыть") {
+                    if (((InfoGraphics)findViewById(R.id.info_graphics)).cur_tutorial == 14) {
+                        ++((InfoGraphics)findViewById(R.id.info_graphics)).cur_tutorial;
+                        findViewById(R.id.fab).setEnabled(true);
+                        findViewById(R.id.more_button).setEnabled(false);
+                    }
                     ((android.widget.Button)view).setText("Скрыть");
                     if (sysType == 0) {
                         ((TextView) findViewById(R.id.text_216)).setText(getString(R.string.full_216));
@@ -69,4 +83,17 @@ public class ActivityInfo extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((InfoGraphics)findViewById(R.id.info_graphics)).init();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (((InfoGraphics)findViewById(R.id.info_graphics)).cur_tutorial < 0) {
+            setResult(-1);
+            super.onBackPressed();
+        }
+    }
 }
