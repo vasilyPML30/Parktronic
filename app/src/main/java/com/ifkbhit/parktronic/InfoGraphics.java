@@ -18,7 +18,6 @@ public class InfoGraphics extends View {
     Paint paint;
     boolean inited = false;
     Tutorial tutorial;
-    Button close;
     int cur_tutorial;
     MyTime timer;
 

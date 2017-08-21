@@ -79,7 +79,7 @@ public class Bee extends Pointer {
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawPath(path, pth_paint);
+        /*canvas.drawPath(path, pth_paint);
         float[] ps = {0, 0}, tg = {0, 0};
         float pathLen = pm.getLength();
         for (int i = 0; i < freq; ++i) {
@@ -88,7 +88,7 @@ public class Bee extends Pointer {
         }
         pm.getPosTan(pathLen, ps, tg);
         canvas.drawCircle(ps[0], ps[1], radius / 4, pth_paint);
-
+        */
         crcl_paint.setColor(Color.argb(alpha, 0, 0, 0));
         crcl_paint.setStyle(Paint.Style.FILL);
         canvas.drawCircle(pos.x, pos.y, radius, crcl_paint);

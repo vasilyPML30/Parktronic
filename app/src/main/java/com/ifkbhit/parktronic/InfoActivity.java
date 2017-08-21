@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import android.widget.Button;
@@ -29,6 +30,9 @@ public class InfoActivity extends AppCompatActivity {
             ++cur_tutorial;
             findViewById(R.id.fab).setEnabled(false);
             findViewById(R.id.more_button).setEnabled(false);
+        }
+        else {
+            findViewById(R.id.close).setVisibility(View.GONE);
         }
         ((InfoGraphics)findViewById(R.id.info_graphics)).cur_tutorial = cur_tutorial;
         setTitle(getString(sysType == 0 ? R.string.info_title_216 : R.string.info_title_218));
@@ -95,5 +99,12 @@ public class InfoActivity extends AppCompatActivity {
             setResult(-1);
             super.onBackPressed();
         }
+    }
+    public void close(View view) {
+        ((InfoGraphics)findViewById(R.id.info_graphics)).cur_tutorial = -1;
+        findViewById(R.id.fab).setEnabled(true);
+        findViewById(R.id.more_button).setEnabled(true);
+        findViewById(R.id.inc_216).setAlpha(1.0f);
+        findViewById(R.id.inc_218).setAlpha(1.0f);
     }
 }
