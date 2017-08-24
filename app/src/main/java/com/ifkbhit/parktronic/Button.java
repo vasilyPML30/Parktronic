@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 public class Button {
     Texture texture;
     Brick touchChecker;
+    boolean active;
 
     public Button(int textureId, Resources res, Rect windowRect, double kForOx, double kForOy, double kForSize) {
 
@@ -35,6 +36,7 @@ public class Button {
         }
         texture = new Texture(tmp, pos, 0);
         touchChecker = new Brick(texture.img.getWidth(), texture.img.getHeight(), pos);
+        setActive(true);
     }
 
     public Button(int textureId, Resources res, int w, int h, Point pos) {
@@ -42,6 +44,7 @@ public class Button {
         tmp = Bitmap.createScaledBitmap(tmp, w, h, true);
         texture = new Texture(tmp, pos, 0);
         touchChecker = new Brick(texture.img.getWidth(), texture.img.getHeight(), pos);
+        setActive(true);
     }
 
     public void draw(Canvas canvas) {
@@ -49,7 +52,7 @@ public class Button {
     }
 
     public boolean onButtonTap(MotionEvent event) {
-        return touchChecker.inBrick(event);
+        return touchChecker.inBrick(event) && active;
     }
 
     public boolean animatedDraw(Canvas c, double speed) {
@@ -58,5 +61,10 @@ public class Button {
         paint.setAlpha(175 - (int)(80 * sin));
         texture.draw(c, paint);
         return true;
+    }
+
+    public void setActive(boolean mode) {
+        active = mode;
+        texture.paint.setAlpha(mode ? 255 : 70);
     }
 }

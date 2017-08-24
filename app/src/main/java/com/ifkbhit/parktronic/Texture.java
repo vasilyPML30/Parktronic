@@ -15,22 +15,26 @@ public class Texture {
     public double w, h;
     public double xPos = 0;
     public double angle = 0;
+    public Paint paint;
 
     public Texture(Bitmap b) {
         img = b;
         w = img.getWidth();
         h = img.getHeight();
+        paint = new Paint();
     }
+
     public Texture(Bitmap b, Point p, double k) {
         img = b;
         pos = p;
         this.k = k;
         w = img.getWidth();
         h = img.getHeight();
+        paint = new Paint();
     }
 
     public Point getCenter() {
-        return new Point((2 * (pos.x + xPos) + img.getWidth()) / 2.0 , (2 * pos.y + img.getHeight()) / 2);
+        return new Point((2 * (pos.x + xPos) + img.getWidth()) / 2.0, (2 * pos.y + img.getHeight()) / 2);
     }
 
     public void setPos(Point p) {
@@ -38,10 +42,7 @@ public class Texture {
     }
 
     void draw(Canvas canvas) {
-        canvas.save();
-            canvas.rotate((float)-angle, (float)getCenter().x, (float)getCenter().y);
-            canvas.drawBitmap(img, (float)(pos.x + xPos), (float)pos.y, new Paint());
-        canvas.restore();
+        draw(canvas, paint);
     }
 
     void draw(Canvas canvas, Paint p) {

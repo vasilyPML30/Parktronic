@@ -55,7 +55,7 @@ public class Car {
             result = true;
             cur_panel = (cur_panel + 1) % 2;
             if (cur_panel == 0) {
-                panel = new panel1(W, H, res, false);
+                panel = new panel1(W, H, -1, -1, -1, res, false);
             }
             if (cur_panel == 1) {
                 panel = new panel2(W, H, res);
@@ -95,7 +95,7 @@ public class Car {
         H = windowRect.height();
         W = windowRect.width();
         curTex = 0;
-        panel = new panel1(W, H, this.res, false);
+        panel = new panel1(W, H, -1, -1, -1, this.res, false);
 
         Point tmpP;
         for (int i = 0; i < 4; i++) {

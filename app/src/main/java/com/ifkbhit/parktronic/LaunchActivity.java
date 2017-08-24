@@ -10,7 +10,10 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.TextView;
+
+import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
+
 
 public class LaunchActivity extends Activity {
 
@@ -34,18 +37,22 @@ public class LaunchActivity extends Activity {
         }
         @Override
         public void onAnimationRepeat(Animation animation) {
-
         }
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
         setContentView(R.layout.activity_launch);
+        if (getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT) {
+            setRequestedOrientation(SCREEN_ORIENTATION_PORTRAIT);
+        }
+        else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
         Animation animationTitle = AnimationUtils.loadAnimation(this, R.anim.intro_image_anim);
         Animation animationSlogan = AnimationUtils.loadAnimation(this, R.anim.intro_slogan_anim);
         animationSlogan.setAnimationListener(listener);

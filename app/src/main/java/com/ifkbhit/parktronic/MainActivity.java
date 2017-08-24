@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -14,17 +13,28 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 
+import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
+
 public class MainActivity extends Activity {
 
-    myGraphics view;
+    View view;
+    int orientation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         view = new myGraphics(this);
         view.setId(R.id.my_main);
+        orientation = getResources().getConfiguration().orientation;
+        if (orientation == ORIENTATION_PORTRAIT) {
+            view = new myGraphics(this);
+        }
+        else {
+            view = new myLandscape(this);
+        }
+
+        view.setId(R.id.my_main);
         setContentView(view);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
     class myGraphics extends View {
@@ -46,8 +56,6 @@ public class MainActivity extends Activity {
 
         myGraphics(Context context) {
             super(context);
-            W = 0;
-            H = 0;
         }
 
         int getSBPH() {
@@ -146,10 +154,10 @@ public class MainActivity extends Activity {
             tutorial = new Tutorial(windowRect);
             Config.tutorial = tutorial;
             SharedPreferences pref = getPreferences(MODE_PRIVATE);
-            cur_tutorial = (pref.getBoolean("FirstLaunch", true) ? 0 : -1);
+            cur_tutorial = (pref.getBoolean("FirstLaunch", true) ? 0 : cur_tutorial);
             SharedPreferences.Editor editor = pref.edit();
             editor.putBoolean("FirstLaunch", false);
-            editor.commit();
+            editor.apply();
         }
 
         @Override
@@ -442,12 +450,176 @@ public class MainActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 15) {
-            view.cur_tutorial = 16;
-            view.timer = new MyTime();
+        if (orientation == ORIENTATION_PORTRAIT) {
+            if (resultCode == 15) {
+                ((myGraphics) view).cur_tutorial = 16;
+                ((myGraphics) view).timer = new MyTime();
+            } else {
+                ((myGraphics) view).cur_tutorial = -1;
+            }
         }
-        else {
-            view.cur_tutorial = -1;
+    }
+
+    class myLandscape extends View {
+        int H, W;
+        boolean inited = false;
+        Texture car;
+        Button info, help, demo, invert, tap1, tap2;
+        Panel panel;
+        Obstacle[] obstacles;
+        int cur_obstacle = 0;
+        boolean obstacle_set = false;
+        Point lastTouch;
+
+        myLandscape(Context context) {
+            super(context);
         }
+
+        int getSBPH() {
+            DisplayMetrics usable = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(usable);
+            DisplayMetrics real = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getRealMetrics(real);
+            return Math.abs(usable.heightPixels - real.heightPixels);
+        }
+
+
+        void init() {
+
+            /* инициализация */
+
+            inited = true;
+            Rect windowRect = new Rect();
+            getWindow().getDecorView().getWindowVisibleDisplayFrame(windowRect);
+            windowRect = new Rect(windowRect.left, windowRect.top,
+                    windowRect.right, windowRect.bottom - getSBPH());
+            H = windowRect.height();
+            W = windowRect.width();
+
+            /* машина */
+
+            Bitmap carBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.car_land);
+            carBitmap = Bitmap.createScaledBitmap(carBitmap, (int)(W * 0.6), (int)(H * 0.4), true);
+            car = new Texture(carBitmap, new Point((W - carBitmap.getWidth()) / 2, H * 5 / 9), 1);
+
+            /* панель */
+
+            panel = new panel1(W, H, W / 2, H / 4, H / 5, getResources(), false);
+
+            /* кнопки */
+
+            info = new Button(R.drawable.info, getResources(), windowRect, -1, -1, 9);
+            help = new Button(R.drawable.help, getResources(), windowRect, -2, -1, 9);
+            help.setActive(false);
+            demo = new Button(R.drawable.button_demo, getResources(), windowRect,
+                    -1, info.texture.h / H * 1.25, 9);
+            demo.setActive(false);
+            invert = new Button(R.drawable.invert, getResources(), windowRect,
+                    -2, help.texture.h / H * 1.25, 9);
+
+            /* препятствия */
+
+            Obstacle.setBounds((W - carBitmap.getWidth()) / 2,
+                                (W + carBitmap.getWidth()) / 2, W);
+            obstacles = new Obstacle[3];
+            obstacles[0] = new Obstacle(BitmapFactory.decodeResource(getResources(), R.drawable.cart),
+                    new Point(0, H * 0.7), (int)(H * 0.23), new boolean[]{true, true, false, false});
+            obstacles[1] = new Obstacle(BitmapFactory.decodeResource(getResources(), R.drawable.human),
+                    new Point(0, H * 0.7), (int)(H * 0.23), new boolean[]{false, true, true, false});
+            obstacles[2] = new Obstacle(BitmapFactory.decodeResource(getResources(), R.drawable.lamp),
+                    new Point(0, H * 0.7), (int)(H * 0.23), new boolean[]{false, true, false, false});
+
+            int th = (int)(H * 0.25);
+            int tw = (int)(th / 1.276);
+
+            tap1 = new Button(R.drawable.finger, getResources(), tw, th,
+                    new Point((Obstacle.leftBound - tw) / 2, H * 0.7));
+            tap2 = new Button(R.drawable.finger, getResources(), tw, th,
+                    new Point((W + Obstacle.rightBound - tw) / 2, H * 0.7));
+        }
+
+        @Override
+        public void onDraw(Canvas canvas) {
+            if (!inited) {
+                init();
+            }
+            car.draw(canvas);
+            info.draw(canvas);
+            help.draw(canvas);
+            demo.draw(canvas);
+            invert.draw(canvas);
+            panel.invert();
+            panel.move();
+            if (panel.getInvalidFlag()) {
+                panel.setInvalidFlag(false);
+                panel.switchReverse();
+            }
+            if (obstacle_set) {
+                obstacles[cur_obstacle].draw(canvas);
+                panel.setPanel(obstacles[cur_obstacle].getDists(), Obstacle.xPos < W / 2);
+            }
+            if (!obstacle_set || Obstacle.xPos < Obstacle.rightBound) {
+                tap2.animatedDraw(canvas, 8);
+            }
+            if (!obstacle_set || Obstacle.xPos > Obstacle.leftBound) {
+                tap1.animatedDraw(canvas, 8);
+            }
+            panel.draw(canvas);
+            invalidate();
+        }
+
+        @Override
+        public boolean onTouchEvent(MotionEvent event) {
+            Point curTouch = new Point(event);
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    if (info.onButtonTap(event)) {
+                        Intent infoIntent = new Intent(getApplicationContext(), InfoActivity.class);
+                        infoIntent.putExtra("sysType", 0);
+                        infoIntent.putExtra("curTutorial", -1);
+                        startActivity(infoIntent);
+                    }
+                    else if (invert.onButtonTap(event)) {
+                        panel.setInvertFlag(true);
+                    }
+                    else if (obstacle_set && obstacles[cur_obstacle].onTap(event)) {
+                        cur_obstacle = (cur_obstacle + 1) % 3;
+                        obstacles[cur_obstacle].setCaptured(true);
+                        obstacles[cur_obstacle].move(0);
+                    }
+                    else if (curTouch.y > H / 2) {
+                        if (curTouch.x < Obstacle.leftBound && (Obstacle.xPos > Obstacle.leftBound || !obstacle_set)) {
+                            obstacle_set = true;
+                            Obstacle.xPos = Obstacle.leftBound;
+                            obstacles[cur_obstacle].move(0);
+                            obstacles[cur_obstacle].setCaptured(true);
+                        }
+                        else if (curTouch.x > Obstacle.rightBound && (Obstacle.xPos < Obstacle.rightBound || !obstacle_set)) {
+                            obstacle_set = true;
+                            Obstacle.xPos = Obstacle.rightBound;
+                            obstacles[cur_obstacle].move(0);
+                            obstacles[cur_obstacle].setCaptured(true);
+                        }
+                    }
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    if (obstacles[cur_obstacle].getCaptured()) {
+                        obstacles[cur_obstacle].move((int)(curTouch.x - lastTouch.x));
+                    }
+                    break;
+                case MotionEvent.ACTION_UP:
+                    obstacles[cur_obstacle].setCaptured(false);
+                    break;
+                default:
+                    break;
+            }
+            lastTouch = curTouch;
+            return true;
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
     }
 }

@@ -23,18 +23,27 @@ public class panel1 extends Panel {
         return b;
     }
 
-    panel1(int cnvW, int cnvH, Resources res, boolean isReverse) {
+    panel1(int cnvW, int cnvH, int x, int y, int height, Resources res, boolean isReverse) {
         this.res = res;
         reversable = true;
         reverse = isReverse;
         Bitmap panelBitmap = BitmapFactory.decodeResource(res, R.drawable.panel_0);
 
         double k = (1.0 - Config.CAR_Y_OFFSET_K) * 120.0 / Config.CAR_H;
-        h = cnvH * k;
+        if (height < 0) {
+            h = cnvH * k;
+        }
+        else {
+            h = height;
+        }
         w = panelBitmap.getWidth() * h / panelBitmap.getHeight();
-
         panel = new Texture(Bitmap.createScaledBitmap(panelBitmap, (int) w, (int) h, false));
-        panel.setPos(new Point((cnvW - panel.img.getWidth()) / 2.0, cnvH * (Config.CAR_Y_OFFSET_K / 2) + ((1 - Config.CAR_Y_OFFSET_K) * cnvH) / 2.0 - panel.img.getWidth() / 16.0));
+        if (x < 0 || y < 0) {
+            panel.setPos(new Point((cnvW - panel.img.getWidth()) / 2.0, cnvH * (Config.CAR_Y_OFFSET_K / 2) + ((1 - Config.CAR_Y_OFFSET_K) * cnvH) / 2.0 - panel.img.getWidth() / 16.0));
+        }
+        else {
+            panel.setPos(new Point(x - w / 2, y - h / 2));
+        }
         panel.setScaled(1.3);
 
         digits[0] = getBitmap(R.drawable.dig_0);

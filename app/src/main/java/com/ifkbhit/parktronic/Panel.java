@@ -117,7 +117,7 @@ abstract public class Panel {
         double cur_dist = 1e9;
         for (int i = 0; i < 4; ++i) {
             info[i] = ((int)(info[i] * 10)) * 0.1;
-            if (info[i] > 0 && cur_dist > info[i]) {
+            if (info[i] >= 0 && cur_dist > info[i]) {
                 cur_dist = info[i];
             }
             state[i] = getLevel(info[i]);
