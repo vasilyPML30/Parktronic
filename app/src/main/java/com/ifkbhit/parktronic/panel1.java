@@ -23,7 +23,7 @@ public class panel1 extends Panel {
         return b;
     }
 
-    panel1(int cnvW, int cnvH, int x, int y, int height, Resources res, boolean isReverse) {
+    panel1(int cnvW, int cnvH, int x, int y, int height, Resources res, boolean isReverse, boolean isVercital) {
         this.res = res;
         reversable = true;
         reverse = isReverse;
@@ -97,16 +97,26 @@ public class panel1 extends Panel {
 
         panelBitmap = BitmapFactory.decodeResource(res, R.drawable.panel_1_empty);
 
-        k = (1.0 - Config.CAR_Y_OFFSET_K) * 393.0 / Config.CAR_H;
+        if (isVercital) {
+            k = (1.0 - Config.CAR_Y_OFFSET_K) * 393.0 / Config.CAR_H;
+        }
+        else {
+            k = 0.45;
+        }
         double lh = cnvH * k;
         double lw = panelBitmap.getWidth() * lh / panelBitmap.getHeight();
         double rh = lh, rw = lw;
 
         l_panel = new Texture(Bitmap.createScaledBitmap(panelBitmap, (int) lw, (int) lh, false));
-        l_panel.setPos(new Point(-0.79 * lw, cnvH * 0.425));
         r_panel = new Texture(l_panel.img);
-        r_panel.setPos(new Point(cnvW - 0.21 * rw, cnvH * 0.425));
-
+        if (isVercital) {
+            l_panel.setPos(new Point(-0.79 * lw, cnvH * 0.425));
+            r_panel.setPos(new Point(cnvW - 0.21 * rw, cnvH * 0.425));
+        }
+        else {
+            l_panel.setPos(new Point(-l_panel.w - 1, y - l_panel.h / 2));
+            r_panel.setPos(new Point(cnvW + 1, y - l_panel.h / 2));
+        }
     }
 
     private void drawNum(Canvas canvas) {

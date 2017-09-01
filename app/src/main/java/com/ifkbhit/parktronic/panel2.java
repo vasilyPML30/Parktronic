@@ -14,17 +14,28 @@ public class panel2 extends Panel {
     Texture[][] frontTextures = new Texture[4][3];
     int indication;
 
-    panel2(int cnvW, int cnvH, Resources res) {
+    panel2(int cnvW, int cnvH, Resources res, boolean isVertical) {
+
         this.res = res;
         reversable = false;
         Bitmap panelBitmap = BitmapFactory.decodeResource(res, R.drawable.panel_1);
-        double k = (1.0 - Config.CAR_Y_OFFSET_K) * 393.0 / Config.CAR_H;
+        double k;
+        if (isVertical) {
+            k = (1.0 - Config.CAR_Y_OFFSET_K) * 393.0 / Config.CAR_H;
+        }
+        else {
+            k = 0.45;
+        }
         double need_h = cnvH * k;
         h = need_h;
         w = panelBitmap.getWidth() * h / panelBitmap.getHeight();
         panel = new Texture(Bitmap.createScaledBitmap(panelBitmap, (int) w, (int) h, false));
-        panel.setPos(new Point((cnvW - panel.img.getWidth()) / 2.0, cnvH * 0.425));
-
+        if (isVertical) {
+            panel.setPos(new Point((cnvW - panel.img.getWidth()) / 2.0, cnvH * 0.425));
+        }
+        else {
+            panel.setPos(new Point((cnvW - w) / 2, cnvH / 4 - h / 2));
+        }
         Bitmap[] numBitmaps = new Bitmap[11];
 
         numBitmaps[0] = BitmapFactory.decodeResource(res, R.drawable.dig_2_0);
@@ -130,16 +141,27 @@ public class panel2 extends Panel {
         panelBitmap = BitmapFactory.decodeResource(res, R.drawable.panel_0);
 
         k = (1.0 - Config.CAR_Y_OFFSET_K) * 120.0 / Config.CAR_H;
-        double lh = cnvH * k;
+        double lh;
+        if (isVertical) {
+            lh = cnvH * k;
+        }
+        else {
+            lh = cnvH / 5;
+        }
         double lw = panelBitmap.getWidth() * lh / panelBitmap.getHeight();
         double rh = lh, rw = lw;
 
         l_panel = new Texture(Bitmap.createScaledBitmap(panelBitmap, (int) (lw * 1.3), (int) (lh * 1.3), false));
-        l_panel.setPos(new Point(-lw * 0.75 * 1.3, cnvH * (Config.CAR_Y_OFFSET_K / 2) + ((1 - Config.CAR_Y_OFFSET_K) * cnvH) / 2.0 - l_panel.img.getWidth() * 1.3 / 16.0));
-
         r_panel = new Texture(l_panel.img);
-        r_panel.setPos(new Point(cnvW - lw * 0.25 * 1.3, cnvH * (Config.CAR_Y_OFFSET_K / 2) + ((1 - Config.CAR_Y_OFFSET_K) * cnvH) / 2.0 - r_panel.img.getWidth() * 1.3 / 16.0));
 
+        if (isVertical) {
+            l_panel.setPos(new Point(-lw * 0.75 * 1.3, cnvH * (Config.CAR_Y_OFFSET_K / 2) + ((1 - Config.CAR_Y_OFFSET_K) * cnvH) / 2.0 - l_panel.img.getWidth() * 1.3 / 16.0));
+            r_panel.setPos(new Point(cnvW - lw * 0.25 * 1.3, cnvH * (Config.CAR_Y_OFFSET_K / 2) + ((1 - Config.CAR_Y_OFFSET_K) * cnvH) / 2.0 - r_panel.img.getWidth() * 1.3 / 16.0));
+        }
+        else {
+            l_panel.setPos(new Point(-lw, cnvH / 4 - lh * 1.3 / 2));
+            r_panel.setPos(new Point(cnvW, cnvH / 4 - rh * 1.3 / 2));
+        }
     }
 
     void drawNum(Canvas canvas) {

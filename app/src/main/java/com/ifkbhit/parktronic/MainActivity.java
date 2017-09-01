@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -19,6 +18,23 @@ public class MainActivity extends Activity {
 
     View view;
     int orientation;
+
+    private int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
+    private Rect getwindowRect() {
+        Rect windowRect = new Rect();
+        getWindow().getDecorView().getWindowVisibleDisplayFrame(windowRect);
+        windowRect = new Rect(windowRect.left, windowRect.top,
+                windowRect.right, windowRect.bottom - getStatusBarHeight());
+        return windowRect;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +48,11 @@ public class MainActivity extends Activity {
         else {
             view = new myLandscape(this);
         }
-
         view.setId(R.id.my_main);
         setContentView(view);
     }
 
     class myGraphics extends View {
-        private boolean     firstStep = true;
         private int         W, H;                            //размеры canvas
         private Brick       brick1, brick2, brick3, brick4;  //сами блоки  и вспомогательные
         private double      minYTape, maxYTape;              //лента смены монитора
@@ -56,23 +70,12 @@ public class MainActivity extends Activity {
 
         myGraphics(Context context) {
             super(context);
-        }
-
-        int getSBPH() {
-            DisplayMetrics usable = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(usable);
-            DisplayMetrics real = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getRealMetrics(real);
-            return Math.abs(usable.heightPixels - real.heightPixels);
+            init();
         }
 
         void init() {
-            firstStep = false;
             timer = null;
-            Rect windowRect = new Rect();
-            getWindow().getDecorView().getWindowVisibleDisplayFrame(windowRect);
-            windowRect = new Rect(windowRect.left, windowRect.top,
-                                  windowRect.right, windowRect.bottom - getSBPH());
+            Rect windowRect = getwindowRect();
             H = windowRect.height();
             W = windowRect.width();
             minYTape = H * 9f / 22f;
@@ -162,9 +165,7 @@ public class MainActivity extends Activity {
 
         @Override
         protected void onDraw(Canvas canvas) {
-            if (firstStep) {
-                init();
-            }
+            super.onDraw(canvas);
             if (timer != null) {
                 timer.Refresh();
                 if (cur_tutorial == 2 && timer.FromStartS > 3.0) {
@@ -284,9 +285,6 @@ public class MainActivity extends Activity {
 
         @Override
         public boolean onTouchEvent(MotionEvent event) {
-            if (firstStep) {
-                return true;
-            }
 
             double ex = event.getX();
             double ey = event.getY();
@@ -462,37 +460,25 @@ public class MainActivity extends Activity {
 
     class myLandscape extends View {
         int H, W;
-        boolean inited = false;
         Texture car;
-        Button info, help, demo, invert, tap1, tap2;
+        Button info, help, invert, tap1, tap2;
+        Button[] demo;
         Panel panel;
         Obstacle[] obstacles;
-        int cur_obstacle = 0;
-        boolean obstacle_set = false;
+        int cur_obstacle = 0, cur_demo = 0, cur_panel = 0;
+        boolean obstacle_set = false, panel_captured = false;
         Point lastTouch;
 
         myLandscape(Context context) {
             super(context);
+            init();
         }
-
-        int getSBPH() {
-            DisplayMetrics usable = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(usable);
-            DisplayMetrics real = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getRealMetrics(real);
-            return Math.abs(usable.heightPixels - real.heightPixels);
-        }
-
 
         void init() {
 
             /* инициализация */
 
-            inited = true;
-            Rect windowRect = new Rect();
-            getWindow().getDecorView().getWindowVisibleDisplayFrame(windowRect);
-            windowRect = new Rect(windowRect.left, windowRect.top,
-                    windowRect.right, windowRect.bottom - getSBPH());
+            Rect windowRect = getwindowRect();
             H = windowRect.height();
             W = windowRect.width();
 
@@ -504,16 +490,18 @@ public class MainActivity extends Activity {
 
             /* панель */
 
-            panel = new panel1(W, H, W / 2, H / 4, H / 5, getResources(), false);
+            panel = new panel1(W, H, W / 2, H / 4, H / 5, getResources(), false, false);
 
             /* кнопки */
 
             info = new Button(R.drawable.info, getResources(), windowRect, -1, -1, 9);
             help = new Button(R.drawable.help, getResources(), windowRect, -2, -1, 9);
             help.setActive(false);
-            demo = new Button(R.drawable.button_demo, getResources(), windowRect,
+            demo = new Button[2];
+            demo[0] = new Button(R.drawable.button_demo, getResources(), windowRect,
                     -1, info.texture.h / H * 1.25, 9);
-            demo.setActive(false);
+            demo[1] = new Button(R.drawable.button_manual, getResources(), windowRect,
+                    -1, info.texture.h / H * 1.25, 9);
             invert = new Button(R.drawable.invert, getResources(), windowRect,
                     -2, help.texture.h / H * 1.25, 9);
 
@@ -540,14 +528,6 @@ public class MainActivity extends Activity {
 
         @Override
         public void onDraw(Canvas canvas) {
-            if (!inited) {
-                init();
-            }
-            car.draw(canvas);
-            info.draw(canvas);
-            help.draw(canvas);
-            demo.draw(canvas);
-            invert.draw(canvas);
             panel.invert();
             panel.move();
             if (panel.getInvalidFlag()) {
@@ -555,6 +535,7 @@ public class MainActivity extends Activity {
                 panel.switchReverse();
             }
             if (obstacle_set) {
+                obstacles[cur_obstacle].animate();
                 obstacles[cur_obstacle].draw(canvas);
                 panel.setPanel(obstacles[cur_obstacle].getDists(), Obstacle.xPos < W / 2);
             }
@@ -565,6 +546,12 @@ public class MainActivity extends Activity {
                 tap1.animatedDraw(canvas, 8);
             }
             panel.draw(canvas);
+            panel.drawNext(canvas);
+            car.draw(canvas);
+            info.draw(canvas);
+            help.draw(canvas);
+            demo[cur_demo].draw(canvas);
+            invert.draw(canvas);
             invalidate();
         }
 
@@ -575,40 +562,70 @@ public class MainActivity extends Activity {
                 case MotionEvent.ACTION_DOWN:
                     if (info.onButtonTap(event)) {
                         Intent infoIntent = new Intent(getApplicationContext(), InfoActivity.class);
-                        infoIntent.putExtra("sysType", 0);
+                        infoIntent.putExtra("sysType", cur_panel);
                         infoIntent.putExtra("curTutorial", -1);
                         startActivity(infoIntent);
                     }
                     else if (invert.onButtonTap(event)) {
                         panel.setInvertFlag(true);
                     }
+                    else if (obstacle_set && demo[cur_demo].onButtonTap(event)) {
+                        cur_demo = (cur_demo + 1) % 2;
+                        Obstacle.direction = cur_demo;
+                    }
                     else if (obstacle_set && obstacles[cur_obstacle].onTap(event)) {
                         cur_obstacle = (cur_obstacle + 1) % 3;
-                        obstacles[cur_obstacle].setCaptured(true);
                         obstacles[cur_obstacle].move(0);
+                        if (cur_demo == 0) {
+                            obstacles[cur_obstacle].setCaptured(true);
+                        }
                     }
                     else if (curTouch.y > H / 2) {
                         if (curTouch.x < Obstacle.leftBound && (Obstacle.xPos > Obstacle.leftBound || !obstacle_set)) {
                             obstacle_set = true;
                             Obstacle.xPos = Obstacle.leftBound;
                             obstacles[cur_obstacle].move(0);
-                            obstacles[cur_obstacle].setCaptured(true);
+                            if (cur_demo == 0) {
+                                obstacles[cur_obstacle].setCaptured(true);
+                            }
                         }
                         else if (curTouch.x > Obstacle.rightBound && (Obstacle.xPos < Obstacle.rightBound || !obstacle_set)) {
                             obstacle_set = true;
                             Obstacle.xPos = Obstacle.rightBound;
                             obstacles[cur_obstacle].move(0);
-                            obstacles[cur_obstacle].setCaptured(true);
+                            if (cur_demo == 0) {
+                                obstacles[cur_obstacle].setCaptured(true);
+                            }
+                        }
+                    }
+                    else {
+                        if (!panel.getInvertFlag() && !panel.getMoveFlag()) {
+                            panel_captured = true;
                         }
                     }
                     break;
                 case MotionEvent.ACTION_MOVE:
                     if (obstacles[cur_obstacle].getCaptured()) {
-                        obstacles[cur_obstacle].move((int)(curTouch.x - lastTouch.x));
+                        obstacles[cur_obstacle].move(curTouch.x - lastTouch.x);
+                    }
+                    else if (panel_captured) {
+                        panel.moveX(curTouch.x - lastTouch.x);
                     }
                     break;
                 case MotionEvent.ACTION_UP:
                     obstacles[cur_obstacle].setCaptured(false);
+                    panel_captured = false;
+                    double xPos = panel.panel.xPos;
+                    double tmpPos = (xPos < 0 ? panel.r_panel : panel.l_panel).pos.x + xPos;
+                    if (Math.abs(panel.panel.xPos) > W / 3) {
+                        cur_panel = (cur_panel + 1) % 2;
+                        panel = (cur_panel == 1 ?
+                                new panel2(W, H, getResources(), false) :
+                                new panel1(W, H, W / 2, H / 4, H / 5, getResources(), false, false));
+                        panel.panel.xPos = tmpPos - panel.panel.pos.x;
+                        invert.setActive(cur_panel == 0);
+                    }
+                    panel.setMoveFlag(true);
                     break;
                 default:
                     break;

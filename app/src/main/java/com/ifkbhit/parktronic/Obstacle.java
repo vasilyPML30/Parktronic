@@ -7,10 +7,13 @@ import android.view.MotionEvent;
 public class Obstacle {
     private Texture image;
     private Point position;
-    static int xPos;
+    static double xPos = 0;
+    static int direction = 0;
     static int leftBound, rightBound, screenWidth;
+    static MyTime timer = null;
     private boolean captured = false;
     private boolean[] sensors;
+    static double front_speed, back_speed;
 
     Obstacle(Bitmap img, Point pos, int h, boolean[] sns) {
         image = new Texture(Bitmap.createScaledBitmap(img,
@@ -18,6 +21,9 @@ public class Obstacle {
         position = pos;
         image.setPos(position);
         sensors = sns;
+        if (timer == null) {
+            timer = new MyTime();
+        }
     }
 
     void setCaptured(boolean value) {
@@ -28,8 +34,9 @@ public class Obstacle {
         return captured;
     }
 
-    void move(int dist) {
+    boolean move(double dist) {
         xPos += dist;
+        double tmpXpos = xPos;
         if (xPos < (leftBound + rightBound) / 2) {
             xPos = Math.max(xPos, (int) (30 - image.w));
             xPos = Math.min(xPos, (int) (leftBound - image.w));
@@ -37,6 +44,15 @@ public class Obstacle {
         else {
             xPos = Math.max(xPos, rightBound);
             xPos = Math.min(xPos, screenWidth - 30);
+        }
+        return xPos == tmpXpos;
+    }
+
+    void animate() {
+        timer.Refresh();
+        if (!move(direction * timer.Delta *
+                (xPos < screenWidth / 2 ? front_speed : back_speed))) {
+            direction *= -1;
         }
     }
 
@@ -56,6 +72,8 @@ public class Obstacle {
         leftBound = left;
         rightBound = right;
         screenWidth = width;
+        front_speed = (leftBound - 30) / 4000.0;
+        back_speed = (screenWidth - 30 - rightBound) / 4000.0;
     }
 
     double[] getDists() {
