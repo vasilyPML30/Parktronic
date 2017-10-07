@@ -5,8 +5,9 @@ import android.graphics.Canvas;
 import android.view.MotionEvent;
 
 public class Obstacle {
-    private Texture image;
+    private Texture[] images;
     private Point position;
+    private int curImg = 0;
     static double xPos = 0;
     static int direction = 0;
     static int leftBound, rightBound, screenWidth;
@@ -15,15 +16,24 @@ public class Obstacle {
     private boolean[] sensors;
     static double front_speed, back_speed;
 
-    Obstacle(Bitmap img, Point pos, int h, boolean[] sns) {
-        image = new Texture(Bitmap.createScaledBitmap(img,
-                (int)((double)img.getWidth() / img.getHeight() * h), h, true));
-        position = pos;
-        image.setPos(position);
-        sensors = sns;
-        if (timer == null) {
-            timer = new MyTime();
+    Obstacle(Bitmap[] img, Point pos, int h, boolean[] sns) {
+        images = new Texture[img.length];
+
+        for (int i = 0; i < images.length; i ++) {
+            images[i] = new Texture(Bitmap.createScaledBitmap(img[i],
+                    (int)((double)img[i].getWidth() / img[i].getHeight() * h), h, true));
+            position = pos;
+            images[i].setPos(position);
+            sensors = sns;
+            if (timer == null) {
+                timer = new MyTime();
+            }
         }
+
+    }
+
+    void switchImage() {
+        curImg = (curImg + 1) % images.length;
     }
 
     void setCaptured(boolean value) {
@@ -38,8 +48,8 @@ public class Obstacle {
         xPos += dist;
         double tmpXpos = xPos;
         if (xPos < (leftBound + rightBound) / 2) {
-            xPos = Math.max(xPos, (int) (30 - image.w));
-            xPos = Math.min(xPos, (int) (leftBound - image.w));
+            xPos = Math.max(xPos, (int) (30 - images[curImg].w));
+            xPos = Math.min(xPos, (int) (leftBound - images[curImg].w));
         }
         else {
             xPos = Math.max(xPos, rightBound);
@@ -48,8 +58,28 @@ public class Obstacle {
         return xPos == tmpXpos;
     }
 
-    void animate() {
+    void animate(boolean switchSegment) {
         timer.Refresh();
+        if (switchSegment) {
+            int state = (int)(timer.FromStart / 500) % 6;
+            switch (state) {
+                case 3:
+                    sensors = new boolean[]{true, false, false, false};
+                    break;
+                case 2:
+                case 4:
+                    sensors = new boolean[]{false, true, false, false};
+                    break;
+                case 1:
+                case 5:
+                    sensors = new boolean[]{false, false, true, false};
+                    break;
+                case 0:
+                    sensors = new boolean[]{false, false, false, true};
+                    break;
+            }
+            curImg = state / 3;
+        }
         if (!move(direction * timer.Delta *
                 (xPos < screenWidth / 2 ? front_speed : back_speed))) {
             direction *= -1;
@@ -57,15 +87,15 @@ public class Obstacle {
     }
 
     void draw(Canvas canvas) {
-        image.setPos(new Point(position.x + xPos, position.y));
-        image.draw(canvas);
+        images[curImg].setPos(new Point(position.x + xPos, position.y));
+        images[curImg].draw(canvas);
     }
 
     boolean onTap(MotionEvent event) {
         float x = event.getX();
         float y = event.getY();
-        return position.x + xPos <= x && x <= position.x + xPos + image.w &&
-                position.y <= y && y <= position.y + image.h;
+        return position.x + xPos <= x && x <= position.x + xPos + images[curImg].w &&
+                position.y <= y && y <= position.y + images[curImg].h;
     }
 
     static void setBounds(int left, int right, int width) {
@@ -79,7 +109,7 @@ public class Obstacle {
     double[] getDists() {
         double dist;
         if (xPos < (leftBound + rightBound) / 2) {
-            dist = 0.9 / (leftBound - 30) * (leftBound - xPos - image.w);
+            dist = 0.9 / (leftBound - 30) * (leftBound - xPos - images[curImg].w);
         }
         else {
             dist = 2.0 / (screenWidth - 30 - rightBound) * (xPos - rightBound);
