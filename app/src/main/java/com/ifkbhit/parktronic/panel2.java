@@ -220,6 +220,7 @@ public class panel2 extends Panel {
         drawBars(canvas);
     }
 
+    @Override
     int getLevel(double val) {
         if (val < 0) {
             return 0;

@@ -58,7 +58,7 @@ public class Car {
                 panel = new panel1(W, H, -1, -1, -1, res, false, true);
             }
             if (cur_panel == 1) {
-                panel = new panel2(W, H, res, true);
+                panel = new panel3(W, H, res, true);
             }
             panel.panel.xPos = tmpPos - panel.panel.pos.x;
         }

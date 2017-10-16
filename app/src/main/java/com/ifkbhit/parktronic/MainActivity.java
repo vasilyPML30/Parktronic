@@ -649,7 +649,7 @@ public class MainActivity extends Activity {
                     if (Math.abs(panel.panel.xPos) > W / 3) {
                         cur_panel = (cur_panel + 1) % 2;
                         panel = (cur_panel == 1 ?
-                                new panel2(W, H, getResources(), false) :
+                                new panel3(W, H, getResources(), false) :
                                 new panel1(W, H, W / 2, H / 4, H / 5, getResources(), false, false));
                         panel.panel.xPos = tmpPos - panel.panel.pos.x;
                         invert.setActive(cur_panel == 0);
