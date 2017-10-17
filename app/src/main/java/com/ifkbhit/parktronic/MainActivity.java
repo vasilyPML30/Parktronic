@@ -647,10 +647,21 @@ public class MainActivity extends Activity {
                     double xPos = panel.panel.xPos;
                     double tmpPos = (xPos < 0 ? panel.r_panel : panel.l_panel).pos.x + xPos;
                     if (Math.abs(panel.panel.xPos) > W / 3) {
-                        cur_panel = (cur_panel + 1) % 2;
-                        panel = (cur_panel == 1 ?
-                                new panel3(W, H, getResources(), false) :
-                                new panel1(W, H, W / 2, H / 4, H / 5, getResources(), false, false));
+                        if (panel.panel.xPos < 0) {
+                            cur_panel = (cur_panel + 1) % 3;
+                        } else {
+                            cur_panel = (cur_panel + 2) % 3;
+                        }
+                        switch (cur_panel) {
+                            case 0:
+                                panel = new panel1(W, H, W / 2, H / 4, H / 5, getResources(), false, false);
+                                break;
+                            case 1:
+                                panel = new panel2(W, H, getResources(), false);
+                                break;
+                            case 2:
+                                panel = new panel3(W, H, getResources(), false);
+                        }
                         panel.panel.xPos = tmpPos - panel.panel.pos.x;
                         invert.setActive(cur_panel == 0);
                     }

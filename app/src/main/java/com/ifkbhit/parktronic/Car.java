@@ -53,11 +53,16 @@ public class Car {
         double tmpPos = (xPos < 0 ? panel.r_panel : panel.l_panel).pos.x + xPos;
         if (Math.abs(xPos) > W * 3 / 10) {
             result = true;
-            cur_panel = (cur_panel + 1) % 2;
+            if (xPos < 0) {
+                cur_panel = (cur_panel + 1) % 3;
+            } else {
+                cur_panel = (cur_panel + 2) % 3;
+            }
             if (cur_panel == 0) {
                 panel = new panel1(W, H, -1, -1, -1, res, false, true);
-            }
-            if (cur_panel == 1) {
+            } else if (cur_panel == 1) {
+                panel = new panel2(W, H, res, true);
+            } else {
                 panel = new panel3(W, H, res, true);
             }
             panel.panel.xPos = tmpPos - panel.panel.pos.x;
