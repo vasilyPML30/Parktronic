@@ -31,10 +31,10 @@ public class panel3 extends Panel {
 
         k = (isVertical ? (1.0 - Config.CAR_Y_OFFSET_K) * 393.0 / Config.CAR_H : 0.45);
 
-        double lh = (isVertical ? cnvH * k : cnvH / 5);
+        double lh = cnvH * k;
         double lw = lPanelBitmap.getWidth() * lh / lPanelBitmap.getHeight();
 
-        k = (1.0 - Config.CAR_Y_OFFSET_K) * 120.0 / Config.CAR_H;
+        k = (isVertical ? (1.0 - Config.CAR_Y_OFFSET_K) * 120.0 / Config.CAR_H : 0.2);
 
         double rh = cnvH * k;
         double rw = rPanelBitmap.getWidth() * rh / rPanelBitmap.getHeight();
@@ -43,12 +43,12 @@ public class panel3 extends Panel {
         l_panel = new Texture(Bitmap.createScaledBitmap(lPanelBitmap, (int) lw, (int) lh, false));
 
         if (isVertical) {
-            l_panel.setPos(new Point(-lw * 0.75, cnvH * 0.425));
+            l_panel.setPos(new Point(-lw * 0.87, cnvH * 0.425));
             r_panel.setPos(new Point(cnvW - 0.21 * rw, cnvH * (Config.CAR_Y_OFFSET_K / 2) + ((1 - Config.CAR_Y_OFFSET_K) * cnvH) / 2.0 - r_panel.img.getWidth() * 1.3 / 16.0));
         }
         else {
-            l_panel.setPos(new Point(-lw, cnvH / 4 - lh * 1.3 / 2));
-            r_panel.setPos(new Point(cnvW + 1, cnvH / 4 - r_panel.h / 2));
+            l_panel.setPos(new Point((-lw - w) / 2, cnvH / 4 - lh / 2));
+            r_panel.setPos(new Point(cnvW + (w - rw * 1.3) / 2, cnvH / 4 - rh * 1.3 / 2));
         }
     }
 

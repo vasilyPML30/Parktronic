@@ -138,29 +138,27 @@ public class panel2 extends Panel {
             }
         }
 
-        panelBitmap = BitmapFactory.decodeResource(res, R.drawable.panel_0);
+        Bitmap lPanelBitmap = BitmapFactory.decodeResource(res, R.drawable.panel_0);
+        Bitmap rPanelBitmap = BitmapFactory.decodeResource(res, R.drawable.panel_2);
 
-        k = (1.0 - Config.CAR_Y_OFFSET_K) * 120.0 / Config.CAR_H;
-        double lh;
-        if (isVertical) {
-            lh = cnvH * k;
-        }
-        else {
-            lh = cnvH / 5;
-        }
-        double lw = panelBitmap.getWidth() * lh / panelBitmap.getHeight();
-        double rh = lh, rw = lw;
+        k = (isVertical ? (1.0 - Config.CAR_Y_OFFSET_K) * 120.0 / Config.CAR_H : 0.2);
+        double lh = cnvH * k;
+        double lw = lPanelBitmap.getWidth() * lh / lPanelBitmap.getHeight();
 
-        l_panel = new Texture(Bitmap.createScaledBitmap(panelBitmap, (int) (lw * 1.3), (int) (lh * 1.3), false));
-        r_panel = new Texture(l_panel.img);
+        k = (isVertical ? 0.1 : 0.25);
+        double rh = cnvH * k;
+        double rw = rPanelBitmap.getWidth() * rh / rPanelBitmap.getHeight();
+
+        l_panel = new Texture(Bitmap.createScaledBitmap(lPanelBitmap, (int) (lw * 1.3), (int) (lh * 1.3), false));
+        r_panel = new Texture(Bitmap.createScaledBitmap(rPanelBitmap, (int) rw, (int) rh, false));
 
         if (isVertical) {
             l_panel.setPos(new Point(-lw * 0.75 * 1.3, cnvH * (Config.CAR_Y_OFFSET_K / 2) + ((1 - Config.CAR_Y_OFFSET_K) * cnvH) / 2.0 - l_panel.img.getWidth() * 1.3 / 16.0));
-            r_panel.setPos(new Point(cnvW - lw * 0.25 * 1.3, cnvH * (Config.CAR_Y_OFFSET_K / 2) + ((1 - Config.CAR_Y_OFFSET_K) * cnvH) / 2.0 - r_panel.img.getWidth() * 1.3 / 16.0));
+            r_panel.setPos(new Point(cnvW - rw * 0.26, cnvH * 0.47));
         }
         else {
-            l_panel.setPos(new Point(-lw, cnvH / 4 - lh * 1.3 / 2));
-            r_panel.setPos(new Point(cnvW, cnvH / 4 - rh * 1.3 / 2));
+            l_panel.setPos(new Point(-lw * 1.3, cnvH / 4 - lh * 1.3 / 2));
+            r_panel.setPos(new Point(cnvW, cnvH / 4 - r_panel.h / 2));
         }
     }
 
