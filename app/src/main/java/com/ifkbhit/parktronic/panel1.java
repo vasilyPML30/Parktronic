@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.Log;
 
 /**
  * Created by vasyoid on 22.07.17.
@@ -25,7 +24,7 @@ public class panel1 extends Panel {
 
     panel1(int cnvW, int cnvH, int x, int y, int height, Resources res, boolean isReverse, boolean isVertical) {
         this.res = res;
-        reversable = true;
+        reversible = true;
         reverse = isReverse;
         Bitmap panelBitmap = BitmapFactory.decodeResource(res, R.drawable.panel_0);
 

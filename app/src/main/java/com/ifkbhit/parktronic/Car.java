@@ -6,8 +6,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-import java.util.ArrayList;
-
 public class Car {
 
     private Resources   res;
@@ -36,7 +34,7 @@ public class Car {
     }
 
     boolean isPanelReversable() {
-        return panel.reversable;
+        return panel.reversible;
     }
 
     boolean isPanelAvailable() {

@@ -12,7 +12,7 @@ abstract public class Panel {
     float panelAngle = 0;
     Texture panel, l_panel, r_panel;
     Resources res;
-    boolean reversable;
+    boolean reversible;
     int[] state = {0,0,0,0};
     int cur_l = -1, cur_r = -1;
     boolean isUp;

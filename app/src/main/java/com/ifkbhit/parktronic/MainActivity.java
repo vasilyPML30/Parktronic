@@ -570,9 +570,9 @@ public class MainActivity extends Activity {
             if (!obstacle_set || Obstacle.xPos > Obstacle.leftBound) {
                 tap1.animatedDraw(canvas, 8);
             }
+            car.draw(canvas);
             panel.draw(canvas);
             panel.drawNext(canvas);
-            car.draw(canvas);
             info.draw(canvas);
             help.draw(canvas);
             demo[cur_demo].draw(canvas);
@@ -663,7 +663,7 @@ public class MainActivity extends Activity {
                                 panel = new panel3(W, H, getResources(), false);
                         }
                         panel.panel.xPos = tmpPos - panel.panel.pos.x;
-                        invert.setActive(cur_panel == 0);
+                        invert.setActive(panel.reversible);
                     }
                     panel.setMoveFlag(true);
                     break;

@@ -17,7 +17,7 @@ public class panel2 extends Panel {
     panel2(int cnvW, int cnvH, Resources res, boolean isVertical) {
 
         this.res = res;
-        reversable = false;
+        reversible = false;
         Bitmap panelBitmap = BitmapFactory.decodeResource(res, R.drawable.panel_1);
         double k;
         if (isVertical) {
