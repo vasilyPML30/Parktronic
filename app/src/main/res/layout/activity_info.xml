@@ -57,6 +57,14 @@
         android:layout_above="@+id/more_button"
         android:layout_alignParentTop="true" />
 
+    <include
+        android:id="@+id/inc_277"
+        layout="@layout/info_277"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_above="@+id/more_button"
+        android:layout_alignParentTop="true" />
+
     <Button
         android:id="@+id/fab"
         android:layout_width="wrap_content"

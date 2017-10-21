@@ -25,6 +25,7 @@ public class InfoActivity extends AppCompatActivity {
         final int sysType = getIntent().getIntExtra("sysType", 0);
         findViewById(R.id.inc_216).setVisibility(sysType == 0 ? View.VISIBLE : View.GONE);
         findViewById(R.id.inc_218).setVisibility(sysType == 1 ? View.VISIBLE : View.GONE);
+        findViewById(R.id.inc_277).setVisibility(sysType == 2 ? View.VISIBLE : View.GONE);
         int cur_tutorial = getIntent().getIntExtra("curTutorial", -1);
         if (cur_tutorial == 12) {
             ++cur_tutorial;
@@ -35,7 +36,8 @@ public class InfoActivity extends AppCompatActivity {
             findViewById(R.id.close).setVisibility(View.GONE);
         }
         ((InfoGraphics)findViewById(R.id.info_graphics)).cur_tutorial = cur_tutorial;
-        setTitle(getString(sysType == 0 ? R.string.info_title_216 : R.string.info_title_218));
+        int[] titles = {R.string.info_title_216, R.string.info_title_218, R.string.info_title_277};
+        setTitle(getString(titles[sysType]));
 
         android.widget.Button fab = (android.widget.Button) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -69,18 +71,20 @@ public class InfoActivity extends AppCompatActivity {
                     ((android.widget.Button)view).setText("Скрыть");
                     if (sysType == 0) {
                         ((TextView) findViewById(R.id.text_216)).setText(getString(R.string.full_216));
-                    }
-                    else if (sysType == 1) {
+                    } else if (sysType == 1) {
                         ((TextView) findViewById(R.id.text_218)).setText(getString(R.string.full_218));
+                    } else {
+                        ((TextView) findViewById(R.id.text_277)).setText(getString(R.string.full_277));
                     }
                 }
                 else {
                     ((android.widget.Button)view).setText("Подробнее");
                     if (sysType == 0) {
                         ((TextView) findViewById(R.id.text_216)).setText(getString(R.string.short_216));
-                    }
-                    else if (sysType == 1) {
+                    } else if (sysType == 1) {
                         ((TextView) findViewById(R.id.text_218)).setText(getString(R.string.short_218));
+                    } else {
+                        ((TextView) findViewById(R.id.text_277)).setText(getString(R.string.short_277));
                     }
                 }
             }
