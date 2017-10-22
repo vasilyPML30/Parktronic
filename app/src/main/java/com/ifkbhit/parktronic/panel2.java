@@ -145,7 +145,7 @@ public class panel2 extends Panel {
         double lh = cnvH * k;
         double lw = lPanelBitmap.getWidth() * lh / lPanelBitmap.getHeight();
 
-        k = (isVertical ? 0.1 : 0.25);
+        k = (isVertical ? 0.08 : 0.2);
         double rh = cnvH * k;
         double rw = rPanelBitmap.getWidth() * rh / rPanelBitmap.getHeight();
 

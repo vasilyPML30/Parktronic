@@ -4,7 +4,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.util.Log;
 
 public class panel3 extends Panel {
 
@@ -17,7 +16,7 @@ public class panel3 extends Panel {
     panel3(int cnvW, int cnvH, Resources res, boolean isVertical) {
         this.res = res;
         reversible = true;
-        double k = (isVertical ? 0.1 : 0.25);
+        double k = (isVertical ? 0.08 : 0.2);
         Bitmap panelBitmap = BitmapFactory.decodeResource(res, R.drawable.panel_2);
         double need_h = cnvH * k;
         h = need_h;
@@ -29,7 +28,7 @@ public class panel3 extends Panel {
         else {
             panel.setPos(new Point((cnvW - w) / 2, cnvH / 4 - h / 2));
         }
-        k = h / panelBitmap.getHeight();
+        k = h / panelBitmap.getHeight() / 1.5;
         Bitmap tmpBmp = BitmapFactory.decodeResource(res, R.drawable.sgl1);
         greenInd[0] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k * tmpBmp.getWidth()),
                 (int)(k * tmpBmp.getHeight()),
@@ -181,7 +180,6 @@ public class panel3 extends Panel {
                 } else {
                     numberOn = 2 - (int)((blinkTimer.FromStart % 800 - 400) / 100);
                 }
-                Log.d("numberOn", String.valueOf(numberOn));
                 if (numberOn >= 0) {
                     for (int i = 3; i >= 3 - numberOn; i--) {
                         redInd[i].draw(canvas);
