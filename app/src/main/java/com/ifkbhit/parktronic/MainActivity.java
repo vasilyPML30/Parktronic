@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
 
@@ -72,6 +73,12 @@ public class MainActivity extends Activity {
             super(context);
             init();
         }
+
+        void setPanel(int cp) {
+            car.setPanel(cp);
+            invert.setActive(car.isPanelReversable());
+        }
+
 
         void init() {
             timer = null;
@@ -456,6 +463,12 @@ public class MainActivity extends Activity {
                 ((myGraphics) view).cur_tutorial = -1;
             }
         }
+        Toast.makeText(this, "result", Toast.LENGTH_LONG).show();
+        if (view instanceof myGraphics) {
+            ((myGraphics) view).setPanel(data.getIntExtra("sysType", 0));
+        } else {
+            ((myLandscape) view).setPanel(data.getIntExtra("sysType", 0));
+        }
     }
 
     class myLandscape extends View {
@@ -580,6 +593,21 @@ public class MainActivity extends Activity {
             invalidate();
         }
 
+        void setPanel(int cp) {
+            cur_panel = cp;
+            switch (cur_panel) {
+                case 0:
+                    panel = new panel1(W, H, W / 2, H / 4, H / 5, getResources(), false, false);
+                    break;
+                case 1:
+                    panel = new panel2(W, H, getResources(), false);
+                    break;
+                case 2:
+                    panel = new panel3(W, H, getResources(), false);
+            }
+            invert.setActive(panel.reversible);
+        }
+
         @Override
         public boolean onTouchEvent(MotionEvent event) {
             Point curTouch = new Point(event);
@@ -589,7 +617,7 @@ public class MainActivity extends Activity {
                         Intent infoIntent = new Intent(getApplicationContext(), InfoActivity.class);
                         infoIntent.putExtra("sysType", cur_panel);
                         infoIntent.putExtra("curTutorial", -1);
-                        startActivity(infoIntent);
+                        startActivityForResult(infoIntent, 0);
                     }
                     else if (invert.onButtonTap(event)) {
                         panel.setInvertFlag(true);
