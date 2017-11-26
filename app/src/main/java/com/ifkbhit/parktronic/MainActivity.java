@@ -9,6 +9,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -50,6 +52,9 @@ public class MainActivity extends Activity {
         }
         view.setId(R.id.my_main);
         setContentView(view);
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        Config.dpi = metrics.xdpi;
     }
 
     class myGraphics extends View {
