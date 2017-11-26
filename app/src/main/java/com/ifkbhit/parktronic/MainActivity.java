@@ -119,15 +119,15 @@ public class MainActivity extends Activity {
 
             /* Кнопки */
 
-            invert = new Button(R.drawable.invert, getResources(), windowRect, 0.85, 0.37, 5);
+            invert = new Button(R.drawable.invert, getResources(), windowRect, 0.85, 0.33, 5.6);
             demo = new Button[] {
-                    new Button(R.drawable.button_demo, getResources(), windowRect, 0.15, 0.37, 5),
-                    new Button(R.drawable.button_demo_2, getResources(), windowRect, 0.15, 0.37, 5),
-                    new Button(R.drawable.button_manual, getResources(), windowRect, 0.15, 0.37, 5)
+                    new Button(R.drawable.button_demo, getResources(), windowRect, 0.15, 0.33, 5.6),
+                    new Button(R.drawable.button_demo_2, getResources(), windowRect, 0.15, 0.33, 5.6),
+                    new Button(R.drawable.button_manual, getResources(), windowRect, 0.15, 0.33, 5.6)
             };
 
-            info = new Button(R.drawable.info, getResources(), windowRect, -1, -1, 5);
-            help = new Button(R.drawable.help, getResources(), windowRect, -2, -1, 5);
+            info = new Button(R.drawable.info, getResources(), windowRect, -1, -1, 5.6);
+            help = new Button(R.drawable.help, getResources(), windowRect, -2, -1, 5.6);
             close = new Button(R.drawable.close, getResources(), windowRect, 0.9, 0.055, 8);
 
             /* Демо */
@@ -494,16 +494,16 @@ public class MainActivity extends Activity {
 
             /* кнопки */
 
-            info = new Button(R.drawable.info, getResources(), windowRect, -1, -1, 9);
-            help = new Button(R.drawable.help, getResources(), windowRect, -2, -1, 9);
+            info = new Button(R.drawable.info, getResources(), windowRect, -1, -1, 8.8);
+            help = new Button(R.drawable.help, getResources(), windowRect, -2, -1, 8.8);
             help.setActive(false);
             demo = new Button[2];
             demo[0] = new Button(R.drawable.button_demo, getResources(), windowRect,
-                    -1, info.texture.h / H * 1.25, 9);
+                    -1, info.texture.h / H * 1.4, 8.8);
             demo[1] = new Button(R.drawable.button_manual, getResources(), windowRect,
-                    -1, info.texture.h / H * 1.25, 9);
+                    -1, info.texture.h / H * 1.4, 8.8);
             invert = new Button(R.drawable.invert, getResources(), windowRect,
-                    -2, help.texture.h / H * 1.25, 9);
+                    -2, help.texture.h / H * 1.4, 8.8);
 
             /* препятствия */
 
