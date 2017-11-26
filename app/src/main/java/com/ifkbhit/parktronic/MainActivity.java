@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
 
@@ -73,6 +74,12 @@ public class MainActivity extends Activity {
             init();
         }
 
+        void setPanel(int cp) {
+            car.setPanel(cp);
+            invert.setActive(car.isPanelReversable());
+        }
+
+
         void init() {
             timer = null;
             Rect windowRect = getwindowRect();
@@ -119,15 +126,15 @@ public class MainActivity extends Activity {
 
             /* Кнопки */
 
-            invert = new Button(R.drawable.invert, getResources(), windowRect, 0.85, 0.37, 5);
+            invert = new Button(R.drawable.invert, getResources(), windowRect, 0.85, 0.33, 5.6);
             demo = new Button[] {
-                    new Button(R.drawable.button_demo, getResources(), windowRect, 0.15, 0.37, 5),
-                    new Button(R.drawable.button_demo_2, getResources(), windowRect, 0.15, 0.37, 5),
-                    new Button(R.drawable.button_manual, getResources(), windowRect, 0.15, 0.37, 5)
+                    new Button(R.drawable.button_demo, getResources(), windowRect, 0.15, 0.33, 5.6),
+                    new Button(R.drawable.button_demo_2, getResources(), windowRect, 0.15, 0.33, 5.6),
+                    new Button(R.drawable.button_manual, getResources(), windowRect, 0.15, 0.33, 5.6)
             };
 
-            info = new Button(R.drawable.info, getResources(), windowRect, -1, -1, 5);
-            help = new Button(R.drawable.help, getResources(), windowRect, -2, -1, 5);
+            info = new Button(R.drawable.info, getResources(), windowRect, -1, -1, 5.6);
+            help = new Button(R.drawable.help, getResources(), windowRect, -2, -1, 5.6);
             close = new Button(R.drawable.close, getResources(), windowRect, 0.9, 0.055, 8);
 
             /* Демо */
@@ -456,6 +463,13 @@ public class MainActivity extends Activity {
                 ((myGraphics) view).cur_tutorial = -1;
             }
         }
+
+        Toast.makeText(this, "result", Toast.LENGTH_LONG).show();
+        if (view instanceof myGraphics) {
+            ((myGraphics) view).setPanel(data.getIntExtra("sysType", 0));
+        } else {
+            ((myLandscape) view).setPanel(data.getIntExtra("sysType", 0));
+        }
     }
 
     class myLandscape extends View {
@@ -494,16 +508,16 @@ public class MainActivity extends Activity {
 
             /* кнопки */
 
-            info = new Button(R.drawable.info, getResources(), windowRect, -1, -1, 9);
-            help = new Button(R.drawable.help, getResources(), windowRect, -2, -1, 9);
+            info = new Button(R.drawable.info, getResources(), windowRect, -1, -1, 8.8);
+            help = new Button(R.drawable.help, getResources(), windowRect, -2, -1, 8.8);
             help.setActive(false);
             demo = new Button[2];
             demo[0] = new Button(R.drawable.button_demo, getResources(), windowRect,
-                    -1, info.texture.h / H * 1.25, 9);
+                    -1, info.texture.h / H * 1.4, 8.8);
             demo[1] = new Button(R.drawable.button_manual, getResources(), windowRect,
-                    -1, info.texture.h / H * 1.25, 9);
+                    -1, info.texture.h / H * 1.4, 8.8);
             invert = new Button(R.drawable.invert, getResources(), windowRect,
-                    -2, help.texture.h / H * 1.25, 9);
+                    -2, help.texture.h / H * 1.4, 8.8);
 
             /* препятствия */
 
@@ -580,6 +594,21 @@ public class MainActivity extends Activity {
             invalidate();
         }
 
+        void setPanel(int cp) {
+            cur_panel = cp;
+            switch (cur_panel) {
+                case 0:
+                    panel = new panel1(W, H, W / 2, H / 4, H / 5, getResources(), false, false);
+                    break;
+                case 1:
+                    panel = new panel2(W, H, getResources(), false);
+                    break;
+                case 2:
+                    panel = new panel3(W, H, getResources(), false);
+            }
+            invert.setActive(panel.reversible);
+        }
+
         @Override
         public boolean onTouchEvent(MotionEvent event) {
             Point curTouch = new Point(event);
@@ -589,7 +618,7 @@ public class MainActivity extends Activity {
                         Intent infoIntent = new Intent(getApplicationContext(), InfoActivity.class);
                         infoIntent.putExtra("sysType", cur_panel);
                         infoIntent.putExtra("curTutorial", -1);
-                        startActivity(infoIntent);
+                        startActivityForResult(infoIntent, 0);
                     }
                     else if (invert.onButtonTap(event)) {
                         panel.setInvertFlag(true);

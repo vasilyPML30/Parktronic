@@ -45,6 +45,17 @@ public class Car {
         panel.moveX(delta);
     }
 
+    void setPanel(int cp) {
+        cur_panel = cp;
+        if (cur_panel == 0) {
+            panel = new panel1(W, H, -1, -1, -1, res, false, true);
+        } else if (cur_panel == 1) {
+            panel = new panel2(W, H, res, true);
+        } else {
+            panel = new panel3(W, H, res, true);
+        }
+    }
+
     boolean mvPanel() {
         boolean result = false;
         double xPos = panel.panel.xPos;

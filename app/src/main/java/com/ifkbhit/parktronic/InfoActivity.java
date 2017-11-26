@@ -1,17 +1,30 @@
 package com.ifkbhit.parktronic;
 
 import android.content.Intent;
+import android.gesture.GestureOverlayView;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.*;
+import android.widget.Button;
 
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LOCKED;
+import static android.os.Parcelable.PARCELABLE_WRITE_RETURN_VALUE;
 
-public class InfoActivity extends AppCompatActivity {
+public class InfoActivity extends AppCompatActivity implements GestureDetector.OnGestureListener {
+
+    private GestureDetectorCompat mDetector;
+    private int sysType;
+    private View[] layouts;
+    private int[] titles = {R.string.info_title_216, R.string.info_title_218, R.string.info_title_277};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,10 +34,16 @@ public class InfoActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(Color.BLACK);
         setRequestedOrientation(SCREEN_ORIENTATION_LOCKED);
-        final int sysType = getIntent().getIntExtra("sysType", 0);
-        findViewById(R.id.inc_216).setVisibility(sysType == 0 ? View.VISIBLE : View.GONE);
-        findViewById(R.id.inc_218).setVisibility(sysType == 1 ? View.VISIBLE : View.GONE);
-        findViewById(R.id.inc_277).setVisibility(sysType == 2 ? View.VISIBLE : View.GONE);
+        sysType = getIntent().getIntExtra("sysType", 0);
+        layouts = new View[] {
+                findViewById(R.id.inc_216),
+                findViewById(R.id.inc_218),
+                findViewById(R.id.inc_277)
+        };
+        for (View l : layouts) {
+            l.setAlpha(0);
+        }
+        layouts[sysType].setAlpha(1);
         int cur_tutorial = getIntent().getIntExtra("curTutorial", -1);
         if (cur_tutorial == 12) {
             ++cur_tutorial;
@@ -35,14 +54,15 @@ public class InfoActivity extends AppCompatActivity {
             findViewById(R.id.close).setVisibility(View.GONE);
         }
         ((InfoGraphics)findViewById(R.id.info_graphics)).cur_tutorial = cur_tutorial;
-        int[] titles = {R.string.info_title_216, R.string.info_title_218, R.string.info_title_277};
         setTitle(getString(titles[sysType]));
 
         android.widget.Button fab = (android.widget.Button) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setResult(((InfoGraphics)findViewById(R.id.info_graphics)).cur_tutorial);
+                Intent intent = new Intent();
+                intent.putExtra("sysType", sysType);
+                setResult(((InfoGraphics)findViewById(R.id.info_graphics)).cur_tutorial, intent);
                 finish();
             }
         });
@@ -56,6 +76,7 @@ public class InfoActivity extends AppCompatActivity {
         };
         (findViewById(R.id.site_image_1)).setOnClickListener(link);
         (findViewById(R.id.site_image_2)).setOnClickListener(link);
+        (findViewById(R.id.site_image_3)).setOnClickListener(link);
 
         android.widget.Button more = (android.widget.Button) findViewById(R.id.more_button);
         more.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +109,14 @@ public class InfoActivity extends AppCompatActivity {
                 }
             }
         });
+        mDetector = new GestureDetectorCompat(this, this);
+
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        this.mDetector.onTouchEvent(event);
+        return super.onTouchEvent(event);
     }
 
     @Override
@@ -100,6 +129,9 @@ public class InfoActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (((InfoGraphics)findViewById(R.id.info_graphics)).cur_tutorial < 0) {
             setResult(-1);
+            Intent intent = new Intent();
+            intent.putExtra("sysType", sysType);
+            setResult(((InfoGraphics)findViewById(R.id.info_graphics)).cur_tutorial, intent);
             super.onBackPressed();
         }
     }
@@ -109,5 +141,53 @@ public class InfoActivity extends AppCompatActivity {
         findViewById(R.id.more_button).setEnabled(true);
         findViewById(R.id.inc_216).setAlpha(1.0f);
         findViewById(R.id.inc_218).setAlpha(1.0f);
+    }
+
+    @Override
+    public boolean onDown(MotionEvent motionEvent) {
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent motionEvent) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent motionEvent) {
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float distX, float distY) {
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent motionEvent) {
+
+    }
+
+    @Override
+    public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+        final float distX = motionEvent1.getX() - motionEvent.getX();
+        if (Math.abs(distX) <= 300) {
+            return false;
+        }
+        if (((Button)findViewById(R.id.more_button)).getText() == "Скрыть") {
+            ((Button)findViewById(R.id.more_button)).performClick();
+        }
+        final View curLayout = layouts[sysType];
+        curLayout.animate().alpha(0).translationX((distX > 300 ? 300 : -300)).withEndAction(new Runnable() {
+            @Override
+            public void run() {
+                curLayout.setX(0);
+            }
+        });
+        sysType = (sysType + (distX > 300 ? 2 : 1)) % 3;
+        setTitle(titles[sysType]);
+        final View nextLayout = layouts[sysType];
+        nextLayout.animate().alpha(1);
+        return false;
     }
 }

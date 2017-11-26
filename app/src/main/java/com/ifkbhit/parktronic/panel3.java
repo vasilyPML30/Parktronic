@@ -33,103 +33,108 @@ public class panel3 extends Panel {
             panel.setPos(new Point((cnvW - w) / 2, cnvH / 4 - h / 2));
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
         k = h / panelBitmap.getHeight() / 2.5;
         panelBitmap = null;
 =======
         k = h / panelBitmap.getHeight() / 1.5;
 >>>>>>> 860c05d5b08755f4f8077a19afad77ccb0bc90d4
+=======
+        double k1 = h / panelBitmap.getHeight() / 1.5;
+        double k2 = h / 300.0;
+>>>>>>> scrolling
         Bitmap tmpBmp = BitmapFactory.decodeResource(res, R.drawable.sgl1);
-        greenInd[0] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k * tmpBmp.getWidth()),
-                (int)(k * tmpBmp.getHeight()),
+        greenInd[0] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k1 * tmpBmp.getWidth()),
+                (int)(k1 * tmpBmp.getHeight()),
                 false));
-        greenInd[0].setPos(new Point(panel.pos.x  + 50 * k * 2, panel.pos.y));
+        greenInd[0].setPos(new Point(panel.pos.x  + 50 * k2, panel.pos.y));
         tmpBmp = BitmapFactory.decodeResource(res, R.drawable.sgl2);
-        greenInd[1] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k * tmpBmp.getWidth()),
-                (int)(k * tmpBmp.getHeight()),
+        greenInd[1] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k1 * tmpBmp.getWidth()),
+                (int)(k1 * tmpBmp.getHeight()),
                 false));
-        greenInd[1].setPos(new Point(panel.pos.x  + 125 * k * 2, panel.pos.y));
+        greenInd[1].setPos(new Point(panel.pos.x  + 125 * k2, panel.pos.y));
         tmpBmp = BitmapFactory.decodeResource(res, R.drawable.sol1);
-        greenInd[2] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k * tmpBmp.getWidth()),
-                (int)(k * tmpBmp.getHeight()),
+        greenInd[2] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k1 * tmpBmp.getWidth()),
+                (int)(k1 * tmpBmp.getHeight()),
                 false));
-        greenInd[2].setPos(new Point(panel.pos.x  + 335 * k * 2, panel.pos.y));
+        greenInd[2].setPos(new Point(panel.pos.x  + 335 * k2, panel.pos.y));
         tmpBmp = BitmapFactory.decodeResource(res, R.drawable.sol2);
-        greenInd[3] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k * tmpBmp.getWidth()),
-                (int)(k * tmpBmp.getHeight()),
+        greenInd[3] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k1 * tmpBmp.getWidth()),
+                (int)(k1 * tmpBmp.getHeight()),
                 false));
-        greenInd[3].setPos(new Point(panel.pos.x  + 545 * k * 2, panel.pos.y));
+        greenInd[3].setPos(new Point(panel.pos.x  + 545 * k2, panel.pos.y));
         tmpBmp = BitmapFactory.decodeResource(res, R.drawable.sor2);
-        greenInd[4] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k * tmpBmp.getWidth()),
-                (int)(k * tmpBmp.getHeight()),
+        greenInd[4] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k1 * tmpBmp.getWidth()),
+                (int)(k1 * tmpBmp.getHeight()),
                 false));
-        greenInd[4].setPos(new Point(panel.pos.x  + 755 * k * 2, panel.pos.y));
+        greenInd[4].setPos(new Point(panel.pos.x  + 755 * k2, panel.pos.y));
         tmpBmp = BitmapFactory.decodeResource(res, R.drawable.sor1);
-        greenInd[5] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k * tmpBmp.getWidth()),
-                (int)(k * tmpBmp.getHeight()),
+        greenInd[5] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k1 * tmpBmp.getWidth()),
+                (int)(k1 * tmpBmp.getHeight()),
                 false));
-        greenInd[5].setPos(new Point(panel.pos.x  + 970 * k * 2, panel.pos.y));
+        greenInd[5].setPos(new Point(panel.pos.x  + 970 * k2, panel.pos.y));
         tmpBmp = BitmapFactory.decodeResource(res, R.drawable.sgr2);
-        greenInd[6] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k * tmpBmp.getWidth()),
-                (int)(k * tmpBmp.getHeight()),
+        greenInd[6] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k1 * tmpBmp.getWidth()),
+                (int)(k1 * tmpBmp.getHeight()),
                 false));
-        greenInd[6].setPos(new Point(panel.pos.x  + 1180 * k * 2, panel.pos.y));
+        greenInd[6].setPos(new Point(panel.pos.x  + 1180 * k2, panel.pos.y));
         tmpBmp = BitmapFactory.decodeResource(res, R.drawable.sgr1);
-        greenInd[7] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k * tmpBmp.getWidth()),
-                (int)(k * tmpBmp.getHeight()),
+        greenInd[7] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k1 * tmpBmp.getWidth()),
+                (int)(k1 * tmpBmp.getHeight()),
                 false));
-        greenInd[7].setPos(new Point(panel.pos.x  + 1390 * k * 2, panel.pos.y));
+        greenInd[7].setPos(new Point(panel.pos.x  + 1390 * k2, panel.pos.y));
 
         tmpBmp = BitmapFactory.decodeResource(res, R.drawable.srl1);
-        redInd[0] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k * tmpBmp.getWidth()),
-                (int)(k * tmpBmp.getHeight()),
+        redInd[0] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k1 * tmpBmp.getWidth()),
+                (int)(k1 * tmpBmp.getHeight()),
                 false));
-        redInd[0].setPos(new Point(panel.pos.x  + 50 * k * 2, panel.pos.y));
+        redInd[0].setPos(new Point(panel.pos.x  + 50 * k2, panel.pos.y));
         tmpBmp = BitmapFactory.decodeResource(res, R.drawable.srl2);
-        redInd[1] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k * tmpBmp.getWidth()),
-                (int)(k * tmpBmp.getHeight()),
+        redInd[1] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k1 * tmpBmp.getWidth()),
+                (int)(k1 * tmpBmp.getHeight()),
                 false));
-        redInd[1].setPos(new Point(panel.pos.x  + 125 * k * 2, panel.pos.y));
+        redInd[1].setPos(new Point(panel.pos.x  + 125 * k2, panel.pos.y));
         tmpBmp = BitmapFactory.decodeResource(res, R.drawable.srl3);
-        redInd[2] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k * tmpBmp.getWidth()),
-                (int)(k * tmpBmp.getHeight()),
+        redInd[2] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k1 * tmpBmp.getWidth()),
+                (int)(k1 * tmpBmp.getHeight()),
                 false));
-        redInd[2].setPos(new Point(panel.pos.x  + 335 * k * 2, panel.pos.y));
+        redInd[2].setPos(new Point(panel.pos.x  + 335 * k2, panel.pos.y));
         tmpBmp = BitmapFactory.decodeResource(res, R.drawable.srl4);
-        redInd[3] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k * tmpBmp.getWidth()),
-                (int)(k * tmpBmp.getHeight()),
+        redInd[3] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k1 * tmpBmp.getWidth()),
+                (int)(k1 * tmpBmp.getHeight()),
                 false));
-        redInd[3].setPos(new Point(panel.pos.x  + 545 * k * 2, panel.pos.y));
+        redInd[3].setPos(new Point(panel.pos.x  + 545 * k2, panel.pos.y));
         tmpBmp = BitmapFactory.decodeResource(res, R.drawable.srr4);
-        redInd[4] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k * tmpBmp.getWidth()),
-                (int)(k * tmpBmp.getHeight()),
+        redInd[4] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k1 * tmpBmp.getWidth()),
+                (int)(k1 * tmpBmp.getHeight()),
                 false));
-        redInd[4].setPos(new Point(panel.pos.x  + 755 * k * 2, panel.pos.y));
+        redInd[4].setPos(new Point(panel.pos.x  + 755 * k2, panel.pos.y));
         tmpBmp = BitmapFactory.decodeResource(res, R.drawable.srr3);
-        redInd[5] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k * tmpBmp.getWidth()),
-                (int)(k * tmpBmp.getHeight()),
+        redInd[5] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k1 * tmpBmp.getWidth()),
+                (int)(k1 * tmpBmp.getHeight()),
                 false));
-        redInd[5].setPos(new Point(panel.pos.x  + 970 * k * 2, panel.pos.y));
+        redInd[5].setPos(new Point(panel.pos.x  + 970 * k2, panel.pos.y));
         tmpBmp = BitmapFactory.decodeResource(res, R.drawable.srr2);
-        redInd[6] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k * tmpBmp.getWidth()),
-                (int)(k * tmpBmp.getHeight()),
+        redInd[6] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k1 * tmpBmp.getWidth()),
+                (int)(k1 * tmpBmp.getHeight()),
                 false));
-        redInd[6].setPos(new Point(panel.pos.x  + 1180 * k * 2, panel.pos.y));
+        redInd[6].setPos(new Point(panel.pos.x  + 1180 * k2, panel.pos.y));
         tmpBmp = BitmapFactory.decodeResource(res, R.drawable.srr1);
-        redInd[7] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k * tmpBmp.getWidth()),
-                (int)(k * tmpBmp.getHeight()),
+        redInd[7] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k1 * tmpBmp.getWidth()),
+                (int)(k1 * tmpBmp.getHeight()),
                 false));
-        redInd[7].setPos(new Point(panel.pos.x  + 1390 * k * 2, panel.pos.y));
+        redInd[7].setPos(new Point(panel.pos.x  + 1390 * k2, panel.pos.y));
 
         tmpBmp = BitmapFactory.decodeResource(res, R.drawable.swl);
-        whiteInd[0] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k * tmpBmp.getWidth()),
-                (int)(k * tmpBmp.getHeight()),
+        whiteInd[0] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k1 * tmpBmp.getWidth()),
+                (int)(k1 * tmpBmp.getHeight()),
                 false));
-        whiteInd[0].setPos(new Point(panel.pos.x  + 50 * k * 2, panel.pos.y));
+        whiteInd[0].setPos(new Point(panel.pos.x  + 50 * k2, panel.pos.y));
         tmpBmp = BitmapFactory.decodeResource(res, R.drawable.swr);
-        whiteInd[1] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k * tmpBmp.getWidth()),
-                (int)(k * tmpBmp.getHeight()),
+        whiteInd[1] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k1 * tmpBmp.getWidth()),
+                (int)(k1 * tmpBmp.getHeight()),
                 false));
-        whiteInd[1].setPos(new Point(panel.pos.x  + 1390 * k * 2, panel.pos.y));
+        whiteInd[1].setPos(new Point(panel.pos.x  + 1390 * k2, panel.pos.y));
 
 
 
