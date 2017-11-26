@@ -463,6 +463,7 @@ public class MainActivity extends Activity {
                 ((myGraphics) view).cur_tutorial = -1;
             }
         }
+
         Toast.makeText(this, "result", Toast.LENGTH_LONG).show();
         if (view instanceof myGraphics) {
             ((myGraphics) view).setPanel(data.getIntExtra("sysType", 0));
