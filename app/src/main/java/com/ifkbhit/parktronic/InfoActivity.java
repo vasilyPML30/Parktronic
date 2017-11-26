@@ -1,16 +1,15 @@
 package com.ifkbhit.parktronic;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.*;
-import android.widget.Button;
+
+import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LOCKED;
 
 public class InfoActivity extends AppCompatActivity {
 
@@ -21,7 +20,7 @@ public class InfoActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(Color.BLACK);
-
+        setRequestedOrientation(SCREEN_ORIENTATION_LOCKED);
         final int sysType = getIntent().getIntExtra("sysType", 0);
         findViewById(R.id.inc_216).setVisibility(sysType == 0 ? View.VISIBLE : View.GONE);
         findViewById(R.id.inc_218).setVisibility(sysType == 1 ? View.VISIBLE : View.GONE);

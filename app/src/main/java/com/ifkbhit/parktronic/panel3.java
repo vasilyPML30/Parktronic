@@ -16,7 +16,11 @@ public class panel3 extends Panel {
     panel3(int cnvW, int cnvH, Resources res, boolean isVertical) {
         this.res = res;
         reversible = true;
+<<<<<<< HEAD
         double k = (isVertical ? 0.8 : 0.2);
+=======
+        double k = (isVertical ? 0.08 : 0.2);
+>>>>>>> 860c05d5b08755f4f8077a19afad77ccb0bc90d4
         Bitmap panelBitmap = BitmapFactory.decodeResource(res, R.drawable.panel_2);
         double need_h = cnvH * k;
         h = need_h;
@@ -28,8 +32,12 @@ public class panel3 extends Panel {
         else {
             panel.setPos(new Point((cnvW - w) / 2, cnvH / 4 - h / 2));
         }
+<<<<<<< HEAD
         k = h / panelBitmap.getHeight() / 2.5;
         panelBitmap = null;
+=======
+        k = h / panelBitmap.getHeight() / 1.5;
+>>>>>>> 860c05d5b08755f4f8077a19afad77ccb0bc90d4
         Bitmap tmpBmp = BitmapFactory.decodeResource(res, R.drawable.sgl1);
         greenInd[0] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k * tmpBmp.getWidth()),
                 (int)(k * tmpBmp.getHeight()),

@@ -103,7 +103,7 @@ public class panel1 extends Panel {
 
         Bitmap lPanelBitmap = BitmapFactory.decodeResource(res, R.drawable.panel_2);
 
-        k = (isVertical ? 0.1 : 0.25);
+        k = (isVertical ? 0.08 : 0.2);
 
         double lh = cnvH * k, lw = lPanelBitmap.getWidth() * lh / lPanelBitmap.getHeight();
 
