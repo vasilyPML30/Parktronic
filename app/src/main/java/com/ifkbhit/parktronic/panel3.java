@@ -4,10 +4,10 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.util.Log;
 
 public class panel3 extends Panel {
 
-    double scale;
     Texture[] greenInd = new Texture[8];
     Texture[] redInd = new Texture[8];
     Texture[] whiteInd = new Texture[2];
@@ -16,11 +16,7 @@ public class panel3 extends Panel {
     panel3(int cnvW, int cnvH, Resources res, boolean isVertical) {
         this.res = res;
         reversible = true;
-<<<<<<< HEAD
-        double k = (isVertical ? 0.8 : 0.2);
-=======
         double k = (isVertical ? 0.08 : 0.2);
->>>>>>> 860c05d5b08755f4f8077a19afad77ccb0bc90d4
         Bitmap panelBitmap = BitmapFactory.decodeResource(res, R.drawable.panel_2);
         double need_h = cnvH * k;
         h = need_h;
@@ -32,17 +28,8 @@ public class panel3 extends Panel {
         else {
             panel.setPos(new Point((cnvW - w) / 2, cnvH / 4 - h / 2));
         }
-<<<<<<< HEAD
-<<<<<<< HEAD
-        k = h / panelBitmap.getHeight() / 2.5;
-        panelBitmap = null;
-=======
-        k = h / panelBitmap.getHeight() / 1.5;
->>>>>>> 860c05d5b08755f4f8077a19afad77ccb0bc90d4
-=======
         double k1 = h / panelBitmap.getHeight() / 1.5;
         double k2 = h / 300.0;
->>>>>>> scrolling
         Bitmap tmpBmp = BitmapFactory.decodeResource(res, R.drawable.sgl1);
         greenInd[0] = new Texture(Bitmap.createScaledBitmap(tmpBmp, (int)(k1 * tmpBmp.getWidth()),
                 (int)(k1 * tmpBmp.getHeight()),
@@ -181,68 +168,61 @@ public class panel3 extends Panel {
         for (Texture ind : greenInd) {
             ind.xPos = panel.xPos;
         }
-        if (left > 3) {
-            if (left < 5) {
+
+        if (right >= 5 || left >= 5) {
+           blinkTimer.Refresh();
+           int numberOn;
+           if (blinkTimer.FromStart % 800 < 400) {
+               numberOn = (int)((blinkTimer.FromStart % 800) / 100);
+           } else {
+               numberOn = 2 - (int)((blinkTimer.FromStart % 800 - 400) / 100);
+           }
+           if (numberOn >= 0) {
+               for (int i = 4; i <= 4 + numberOn; i++) {
+                   redInd[i].draw(canvas);
+               }
+               for (int i = 3; i >= 3 - numberOn; i--) {
+                   redInd[i].draw(canvas);
+               }
+           }
+        } else {
+            if (left > 3) {
                 for (int i = 0; i < 4; ++i) {
                     redInd[i].draw(canvas);
                 }
             } else {
-                blinkTimer.Refresh();
-                int numberOn;
-                if (blinkTimer.FromStart % 800 < 400) {
-                    numberOn = (int)((blinkTimer.FromStart % 800) / 100);
-                } else {
-                    numberOn = 2 - (int)((blinkTimer.FromStart % 800 - 400) / 100);
+                if (cur_l >= 0 && left == 0) {
+                    whiteInd[0].draw(canvas);
                 }
-                if (numberOn >= 0) {
-                    for (int i = 3; i >= 3 - numberOn; i--) {
-                        redInd[i].draw(canvas);
-                    }
+                if (left > 0) {
+                    greenInd[0].draw(canvas);
+                }
+                if (left > 1) {
+                    greenInd[1].draw(canvas);
+                }
+                if (left > 2) {
+                    greenInd[2].draw(canvas);
+                    greenInd[3].draw(canvas);
                 }
             }
-        } else {
-            whiteInd[0].draw(canvas);
-            if (left > 0) {
-                greenInd[0].draw(canvas);
-            }
-            if (left > 1) {
-                greenInd[1].draw(canvas);
-            }
-            if (left > 2) {
-                greenInd[2].draw(canvas);
-                greenInd[3].draw(canvas);
-            }
-        }
-        if (right > 3) {
-            if (right < 5) {
+            if (right > 3) {
                 for (int i = 4; i < 8; ++i) {
                     redInd[i].draw(canvas);
                 }
             } else {
-                blinkTimer.Refresh();
-                int numberOn;
-                if (blinkTimer.FromStart % 800 < 400) {
-                    numberOn = (int)((blinkTimer.FromStart % 800) / 100);
-                } else {
-                    numberOn = 2 - (int)((blinkTimer.FromStart % 800 - 400) / 100);
+                if (cur_r >= 0 && right == 0) {
+                    whiteInd[1].draw(canvas);
                 }
-                if (numberOn >= 0) {
-                    for (int i = 4; i <= 4 + numberOn; i++) {
-                        redInd[i].draw(canvas);
-                    }
+                if (right > 0) {
+                    greenInd[7].draw(canvas);
                 }
-            }
-        } else {
-            whiteInd[1].draw(canvas);
-            if (right > 0) {
-                greenInd[7].draw(canvas);
-            }
-            if (right > 1) {
-                greenInd[6].draw(canvas);
-            }
-            if (right > 2) {
-                greenInd[5].draw(canvas);
-                greenInd[4].draw(canvas);
+                if (right > 1) {
+                    greenInd[6].draw(canvas);
+                }
+                if (right > 2) {
+                    greenInd[5].draw(canvas);
+                    greenInd[4].draw(canvas);
+                }
             }
         }
     }
@@ -268,7 +248,7 @@ public class panel3 extends Panel {
     @Override
     int getLevel(double val) {
         if (val < 0) {
-            return 0;
+            return -1;
         }
         if (val <= 0.21) {
             return 5;
@@ -287,7 +267,4 @@ public class panel3 extends Panel {
         }
         return 0;
     }
-
-
-
 }

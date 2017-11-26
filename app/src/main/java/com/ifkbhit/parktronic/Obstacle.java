@@ -19,15 +19,16 @@ public class Obstacle {
     Obstacle(Bitmap[] img, Point pos, int h, boolean[] sns) {
         images = new Texture[img.length];
 
+        position = pos;
+        sensors = sns;
+        if (timer == null) {
+            timer = new MyTime();
+        }
+
         for (int i = 0; i < images.length; i ++) {
             images[i] = new Texture(Bitmap.createScaledBitmap(img[i],
                     (int)((double)img[i].getWidth() / img[i].getHeight() * h), h, true));
-            position = pos;
             images[i].setPos(position);
-            sensors = sns;
-            if (timer == null) {
-                timer = new MyTime();
-            }
         }
 
     }

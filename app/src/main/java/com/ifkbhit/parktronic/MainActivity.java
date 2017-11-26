@@ -11,7 +11,6 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
 
@@ -464,7 +463,6 @@ public class MainActivity extends Activity {
             }
         }
 
-        Toast.makeText(this, "result", Toast.LENGTH_LONG).show();
         if (view instanceof myGraphics) {
             ((myGraphics) view).setPanel(data.getIntExtra("sysType", 0));
         } else {
@@ -528,10 +526,10 @@ public class MainActivity extends Activity {
             Bitmap[] bitmap2 = new Bitmap[2];
             bitmap[0] = BitmapFactory.decodeResource(getResources(), R.drawable.cart);
             obstacles[0] = new Obstacle(bitmap,
-                    new Point(0, H * 0.6), (int)(H * 0.33), new boolean[]{true, true, false, false});
+                    new Point(0, H * 0.53), (int)(H * 0.4), new boolean[]{true, true, false, false});
             bitmap[0] = BitmapFactory.decodeResource(getResources(), R.drawable.human);
             obstacles[1] = new Obstacle(bitmap,
-                    new Point(0, H * 0.6), (int)(H * 0.33), new boolean[]{false, true, true, false});
+                    new Point(0, H * 0.53), (int)(H * 0.4), new boolean[]{false, true, true, false});
             bitmap[0] = BitmapFactory.decodeResource(getResources(), R.drawable.fence);
             obstacles[2] = new Obstacle(bitmap,
                     new Point(0, H * 0.6), (int)(H * 0.33), new boolean[]{true, true, true, true});
@@ -541,13 +539,13 @@ public class MainActivity extends Activity {
             bitmap2[0] = BitmapFactory.decodeResource(getResources(), R.drawable.car_l);
             bitmap2[1] = BitmapFactory.decodeResource(getResources(), R.drawable.car_r);
             obstacles[4] = new Obstacle(bitmap2,
-                    new Point(0, H * 0.6), (int)(H * 0.33), new boolean[]{true, true, true, true});
+                    new Point(0, H * 0.53), (int)(H * 0.4), new boolean[]{true, true, true, true});
             bitmap[0] = BitmapFactory.decodeResource(getResources(), R.drawable.bike);
             obstacles[5] = new Obstacle(bitmap,
-                    new Point(0, H * 0.6), (int)(H * 0.33), new boolean[]{false, false, false, true});
+                    new Point(0, H * 0.53), (int)(H * 0.4), new boolean[]{false, false, false, true});
             bitmap[0] = BitmapFactory.decodeResource(getResources(), R.drawable.cow);
             obstacles[6] = new Obstacle(bitmap,
-                    new Point(0, H * 0.6), (int)(H * 0.33), new boolean[]{true, true, true, true});
+                    new Point(0, H * 0.53), (int)(H * 0.4), new boolean[]{true, true, true, true});
             bitmap2[0] = BitmapFactory.decodeResource(getResources(), R.drawable.child_l);
             bitmap2[1] = BitmapFactory.decodeResource(getResources(), R.drawable.child_r);
             obstacles[7] = new Obstacle(bitmap2,

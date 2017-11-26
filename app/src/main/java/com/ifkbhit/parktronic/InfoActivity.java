@@ -16,7 +16,6 @@ import android.widget.*;
 import android.widget.Button;
 
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LOCKED;
-import static android.os.Parcelable.PARCELABLE_WRITE_RETURN_VALUE;
 
 public class InfoActivity extends AppCompatActivity implements GestureDetector.OnGestureListener {
 
@@ -44,6 +43,7 @@ public class InfoActivity extends AppCompatActivity implements GestureDetector.O
             l.setAlpha(0);
         }
         layouts[sysType].setAlpha(1);
+        layouts[sysType].bringToFront();
         int cur_tutorial = getIntent().getIntExtra("curTutorial", -1);
         if (cur_tutorial == 12) {
             ++cur_tutorial;
@@ -188,6 +188,7 @@ public class InfoActivity extends AppCompatActivity implements GestureDetector.O
         setTitle(titles[sysType]);
         final View nextLayout = layouts[sysType];
         nextLayout.animate().alpha(1);
+        nextLayout.bringToFront();
         return false;
     }
 }
