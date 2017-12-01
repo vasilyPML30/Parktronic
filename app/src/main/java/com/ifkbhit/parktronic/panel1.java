@@ -96,7 +96,7 @@ public class panel1 extends Panel {
 
         Bitmap rPanelBitmap = BitmapFactory.decodeResource(res, R.drawable.panel_1_empty);
 
-        k = (isVertical ? (1.0 - Config.CAR_Y_OFFSET_K) * 393.0 / Config.CAR_H : 0.45);
+        k = (isVertical ? (1.0 - Config.CAR_Y_OFFSET_K) * 393.0 / Config.CAR_H : 0.55);
 
         double rh = cnvH * k;
         double rw = rPanelBitmap.getWidth() * rh / rPanelBitmap.getHeight();
@@ -116,7 +116,7 @@ public class panel1 extends Panel {
         }
         else {
             l_panel.setPos(new Point(-lw - 1, y - lh / 2));
-            r_panel.setPos(new Point(cnvW + (w * 1.3 - rw) / 2, y - rh / 2));
+            r_panel.setPos(new Point(cnvW + (w * 1.3 - rw) / 2, cnvH * 0.28 - rh / 2));
         }
     }
 

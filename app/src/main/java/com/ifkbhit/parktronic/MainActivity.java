@@ -356,6 +356,7 @@ public class MainActivity extends Activity {
                         }
                         if (new Brick(1, 1, new Point(event)).checkWithLines(car.getSupportLineDown(), false) ||
                              new Brick(1, 1, new Point(event)).checkWithLines(car.getSupportLineUp(), true)) {
+                            car.getPanel().setActive(true);
                             if (brick1.isVisible() || brick2.isVisible()) {
                                 if ((cur_tutorial < 0 || cur_tutorial == 0) &&
                                         brick1.isVisible() && ey > H / 2) {
@@ -508,6 +509,7 @@ public class MainActivity extends Activity {
             /* панель */
 
             panel = new panel1(W, H, W / 2, H / 4, H / 5, getResources(), false, false);
+            panel.setActive(obstacle_set && cur_obstacle != 3);
 
             /* кнопки */
 
@@ -608,7 +610,9 @@ public class MainActivity extends Activity {
                     break;
                 case 2:
                     panel = new panel3(W, H, getResources(), false);
+                break;
             }
+            panel.setActive(obstacle_set && cur_obstacle != 3);
             invert.setActive(panel.reversible);
         }
 
@@ -632,6 +636,7 @@ public class MainActivity extends Activity {
                     }
                     else if (obstacle_set && obstacles[cur_obstacle].onTap(event)) {
                         cur_obstacle = (cur_obstacle + 1) % obstacles.length;
+                        panel.setActive(cur_obstacle != 3);
                         obstacles[cur_obstacle].move(0);
                         if (cur_demo == 0) {
                             obstacles[cur_obstacle].setCaptured(true);
@@ -639,10 +644,11 @@ public class MainActivity extends Activity {
                     }
                     else if (curTouch.y > H / 2) {
                         if (curTouch.x < Obstacle.leftBound && (Obstacle.xPos > Obstacle.leftBound || !obstacle_set)) {
-                        if (obstacle_set) {
-                            obstacles[4].switchImage();
-                        }
+                            if (obstacle_set) {
+                                obstacles[4].switchImage();
+                            }
                             obstacle_set = true;
+                            panel.setActive(obstacle_set && cur_obstacle != 3);
                             Obstacle.xPos = Obstacle.leftBound;
                             obstacles[cur_obstacle].move(0);
                             if (cur_demo == 0) {
@@ -652,6 +658,7 @@ public class MainActivity extends Activity {
                         else if (curTouch.x > Obstacle.rightBound && (Obstacle.xPos < Obstacle.rightBound || !obstacle_set)) {
                             obstacles[4].switchImage();
                             obstacle_set = true;
+                            panel.setActive(obstacle_set && cur_obstacle != 3);
                             Obstacle.xPos = Obstacle.rightBound;
                             obstacles[cur_obstacle].move(0);
                             if (cur_demo == 0) {
@@ -695,6 +702,7 @@ public class MainActivity extends Activity {
                                 panel = new panel3(W, H, getResources(), false);
                         }
                         panel.panel.xPos = tmpPos - panel.panel.pos.x;
+                        panel.setActive(obstacle_set && cur_obstacle != 3);
                         invert.setActive(panel.reversible);
                     }
                     panel.setMoveFlag(true);

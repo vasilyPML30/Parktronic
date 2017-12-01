@@ -46,6 +46,10 @@ public class Car {
         panel.moveX(delta);
     }
 
+    Panel getPanel() {
+        return panel;
+    }
+
     void setPanel(int cp) {
         cur_panel = cp;
         if (cur_panel == 0) {

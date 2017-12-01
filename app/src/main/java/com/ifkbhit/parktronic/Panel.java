@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 abstract public class Panel {
+
+    boolean isActive = false;
     double w, h;
     MyTime mvTimer = null, invTimer = null;
     boolean moveFlag = false, invertFlag = false, invalidFlag = false, reverse = false;
@@ -18,6 +20,9 @@ abstract public class Panel {
     boolean isUp;
 
 
+    void setActive(boolean active) {
+        isActive = active;
+    }
 
     void moveX(double dx) {
         panel.xPos += dx;

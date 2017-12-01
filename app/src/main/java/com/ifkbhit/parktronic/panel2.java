@@ -24,17 +24,16 @@ public class panel2 extends Panel {
             k = (1.0 - Config.CAR_Y_OFFSET_K) * 393.0 / Config.CAR_H;
         }
         else {
-            k = 0.45;
+            k = 0.55;
         }
-        double need_h = cnvH * k;
-        h = need_h;
+        h = cnvH * k;
         w = panelBitmap.getWidth() * h / panelBitmap.getHeight();
         panel = new Texture(Bitmap.createScaledBitmap(panelBitmap, (int) w, (int) h, false));
         if (isVertical) {
             panel.setPos(new Point((cnvW - panel.img.getWidth()) / 2.0, cnvH * 0.425));
         }
         else {
-            panel.setPos(new Point((cnvW - w) / 2, cnvH / 4 - h / 2));
+            panel.setPos(new Point((cnvW - w) / 2, cnvH * 0.28 - h / 2));
         }
         Bitmap[] numBitmaps = new Bitmap[11];
 
