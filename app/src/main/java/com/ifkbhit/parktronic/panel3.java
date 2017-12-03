@@ -172,7 +172,7 @@ public class panel3 extends Panel {
                     redInd[i].draw(canvas);
                 }
             } else {
-                if (left == 0) {
+                if (!isUp) {
                     whiteInd[0].draw(canvas);
                 }
                 if (left > 0) {
@@ -191,7 +191,7 @@ public class panel3 extends Panel {
                     redInd[i].draw(canvas);
                 }
             } else {
-                if (right == 0) {
+                if (!isUp) {
                     whiteInd[1].draw(canvas);
                 }
                 if (right > 0) {
