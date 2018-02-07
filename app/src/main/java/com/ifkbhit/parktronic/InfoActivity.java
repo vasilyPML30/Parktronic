@@ -1,5 +1,6 @@
 package com.ifkbhit.parktronic;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.gesture.GestureOverlayView;
 import android.graphics.Color;
@@ -23,6 +24,7 @@ public class InfoActivity extends AppCompatActivity implements GestureDetector.O
     private int sysType;
     private View[] layouts;
     private int[] titles = {R.string.info_title_216, R.string.info_title_218, R.string.info_title_277};
+    private boolean isTutorial = false;
 
 
     @Override
@@ -46,9 +48,15 @@ public class InfoActivity extends AppCompatActivity implements GestureDetector.O
         layouts[sysType].bringToFront();
         int cur_tutorial = getIntent().getIntExtra("curTutorial", -1);
         if (cur_tutorial == 12) {
+            isTutorial = true;
             ++cur_tutorial;
             findViewById(R.id.fab).setEnabled(false);
             findViewById(R.id.more_button).setEnabled(false);
+            findViewById(R.id.info_graphics).bringToFront();
+            for (View l : layouts) {
+                l.setVisibility(View.GONE);
+            }
+            layouts[sysType].setVisibility(View.VISIBLE);
         }
         else {
             findViewById(R.id.close).setVisibility(View.GONE);
@@ -136,11 +144,19 @@ public class InfoActivity extends AppCompatActivity implements GestureDetector.O
         }
     }
     public void close(View view) {
+        isTutorial = false;
+        view.setVisibility(View.GONE);
         ((InfoGraphics)findViewById(R.id.info_graphics)).cur_tutorial = -1;
         findViewById(R.id.fab).setEnabled(true);
         findViewById(R.id.more_button).setEnabled(true);
-        findViewById(R.id.inc_216).setAlpha(1.0f);
-        findViewById(R.id.inc_218).setAlpha(1.0f);
+        for (View l : layouts) {
+            l.setVisibility(View.VISIBLE);
+        }
+        for (View l : layouts) {
+            l.setAlpha(0);
+        }
+        layouts[sysType].setAlpha(1);
+        layouts[sysType].bringToFront();
     }
 
     @Override
@@ -170,6 +186,9 @@ public class InfoActivity extends AppCompatActivity implements GestureDetector.O
 
     @Override
     public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+        if (isTutorial) {
+            return false;
+        }
         final float distX = motionEvent1.getX() - motionEvent.getX();
         if (Math.abs(distX) <= 300) {
             return false;

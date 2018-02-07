@@ -65,10 +65,10 @@ public class InfoGraphics extends View {
                 timer = null;
                 ++cur_tutorial;
                 View tb = ((Activity)getContext()).findViewById(R.id.toolbar);
-                View logo = ((Activity)getContext()).findViewById(R.id.site_image_1);
                 ((Activity)getContext()).findViewById(R.id.more_button).setEnabled(true);
                 ((Activity)getContext()).findViewById(R.id.inc_216).setAlpha(0.25f);
                 ((Activity)getContext()).findViewById(R.id.inc_218).setAlpha(0.25f);
+                ((Activity)getContext()).findViewById(R.id.inc_277).setAlpha(0.25f);
                 View more_button = ((Activity)getContext()).findViewById(R.id.more_button);
                 tutorial.pointers[14] = new Arrow(
                         new Rect(
@@ -97,7 +97,7 @@ public class InfoGraphics extends View {
 
                 tutorial.texts[15] = new Text("Вернитесь на демонстрационный экран",
                         (int)(H * 0.04), Color.BLACK,
-                        new Rect((int)(W * 0.05), (int)(logo.getY() + logo.getHeight() + H * 0.04 + 10),
+                        new Rect((int)(W * 0.05), (int)(tb.getHeight() + H * 0.04 + 10),
                                 (int)(W * 0.95), (int)(H * 0.3)),
                         Color.rgb(240, 240, 240), Color.rgb(255, 200, 0));
 
