@@ -67,6 +67,7 @@ public class Car {
         double tmpPos = (xPos < 0 ? panel.r_panel : panel.l_panel).pos.x + xPos;
         if (Math.abs(xPos) > W * 3 / 10) {
             result = true;
+            boolean isActive = panel.isActive;
             if (xPos < 0) {
                 cur_panel = (cur_panel + 1) % 3;
             } else {
@@ -80,6 +81,8 @@ public class Car {
                 panel = new panel3(W, H, res, true);
             }
             panel.panel.xPos = tmpPos - panel.panel.pos.x;
+            panel.setActive(isActive);
+        
         }
         panel.setMoveFlag(true);
         return result;
