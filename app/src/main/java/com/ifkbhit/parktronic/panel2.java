@@ -9,7 +9,7 @@ public class panel2 extends Panel {
 
     double scale;
     Texture[] nums = new Texture[11];
-    Texture[] indTextures = new Texture[3];
+    Texture[] indTextures = new Texture[4];
     Texture[][] backTextures = new Texture[4][4];
     Texture[][] frontTextures = new Texture[4][3];
     int indication;
@@ -62,20 +62,28 @@ public class panel2 extends Panel {
             numBitmaps[i] = null;
         }
 
-        Bitmap[] indBitmaps = new Bitmap[3];
+        Bitmap[] indBitmaps = new Bitmap[4];
 
         indBitmaps[0] = BitmapFactory.decodeResource(res, R.drawable.ind_0);
         indBitmaps[1] = BitmapFactory.decodeResource(res, R.drawable.ind_1);
         indBitmaps[2] = BitmapFactory.decodeResource(res, R.drawable.ind_2);
+        indBitmaps[3] = BitmapFactory.decodeResource(res, R.drawable.ind_3);
 
         h = indBitmaps[0].getHeight() * cft_h;
         w = indBitmaps[0].getWidth() * cft_w;
 
         for (int i = 0; i < 3; ++i) {
             indTextures[i] = new Texture(Bitmap.createScaledBitmap(indBitmaps[i], (int) w, (int) h, false));
-            indTextures[i].setPos(new Point(panel.pos.x + 514 * scale, panel.pos.y + (90 + 39 * i) * scale));
+            indTextures[i].setPos(new Point(panel.pos.x + 514 * scale, panel.pos.y + (175 - 42 * i) * scale));
             indBitmaps[i] = null;
         }
+
+        h = indBitmaps[3].getHeight() * cft_h;
+        w = indBitmaps[3].getWidth() * cft_w;
+
+        indTextures[3] = new Texture(Bitmap.createScaledBitmap(indBitmaps[3], (int) w, (int) h, false));
+        indTextures[3].setPos(new Point(panel.pos.x + 266 * scale, panel.pos.y + 317 * scale));
+        indBitmaps[3] = null;
 
         Bitmap[][] backBitmaps = new Bitmap[4][4];
 
@@ -191,7 +199,12 @@ public class panel2 extends Panel {
 
         indTextures[indication].xPos = panel.xPos;
         indTextures[indication].draw(canvas);
-    }
+ 
+        if (cur_l < 10 && cur_r < 10) {
+            indTextures[3].xPos = panel.xPos;
+            indTextures[3].draw(canvas);
+        }
+   }
 
     void drawBars(Canvas canvas) {
         for (int i = 0; i < 4; ++i) {
