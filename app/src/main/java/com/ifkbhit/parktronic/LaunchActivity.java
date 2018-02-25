@@ -3,6 +3,7 @@ package com.ifkbhit.parktronic;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -47,11 +48,15 @@ public class LaunchActivity extends Activity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
         setContentView(R.layout.activity_launch);
-        if (getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT) {
-            setRequestedOrientation(SCREEN_ORIENTATION_PORTRAIT);
-        }
-        else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
+        } else {
+            if (getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT) {
+                setRequestedOrientation(SCREEN_ORIENTATION_PORTRAIT);
+            }
+            else {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            }
         }
         Animation animationTitle = AnimationUtils.loadAnimation(this, R.anim.intro_image_anim);
         Animation animationSlogan = AnimationUtils.loadAnimation(this, R.anim.intro_slogan_anim);
